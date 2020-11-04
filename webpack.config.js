@@ -1,8 +1,9 @@
 const webpack = require("webpack");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
-process.env.NODE_ENV = "development";
+// process.env.NODE_ENV = "development";
 
 module.exports = {
   mode: "development",
@@ -15,29 +16,43 @@ module.exports = {
     filename: "bundle.js",
   },
   devServer: {
+    historyApiFallback: true,
     stats: "minimal",
     overlay: true,
-    historyApiFallback: true,
+    open: true,
+    hot: true,
+    port: 3000,
     disableHostCheck: true,
     headers: { "Access-Control-Allow-Origin": "*" },
     https: false,
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "src/index.html",
-      favicon: "src/favicon.ico",
+      template: "public/index.html",
     }),
+    new CleanWebpackPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
   ],
   module: {
     rules: [
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        use: ["babel-loader", "eslint-loader"],
+        use: ["babel-loader"],
+      },
+      // Images
+      {
+        test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
+        type: "asset/resource",
+      },
+      // Fonts and SVGs
+      {
+        test: /\.(woff(2)?|eot|ttf|oft|svg)$/,
+        type: "asset/inline",
       },
       {
         test: /(\.css)$/,
-        use: ["style-loader", "css-loader"],
+        use: ["style-loader", "css-loader", "postcss-loader"],
       },
     ],
   },
