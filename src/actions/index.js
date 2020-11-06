@@ -8,7 +8,7 @@ export const getUsers = () => (dispatch) => {
   console.log("getUsers Fired");
   dispatch({ type: GET_USER_START });
   axiosWithAuth()
-    .get("")
+    .get("https://appetizen-be.herokuapp.com/api/")
     .then((res) => {
       dispatch({ type: GET_USER_SUCCESS, payload: res.data });
     })
