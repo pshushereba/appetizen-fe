@@ -1,12 +1,14 @@
 import React from "react";
+import Nav from "./Nav.js";
 import LoginForm from "./LoginForm.js";
 
 const HomePage = () => {
   return (
-    <div>
+    <>
+      <Nav />
       <h1>Homepage placeholder</h1>
       <LoginForm />
-    </div>
+    </>
   );
 };
 
