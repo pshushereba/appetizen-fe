@@ -36,13 +36,11 @@ const Dashboard = () => {
     <div className={classes.root}>
       <CssBaseline />
       <nav className={classes.drawer}>
-        <Navigator />
+        <Navigator PaperProps={{ style: { width: drawerWidth } }} />
       </nav>
       <div className={classes.app}>
         <Header />
-        <div className={classes.main}>
-          <Video />
-        </div>
+        <div className={classes.main}>{/* <Video /> */}</div>
       </div>
     </div>
   );

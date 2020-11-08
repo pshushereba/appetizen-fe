@@ -16,6 +16,9 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import { Menu } from "@material-ui/core";
+import SearchIcon from "@material-ui/icons/Search";
+import TextField from "@material-ui/core/TextField";
+import Search from "../Search.js";
 
 const lightColor = "rgba(255, 255, 255, 0.7)";
 
@@ -86,10 +89,8 @@ const Header = (props) => {
       >
         <Toolbar>
           <Grid container alignItems="center" spacing={1}>
-            <Grid item xs>
-              {/* <Typography color="inherit" variant="h5" component="h1">
-                {active === "summary" ? "Welcome" : ""}
-              </Typography> */}
+            <Grid item>
+              <Search />
             </Grid>
             <Grid item>
               <Button
@@ -111,13 +112,13 @@ const Header = (props) => {
           </Grid>
         </Toolbar>
       </AppBar>
-      <AppBar
+      {/* <AppBar
         component="div"
         className={classes.secondaryBar}
         color="primary"
         position="static"
         elevation={0}
-      ></AppBar>
+      ></AppBar> */}
     </>
   );
 };

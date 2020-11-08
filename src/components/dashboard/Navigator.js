@@ -6,11 +6,15 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({}));
 
 const Navigator = (props) => {
+  const { classes, ...other } = props;
   return (
     <div>
-      <Drawer variant="permanent">
+      <Drawer variant="permanent" {...other}>
         <List>
           <ListItem>Home</ListItem>
           <ListItem>Inbox</ListItem>
