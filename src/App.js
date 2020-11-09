@@ -23,8 +23,30 @@ function App() {
           path={`/:username/dashboard`}
           component={Dashboard}
         />
+        <PrivateRoute exact path={`/:username/inbox`} component={Dashboard} />
+        <PrivateRoute
+          exact
+          path={`/:username/notifications`}
+          component={Dashboard}
+        />
+        <PrivateRoute exact path={`/:username/videos`} component={Dashboard} />
+        <PrivateRoute
+          exact
+          path={`/:username/analytics`}
+          component={Dashboard}
+        />
+        <PrivateRoute
+          exact
+          path={`/:username/subscribers`}
+          component={Dashboard}
+        />
+        <PrivateRoute
+          exact
+          path={`/:username/settings`}
+          component={Dashboard}
+        />
       </Switch>
-      <Footer />
+      {/* <Footer /> */}
     </ThemeProvider>
   );
 }

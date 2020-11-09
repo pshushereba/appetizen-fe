@@ -10,6 +10,7 @@ const useStyles = makeStyles((theme) => ({
   },
   searchInput: {
     fontSize: theme.typography.fontSize,
+    color: theme.palette.common.white,
   },
   block: {
     display: "block",

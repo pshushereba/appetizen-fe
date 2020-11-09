@@ -9,15 +9,11 @@ import IconButton from "@material-ui/core/IconButton";
 import Link from "@material-ui/core/Link";
 import MenuIcon from "@material-ui/icons/Menu";
 import NotificationsIcon from "@material-ui/icons/Notifications";
-import Tab from "@material-ui/core/Tab";
-import Tabs from "@material-ui/core/Tabs";
 import Toolbar from "@material-ui/core/Toolbar";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import { Menu } from "@material-ui/core";
-import SearchIcon from "@material-ui/icons/Search";
-import TextField from "@material-ui/core/TextField";
 import Search from "../Search.js";
 
 const lightColor = "rgba(255, 255, 255, 0.7)";
@@ -89,7 +85,7 @@ const Header = (props) => {
       >
         <Toolbar>
           <Grid container alignItems="center" spacing={1}>
-            <Grid item>
+            <Grid item sm>
               <Search />
             </Grid>
             <Grid item>
@@ -99,7 +95,7 @@ const Header = (props) => {
                 color="inherit"
                 size="small"
               >
-                Foo
+                Test
               </Button>
             </Grid>
             <Grid item>
@@ -112,13 +108,6 @@ const Header = (props) => {
           </Grid>
         </Toolbar>
       </AppBar>
-      {/* <AppBar
-        component="div"
-        className={classes.secondaryBar}
-        color="primary"
-        position="static"
-        elevation={0}
-      ></AppBar> */}
     </>
   );
 };
