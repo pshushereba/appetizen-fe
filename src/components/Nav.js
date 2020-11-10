@@ -3,6 +3,8 @@ import { AppBar, Toolbar, Typography } from "@material-ui/core";
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
+import { Button } from "@material-ui/core/";
+import theme from "./styles/Theme";
 
 function ElevationScroll(props) {
   const { children } = props;
@@ -31,6 +33,11 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.common.white,
     margin: theme.spacing(2),
   },
+  button: {
+    color: theme.palette.common.black,
+    margin: theme.spacing(2),
+  },
+  root: {},
 }));
 
 const Nav = () => {
@@ -50,6 +57,14 @@ const Nav = () => {
             <Typography className={classes.link} component={Link} to="/pricing">
               Pricing
             </Typography>
+            <Button
+              variant="contained"
+              className={classes.button}
+              component={Link}
+              to="/login"
+            >
+              Login
+            </Button>
           </Toolbar>
         </AppBar>
       </ElevationScroll>

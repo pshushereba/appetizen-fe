@@ -5,7 +5,9 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Typography,
 } from "@material-ui/core";
+import Avatar from "@material-ui/core/Avatar";
 import HomeIcon from "@material-ui/icons/Home";
 import SettingsIcon from "@material-ui/icons/Settings";
 import InboxIcon from "@material-ui/icons/Inbox";
@@ -35,11 +37,16 @@ const useStyles = makeStyles((theme) => ({
 const Navigator = (props) => {
   const { setMenuItem, ...other } = props;
   const classes = useStyles();
+  const history = useHistory();
   const { username } = useParams();
+  console.log(username);
   return (
     <>
       <Drawer variant="permanent" setMenuItem={setMenuItem} {...other}>
         <List className={classes.listContainer}>
+          <ListItem>
+            <Avatar>P</Avatar>
+          </ListItem>
           <ListItem
             button
             className={classes.item}

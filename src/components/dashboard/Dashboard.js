@@ -55,6 +55,8 @@ const Dashboard = () => {
             <Inbox />
           ) : menuItem === "notifications" ? (
             <Notifications />
+          ) : menuItem === "videos" ? (
+            <Video />
           ) : menuItem === "settings" ? (
             <Settings />
           ) : (

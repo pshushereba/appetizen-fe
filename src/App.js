@@ -7,6 +7,9 @@ import PrivateRoute from "./components/PrivateRoute.js";
 import Footer from "./components/Footer.js";
 import HomePage from "./components/HomePage.js";
 import Dashboard from "./components/dashboard/Dashboard.js";
+import Login from "./components/Login.js";
+import About from "./components/About.js";
+import Pricing from "./components/Pricing.js";
 
 // https://cors-anywhere.herokuapp.com/
 
@@ -18,6 +21,9 @@ function App() {
     <ThemeProvider theme={theme}>
       <Switch>
         <Route exact path="/" component={HomePage} />
+        <Route path="/login" component={Login} />
+        <Route path="/about" component={About} />
+        <Route path="/pricing" component={Pricing} />
         <PrivateRoute
           exact
           path={`/:username/dashboard`}
