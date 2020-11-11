@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Drawer,
   List,
@@ -15,9 +15,11 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import SubscriptionsIcon from "@material-ui/icons/Subscriptions";
 import AssessmentIcon from "@material-ui/icons/Assessment";
 import VisibilityIcon from "@material-ui/icons/Visibility";
+import AddBoxIcon from "@material-ui/icons/AddBox";
 import YouTubeIcon from "@material-ui/icons/YouTube";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link, useParams, useHistory } from "react-router-dom";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   listContainer: {
@@ -39,7 +41,17 @@ const Navigator = (props) => {
   const classes = useStyles();
   const history = useHistory();
   const { username } = useParams();
-  console.log(username);
+  const [roomId, setRoomId] = useState("");
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/new")
+      .then((res) => {
+        setRoomId(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <>
       <Drawer variant="permanent" setMenuItem={setMenuItem} {...other}>
@@ -60,6 +72,20 @@ const Navigator = (props) => {
               <HomeIcon />
             </ListItemIcon>
             <ListItemText>Home</ListItemText>
+          </ListItem>
+          <ListItem
+            button
+            className={classes.item}
+            component={Link}
+            onClick={() => {
+              setMenuItem("live");
+              history.push(`/${username}/${roomId}`);
+            }}
+          >
+            <ListItemIcon>
+              <AddBoxIcon />
+            </ListItemIcon>
+            <ListItemText>Go Live</ListItemText>
           </ListItem>
           <ListItem
             button

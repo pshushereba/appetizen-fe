@@ -8,6 +8,7 @@ import Overview from "../Overview.js";
 import Settings from "../Settings.js";
 import Inbox from "../Inbox.js";
 import Notifications from "../Notifications.js";
+import LiveStream from "../LiveStream.js";
 
 const drawerWidth = 256;
 
@@ -51,6 +52,8 @@ const Dashboard = () => {
         <div className={classes.main}>
           {menuItem === "overview" ? (
             <Overview />
+          ) : menuItem === "live" ? (
+            <LiveStream />
           ) : menuItem === "inbox" ? (
             <Inbox />
           ) : menuItem === "notifications" ? (

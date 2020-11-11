@@ -54,7 +54,7 @@ const Login = () => {
       .post("/auth/login", user)
       .then((res) => {
         localStorage.setItem("token", res.data.token);
-        console.log(res);
+
         history.push(`/${res.data.username}/dashboard`);
       })
       .catch((err) => console.log(err));

@@ -51,6 +51,7 @@ function App() {
           path={`/:username/settings`}
           component={Dashboard}
         />
+        <PrivateRoute exact path={`/:username/:id`} component={Dashboard} />
       </Switch>
       {/* <Footer /> */}
     </ThemeProvider>

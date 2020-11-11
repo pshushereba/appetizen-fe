@@ -3,10 +3,9 @@ import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import io from "socket.io-client";
-const cors = require("cors");
 
-const SERVER = "https://appetizen-media.herokuapp.com/testing";
-// const SERVER = "http://localhost:5000/testing";
+// const SERVER = "https://appetizen-media.herokuapp.com/testing";
+const SERVER = "http://localhost:5000/chat";
 
 const useStyles = makeStyles((theme) => ({
   video: {
@@ -20,10 +19,10 @@ const Video = () => {
   const classes = useStyles();
   const [myRoom, setMyRoom] = useState("");
   const socket = io(SERVER, { transports: ["websocket"] });
-  console.log(socket);
-  socket.on("connection", () => {
-    console.log("connecting to server");
-  });
+  // console.log(socket);
+  // socket.on("connection", () => {
+  //   console.log("connecting to server");
+  // });
 
   const getRoomID = (e) => {
     e.preventDefault();
