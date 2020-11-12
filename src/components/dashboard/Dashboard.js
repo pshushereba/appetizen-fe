@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navigator from "./Navigator.js";
 import Header from "./Header.js";
 import Video from "../Video.js";
@@ -9,6 +9,7 @@ import Settings from "../Settings.js";
 import Inbox from "../Inbox.js";
 import Notifications from "../Notifications.js";
 import LiveStream from "../LiveStream.js";
+import { getAccount } from "../../actions/index.js";
 
 const drawerWidth = 256;
 
