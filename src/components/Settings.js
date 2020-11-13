@@ -59,8 +59,9 @@ const Settings = (props) => {
     party_name: "",
   });
 
-  const { classes } = props;
-  // console.log(props);
+  const classes = useStyles();
+  console.log("props", props);
+  console.log("classes", classes);
 
   useEffect(() => {
     setUpdatedAccount(props.account);

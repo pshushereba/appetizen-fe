@@ -41,13 +41,13 @@ const Navigator = (props) => {
   const classes = useStyles();
   const history = useHistory();
   const { username } = useParams();
-  const [roomId, setRoomId] = useState("");
+  // const [roomId, setRoomId] = useState("");
 
   useEffect(() => {
     axios
       .get("http://localhost:5000/new")
       .then((res) => {
-        setRoomId(res.data);
+        props.setRoomId(res.data);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -79,7 +79,7 @@ const Navigator = (props) => {
             component={Link}
             onClick={() => {
               setMenuItem("live");
-              history.push(`/${username}/${roomId}`);
+              history.push(`/${username}/${props.roomId}`);
             }}
           >
             <ListItemIcon>

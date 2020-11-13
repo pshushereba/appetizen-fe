@@ -29,7 +29,7 @@ export const getAccount = (username) => (dispatch) => {
   console.log("getAccount Fired");
   dispatch({ type: GET_ACCOUNT_START });
   axiosWithAuth()
-    .get(`https://proper-prod.herokuapp.com/api/account/${username}`)
+    .get(`https://appetizen-be.herokuapp.com/api/account/${username}`)
     .then((res) => {
       dispatch({ type: GET_ACCOUNT_SUCCESS, payload: res.data });
     })
@@ -39,7 +39,10 @@ export const getAccount = (username) => (dispatch) => {
 export const updateAccount = (acctID, updatedAccount) => (dispatch) => {
   dispatch({ type: UPDATE_ACCOUNT_START });
   axiosWithAuth()
-    .put(`/account/${acctID}`, updatedAccount)
+    .put(
+      `https://appetizen-be.herokuapp.com/api/account/${acctID}`,
+      updatedAccount
+    )
     .then((res) => {
       dispatch({ type: UPDATE_ACCOUNT_SUCCESS, payload: res.data });
     })

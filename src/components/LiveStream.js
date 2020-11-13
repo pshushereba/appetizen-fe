@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Grid } from "@material-ui/core/Grid";
+import Grid from "@material-ui/core/Grid";
 import axios from "axios";
 import io from "socket.io-client";
 import { PlayArrow } from "@material-ui/icons";
+import Chat from "./chat/Chat.js";
 
 let videoGrid;
 
 function addVideoStream(video, stream) {
   video.srcObject = stream;
+
   video.addEventListener("loadedmetadata", () => {
     video.play();
   });
@@ -15,7 +17,7 @@ function addVideoStream(video, stream) {
 }
 console.log(videoGrid);
 
-const LiveStream = () => {
+const LiveStream = ({ roomId }) => {
   const [chat, setChat] = useState([]);
   const [videoStream, setVideoStream] = useState(null);
   const videoSocket = io("http://localhost:5000/video", {
@@ -24,6 +26,7 @@ const LiveStream = () => {
   const chatSocket = io("http://localhost:5000/chat", {
     transports: ["websocket"],
   });
+  console.log(roomId);
 
   useEffect(() => {
     videoGrid = document.getElementById("video-grid");
@@ -39,17 +42,22 @@ const LiveStream = () => {
       });
   }, []);
 
-  videoSocket.on("connection", () => {
-    videoSocket.emit("the client is connected");
+  videoSocket.on("connection", (socket) => {
+    console.log(socket.id);
   });
   // console.log(videoStream);
 
   return (
-    <div id="video-grid">
-      {/* <h1>LiveStream</h1> */}
-      <div></div>
-      {/* <video muted={true} src={videoStream} width="250" autoplay /> */}
-    </div>
+    <>
+      <Grid container spacing={10}>
+        <Grid item sm={6}>
+          <div id="video-grid"></div>
+        </Grid>
+        <Grid item sm={3}>
+          <Chat />
+        </Grid>
+      </Grid>
+    </>
   );
 };
 

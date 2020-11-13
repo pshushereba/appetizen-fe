@@ -9,6 +9,7 @@ import Settings from "../Settings.js";
 import Inbox from "../Inbox.js";
 import Notifications from "../Notifications.js";
 import LiveStream from "../LiveStream.js";
+import { connect } from "react-redux";
 import { getAccount } from "../../actions/index.js";
 
 const drawerWidth = 256;
@@ -38,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
 const Dashboard = () => {
   const classes = useStyles();
   const [menuItem, setMenuItem] = useState("overview");
+  const [roomId, setRoomId] = useState("");
 
   return (
     <div className={classes.root}>
@@ -46,6 +48,8 @@ const Dashboard = () => {
         <Navigator
           PaperProps={{ style: { width: drawerWidth } }}
           setMenuItem={setMenuItem}
+          roomId={roomId}
+          setRoomId={setRoomId}
         />
       </nav>
       <div className={classes.app}>
@@ -54,7 +58,7 @@ const Dashboard = () => {
           {menuItem === "overview" ? (
             <Overview />
           ) : menuItem === "live" ? (
-            <LiveStream />
+            <LiveStream roomId={roomId} />
           ) : menuItem === "inbox" ? (
             <Inbox />
           ) : menuItem === "notifications" ? (
@@ -72,4 +76,10 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+const mapStateToProps = (state) => {
+  return {
+    account: state.accountReducer.account,
+  };
+};
+
+export default connect(mapStateToProps, { getAccount })(Dashboard);

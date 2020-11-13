@@ -11,10 +11,6 @@ import Login from "./components/Login.js";
 import About from "./components/About.js";
 import Pricing from "./components/Pricing.js";
 
-// https://cors-anywhere.herokuapp.com/
-
-// const SERVER = "https://appetizen-media.herokuapp.com/";
-
 function App() {
   // const socket = socketClient(SERVER);
   return (
