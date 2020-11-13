@@ -156,28 +156,6 @@ const Settings = (props) => {
                 onChange={handleChange}
               />
             </Grid>
-            <Grid item sm>
-              <Typography>Case Information</Typography>
-              <Divider />
-              <TextField
-                name="case_number"
-                label="Case Number"
-                value={updatedAccount.case_number}
-                onChange={handleChange}
-              />
-              <TextField
-                name="case_type"
-                label="Case Type"
-                value={updatedAccount.case_type}
-                onChange={handleChange}
-              />
-              <TextField
-                name="party_name"
-                label="Party Name"
-                value={updatedAccount.party_name}
-                onChange={handleChange}
-              />
-            </Grid>
           </Grid>
           <Button onClick={() => setIsEditing(!isEditing)}>Edit</Button>
           <Button type="submit">Update Account</Button>
