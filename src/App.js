@@ -1,5 +1,4 @@
 import React from "react";
-import socketClient from "socket.io-client";
 import { ThemeProvider } from "@material-ui/styles";
 import theme from "./components/styles/Theme.js";
 import { Route, Switch } from "react-router-dom";
@@ -12,7 +11,6 @@ import About from "./components/About.js";
 import Pricing from "./components/Pricing.js";
 
 function App() {
-  // const socket = socketClient(SERVER);
   return (
     <ThemeProvider theme={theme}>
       <Switch>
@@ -48,6 +46,7 @@ function App() {
           component={Dashboard}
         />
         <PrivateRoute exact path={`/:username/:id`} component={Dashboard} />
+        <PrivateRoute exact path={`/:username/profile`} component={Dashboard} />
       </Switch>
       {/* <Footer /> */}
     </ThemeProvider>

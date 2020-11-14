@@ -56,7 +56,13 @@ const Navigator = (props) => {
     <>
       <Drawer variant="permanent" setMenuItem={setMenuItem} {...other}>
         <List className={classes.listContainer}>
-          <ListItem>
+          <ListItem
+            component={Link}
+            onClick={() => {
+              setMenuItem("profile");
+              history.push(`/${username}/profile`);
+            }}
+          >
             <Avatar>P</Avatar>
           </ListItem>
           <ListItem

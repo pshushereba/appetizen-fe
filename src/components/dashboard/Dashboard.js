@@ -8,6 +8,7 @@ import Overview from "../Overview.js";
 import Settings from "../Settings.js";
 import Inbox from "../Inbox.js";
 import Notifications from "../Notifications.js";
+import Profile from "../Profile.js";
 import LiveStream from "../LiveStream.js";
 import { connect } from "react-redux";
 import { getAccount } from "../../actions/index.js";
@@ -65,6 +66,8 @@ const Dashboard = () => {
             <Notifications />
           ) : menuItem === "videos" ? (
             <Video />
+          ) : menuItem === "profile" ? (
+            <Profile />
           ) : menuItem === "settings" ? (
             <Settings />
           ) : (

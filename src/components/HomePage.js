@@ -28,19 +28,24 @@ const HomePage = () => {
     <>
       <Nav />
       <CssBaseline />
-      <Grid container className={classes.container}>
-        <Grid item direction="column" sm={6}>
-          <Typography variant="h2" align="center">
-            Show them how
-            <br /> it's done
-          </Typography>
-          <Typography variant="subtitle1" align="center">
-            With Appetizen, you're the star of the show.
-          </Typography>
-        </Grid>
+      <Grid container direction="column" className={classes.container}>
         <Grid item>
-          <img src={home_burger} alt="testing" className={classes.img} />
+          <Grid container alignItems="center">
+            <Grid item xs={12} sm={6}>
+              <Typography variant="h2" align="center">
+                Show them how
+                <br /> it's done
+              </Typography>
+              <Typography variant="subtitle1" align="center">
+                With Appetizen, you're the star of the show.
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <img src={home_burger} alt="testing" className={classes.img} />
+            </Grid>
+          </Grid>
         </Grid>
+
         <Grid item>
           <Grid container className={classes.container}>
             <Grid item>
