@@ -8,6 +8,7 @@ import HomePage from "./components/HomePage.js";
 import Dashboard from "./components/dashboard/Dashboard.js";
 import Login from "./components/Login.js";
 import About from "./components/About.js";
+import SignUp from "./components/SignUp.js";
 import Pricing from "./components/Pricing.js";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path="/login" component={Login} />
         <Route path="/about" component={About} />
         <Route path="/pricing" component={Pricing} />
+        <Route path="/signup" component={SignUp} />
         <PrivateRoute
           exact
           path={`/:username/dashboard`}
