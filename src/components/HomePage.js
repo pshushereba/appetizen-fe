@@ -2,10 +2,10 @@ import React from "react";
 import Nav from "./Nav.js";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import Cssbaseline, { CssBaseline } from "@material-ui/core";
-import { Grid, Typography, Button } from "@material-ui/core/";
-import home_burger from "../assets/homepage_burger.svg";
+import { CssBaseline } from "@material-ui/core";
+import { Grid, Typography, Button, Paper } from "@material-ui/core/";
 import homepage_kitchen from "../assets/homepage_kitchen.svg";
+import VideoCallIcon from "@material-ui/icons/VideoCall";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -15,6 +15,9 @@ const useStyles = makeStyles((theme) => ({
   },
   img: {
     marginTop: -theme.spacing(4),
+  },
+  textAlign: {
+    marginTop: theme.spacing(4),
   },
   btnContainer: {
     display: "flex",
@@ -33,7 +36,7 @@ const HomePage = () => {
       <Grid container direction="column" className={classes.container}>
         <Grid item>
           <Grid container>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={6} className={classes.textAlign}>
               <Typography variant="h2" align="center">
                 Show them how
                 <br /> it's done
@@ -59,14 +62,29 @@ const HomePage = () => {
 
         <Grid item>
           <Grid container justify="space-around">
-            <Grid item>
-              <Typography>Test 1</Typography>
+            <Grid item xs={12} sm={3}>
+              <Grid container direction="column" alignItems="center">
+                <VideoCallIcon />
+                <Typography>
+                  Show off your skills by live streaming while you cook or bake.
+                </Typography>
+              </Grid>
             </Grid>
-            <Grid item>
-              <Typography>Test 2</Typography>
+            <Grid item xs={12} sm={3}>
+              <Grid container direction="column" alignItems="center">
+                <VideoCallIcon />
+                <Typography>
+                  Show off your skills by live streaming while you cook or bake.
+                </Typography>
+              </Grid>
             </Grid>
-            <Grid item>
-              <Typography>Test 3</Typography>
+            <Grid item xs={12} sm={3}>
+              <Grid container direction="column" alignItems="center">
+                <VideoCallIcon />
+                <Typography>
+                  Show off your skills by live streaming while you cook or bake.
+                </Typography>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
