@@ -7,25 +7,26 @@ import Chat from "./chat/Chat.js";
 
 let videoGrid;
 
-function addVideoStream(video, stream) {
+function addVideoStream(vs, cs, video, stream) {
   video.srcObject = stream;
-
   video.addEventListener("loadedmetadata", () => {
     video.play();
   });
   videoGrid.append(video);
 }
-console.log(videoGrid);
 
 const LiveStream = ({ roomId }) => {
   const [chat, setChat] = useState([]);
   const [videoStream, setVideoStream] = useState(null);
+
   const videoSocket = io("http://localhost:5000/video", {
     transports: ["websocket"],
   });
+  videoSocket.emit("chat-message", "yo");
   const chatSocket = io("http://localhost:5000/chat", {
     transports: ["websocket"],
   });
+
   console.log(roomId);
 
   useEffect(() => {
@@ -38,13 +39,13 @@ const LiveStream = ({ roomId }) => {
         audio: true,
       })
       .then((stream) => {
-        addVideoStream(myVideo, stream);
+        addVideoStream(videoSocket, chatSocket, myVideo, stream);
       });
   }, []);
 
-  videoSocket.on("connection", (socket) => {
-    console.log(socket.id);
-  });
+  // videoSocket.on("connection", (socket) => {
+  //   socket.emit(socket);
+  // });
   // console.log(videoStream);
 
   return (

@@ -8,10 +8,13 @@ import Overview from "../Overview.js";
 import Settings from "../Settings.js";
 import Inbox from "../Inbox.js";
 import Notifications from "../Notifications.js";
+import Explore from "../Explore.js";
 import Profile from "../Profile.js";
 import LiveStream from "../LiveStream.js";
 import { connect } from "react-redux";
 import { getAccount } from "../../actions/index.js";
+import io from "socket.io-client";
+import { useParams } from "react-router-dom";
 
 const drawerWidth = 256;
 
@@ -39,8 +42,16 @@ const useStyles = makeStyles((theme) => ({
 
 const Dashboard = () => {
   const classes = useStyles();
+  const userName = useParams();
   const [menuItem, setMenuItem] = useState("overview");
   const [roomId, setRoomId] = useState("");
+  // const socket = io("http://localhost:5000/", {
+  //   transports: ["websocket"],
+  // });
+
+  // socket.on("connection", (socket) => {
+  //   socket.emit("login", userName);
+  // });
 
   return (
     <div className={classes.root}>
@@ -60,6 +71,8 @@ const Dashboard = () => {
             <Overview />
           ) : menuItem === "live" ? (
             <LiveStream roomId={roomId} />
+          ) : menuItem === "explore" ? (
+            <Explore />
           ) : menuItem === "inbox" ? (
             <Inbox />
           ) : menuItem === "notifications" ? (

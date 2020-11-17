@@ -14,6 +14,7 @@ import InboxIcon from "@material-ui/icons/Inbox";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import SubscriptionsIcon from "@material-ui/icons/Subscriptions";
 import AssessmentIcon from "@material-ui/icons/Assessment";
+import ExploreIcon from "@material-ui/icons/Explore";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import YouTubeIcon from "@material-ui/icons/YouTube";
@@ -92,6 +93,20 @@ const Navigator = (props) => {
               <AddBoxIcon />
             </ListItemIcon>
             <ListItemText>Go Live</ListItemText>
+          </ListItem>
+          <ListItem
+            button
+            className={classes.item}
+            component={Link}
+            onClick={() => {
+              setMenuItem("explore");
+              history.push(`/${username}/explore`);
+            }}
+          >
+            <ListItemIcon>
+              <ExploreIcon />
+            </ListItemIcon>
+            <ListItemText>Explore</ListItemText>
           </ListItem>
           <ListItem
             button

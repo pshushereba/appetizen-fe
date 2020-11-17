@@ -5,7 +5,7 @@ import axios from "axios";
 import io from "socket.io-client";
 
 // const SERVER = "https://appetizen-media.herokuapp.com/testing";
-const SERVER = "http://localhost:5000/chat";
+// const SERVER = "http://localhost:5000/chat";
 
 const useStyles = makeStyles((theme) => ({
   video: {
@@ -18,33 +18,33 @@ const useStyles = makeStyles((theme) => ({
 const Video = () => {
   const classes = useStyles();
   const [myRoom, setMyRoom] = useState("");
-  const socket = io(SERVER, { transports: ["websocket"] });
+  // const socket = io(SERVER, { transports: ["websocket"] });
   // console.log(socket);
   // socket.on("connection", () => {
   //   console.log("connecting to server");
   // });
 
-  const getRoomID = (e) => {
-    e.preventDefault();
-    axios
-      .get("http://localhost:5000/")
-      .then((res) => {
-        console.log(res);
-        setMyRoom(res.data);
-      })
-      .catch((err) => console.log(err));
-  };
+  // const getRoomID = (e) => {
+  //   e.preventDefault();
+  //   axios
+  //     .get("http://localhost:5000/")
+  //     .then((res) => {
+  //       console.log(res);
+  //       setMyRoom(res.data);
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
 
-  const joinRoom = (e) => {
-    e.preventDefault();
-    socket.emit("join-room", () => {
-      console.log(`I'm connected with the back-end`);
-    });
-    // axios
-    //   .get(`http://localhost:5000/api/videos/${myRoom}`)
-    //   .then((res) => console.log(res))
-    //   .catch((err) => console.log(err));
-  };
+  // const joinRoom = (e) => {
+  //   e.preventDefault();
+  //   socket.emit("join-room", () => {
+  //     console.log(`I'm connected with the back-end`);
+  //   });
+  // axios
+  //   .get(`http://localhost:5000/api/videos/${myRoom}`)
+  //   .then((res) => console.log(res))
+  //   .catch((err) => console.log(err));
+  //};
 
   return (
     <div>

@@ -25,6 +25,7 @@ function App() {
           path={`/:username/dashboard`}
           component={Dashboard}
         />
+        <PrivateRoute exact path={`/:username/explore`} component={Dashboard} />
         <PrivateRoute exact path={`/:username/inbox`} component={Dashboard} />
         <PrivateRoute
           exact
