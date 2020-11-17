@@ -51,7 +51,7 @@ const LiveStream = ({ roomId }) => {
   return (
     <>
       <Grid container spacing={10}>
-        <Grid item sm={6}>
+        <Grid item xs={12} sm={6}>
           <div id="video-grid"></div>
         </Grid>
         <Grid item sm={3}>

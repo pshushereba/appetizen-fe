@@ -6,6 +6,8 @@ import { CssBaseline } from "@material-ui/core";
 import { Grid, Typography, Button, Paper } from "@material-ui/core/";
 import homepage_kitchen from "../assets/homepage_kitchen.svg";
 import VideoCallIcon from "@material-ui/icons/VideoCall";
+import PeopleIcon from "@material-ui/icons/People";
+import ShareIcon from "@material-ui/icons/Share";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -23,6 +25,12 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     marginTop: theme.spacing(2),
+  },
+  featuresSection: {
+    height: "300px",
+  },
+  featureTypography: {
+    paddingTop: "2rem",
   },
 }));
 
@@ -60,29 +68,42 @@ const HomePage = () => {
           </Grid>
         </Grid>
 
-        <Grid item>
+        <Grid item className={classes.featuresSection}>
           <Grid container justify="space-around">
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={8} sm={3}>
               <Grid container direction="column" alignItems="center">
-                <VideoCallIcon />
-                <Typography>
+                <VideoCallIcon fontSize="large" />
+                <Typography
+                  variant="h5"
+                  align="center"
+                  className={classes.featureTypography}
+                >
                   Show off your skills by live streaming while you cook or bake.
                 </Typography>
               </Grid>
             </Grid>
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={8} sm={3}>
               <Grid container direction="column" alignItems="center">
-                <VideoCallIcon />
-                <Typography>
-                  Show off your skills by live streaming while you cook or bake.
+                <PeopleIcon fontSize="large" />
+                <Typography
+                  variant="h5"
+                  align="center"
+                  className={classes.featureTypography}
+                >
+                  Engage with your subscribers while you stream and build your
+                  following.
                 </Typography>
               </Grid>
             </Grid>
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={8} sm={3}>
               <Grid container direction="column" alignItems="center">
-                <VideoCallIcon />
-                <Typography>
-                  Show off your skills by live streaming while you cook or bake.
+                <ShareIcon fontSize="large" />
+                <Typography
+                  variant="h5"
+                  align="center"
+                  className={classes.featureTypography}
+                >
+                  Share recipes and nutrition info for all the meals you make!
                 </Typography>
               </Grid>
             </Grid>
