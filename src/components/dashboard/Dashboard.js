@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Navigator from "./Navigator.js";
 import Header from "./Header.js";
-import Video from "../Video.js";
+import Video from "./Video.js";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import Overview from "../Overview.js";
-import Settings from "../Settings.js";
-import Inbox from "../Inbox.js";
-import Notifications from "../Notifications.js";
-import Explore from "../Explore.js";
-import Profile from "../Profile.js";
-import LiveStream from "../LiveStream.js";
+import Overview from "./Overview.js";
+import Settings from "./Settings.js";
+import Inbox from "./Inbox.js";
+import Notifications from "./Notifications.js";
+import Explore from "./Explore.js";
+import Profile from "./Profile.js";
+import LiveStream from "./LiveStream.js";
 import { connect } from "react-redux";
 import { getAccount } from "../../actions/index.js";
 import io from "socket.io-client";
@@ -21,6 +21,7 @@ const drawerWidth = 256;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
+    height: "100vh",
   },
   app: {
     flex: 1,

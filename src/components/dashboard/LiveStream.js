@@ -3,7 +3,7 @@ import Grid from "@material-ui/core/Grid";
 import axios from "axios";
 import io from "socket.io-client";
 import { PlayArrow } from "@material-ui/icons";
-import Chat from "./chat/Chat.js";
+import Chat from "../chat/Chat.js";
 
 let videoGrid;
 

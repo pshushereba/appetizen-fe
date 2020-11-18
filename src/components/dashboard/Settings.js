@@ -11,7 +11,7 @@ import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
 import { useParams } from "react-router-dom";
 import { connect } from "react-redux";
-import { updateAccount } from "../actions/index";
+import { updateAccount } from "../../actions/index";
 
 const lightColor = "rgba(255, 255, 255, 0.7)";
 
