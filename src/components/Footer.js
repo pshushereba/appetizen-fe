@@ -37,18 +37,18 @@ const Footer = () => {
         </Grid>
         <Grid item>
           <Grid container direction="column" spacing={2}>
-            <Grid item component={Link} to="/about" className={classes.links}>
+            {/* <Grid item component={Link} to="/about" className={classes.links}>
               About
-            </Grid>
+            </Grid> */}
             <Grid item component={Link} to="/signup" className={classes.links}>
               Sign Up
             </Grid>
             <Grid item className={classes.links}>
               Contact Us
             </Grid>
-            <Grid item className={classes.links}>
+            {/* <Grid item className={classes.links}>
               Pricing
-            </Grid>
+            </Grid> */}
           </Grid>
         </Grid>
       </Grid>

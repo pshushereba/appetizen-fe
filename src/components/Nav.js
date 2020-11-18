@@ -51,12 +51,12 @@ const Nav = () => {
             <Typography className={classes.title} component={Link} to="/">
               Appetizen
             </Typography>
-            <Typography className={classes.link} component={Link} to="/about">
+            {/* <Typography className={classes.link} component={Link} to="/about">
               About
             </Typography>
             <Typography className={classes.link} component={Link} to="/pricing">
               Pricing
-            </Typography>
+            </Typography> */}
             <Button
               variant="contained"
               className={classes.button}

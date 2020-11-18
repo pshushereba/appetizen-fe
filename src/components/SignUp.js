@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import axiosWithAuth from "../utils/axiosAuth.js";
 import { Box, Button, TextField, Grid, Typography } from "@material-ui/core";
+import { CssBaseline } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Nav from "./Nav.js";
 import signup_main from "../assets/signup_main.svg";
@@ -34,7 +35,7 @@ const SignUp = () => {
       .then((res) => {
         localStorage.setItem("token", res.data.token);
         console.log(res);
-        history.push("/dashboard");
+        history.push(`${user.username}/dashboard`);
       })
       .catch((err) => console.log(err));
   };
@@ -42,6 +43,7 @@ const SignUp = () => {
   return (
     <>
       <Nav />
+      <CssBaseline />
       <Grid
         container
         className={classes.mainContainer}
@@ -81,6 +83,7 @@ const SignUp = () => {
             <TextField
               name="password"
               label="Password"
+              type="password"
               value={user.password}
               onChange={handleChange}
             />
