@@ -1,9 +1,13 @@
 import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
 
-const Message = () => {
+const Message = (props) => {
   return (
     <div>
-      <p>testing.</p>
+      <div>
+        <b>User 1</b>
+      </div>
+      <span>Testing</span>
     </div>
   );
 };

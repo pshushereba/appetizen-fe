@@ -13,8 +13,8 @@ import Profile from "./Profile.js";
 import LiveStream from "./LiveStream.js";
 import { connect } from "react-redux";
 import { getAccount } from "../../actions/index.js";
-import io from "socket.io-client";
 import { useParams } from "react-router-dom";
+import { initiateSocket } from "../../utils/socketHelpers.js";
 
 const drawerWidth = 256;
 
@@ -46,13 +46,6 @@ const Dashboard = () => {
   const userName = useParams();
   const [menuItem, setMenuItem] = useState("overview");
   const [roomId, setRoomId] = useState("");
-  // const socket = io("http://localhost:5000/", {
-  //   transports: ["websocket"],
-  // });
-
-  // socket.on("connection", (socket) => {
-  //   socket.emit("login", userName);
-  // });
 
   return (
     <div className={classes.root}>
