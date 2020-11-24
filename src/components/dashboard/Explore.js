@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Grid from "@material-ui/core/Grid";
 import io from "socket.io-client";
 import { makeStyles } from "@material-ui/core/styles";
+import Chat from "../chat/Chat.js";
+import axios from "axios";
+import UserCard from "../UserCard.js";
 
 const Explore = () => {
+  const [activeUsers, setActiveUsers] = useState([]);
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/active")
+      .then((res) => setActiveUsers(res.data))
+      .catch((err) => console.log(err));
+  }, []);
   return (
     <>
       <Grid container spacing={10}>
@@ -11,7 +21,10 @@ const Explore = () => {
           <div id="viewer-video"></div>
         </Grid>
         <Grid item sm={3}>
-          <Chat />
+          {activeUsers.map((user) => {
+            return <UserCard data={user} />;
+          })}
+          {console.log(activeUsers)}
         </Grid>
       </Grid>
     </>

@@ -51,7 +51,7 @@ const Header = (props) => {
 
   return (
     <>
-      <AppBar color="primary" position="sticky" elevation={0}>
+      <AppBar color="secondary" position="sticky" elevation={0}>
         <Toolbar>
           <Grid container spacing={1} alignItems="center">
             <Hidden smUp>
@@ -79,7 +79,7 @@ const Header = (props) => {
       <AppBar
         component="div"
         className={classes.secondaryBar}
-        color="primary"
+        color="secondary"
         position="static"
         elevation={0}
       >

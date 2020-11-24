@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
   },
   footerContainer: {
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.secondary.main,
   },
   links: {
     color: theme.palette.common.white,

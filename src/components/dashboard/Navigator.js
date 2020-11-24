@@ -24,7 +24,7 @@ import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   listContainer: {
-    backgroundColor: theme.palette.primary.light,
+    backgroundColor: theme.palette.secondary.main,
     height: "100%",
   },
   item: {

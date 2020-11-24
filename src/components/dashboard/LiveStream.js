@@ -44,15 +44,11 @@ const LiveStream = ({ roomId }) => {
   useEffect(() => {
     videoGrid = document.getElementById("video-grid");
     const myVideo = document.createElement("video");
+    const configOptions = { video: true, audio: true };
     myVideo.muted = true;
-    navigator.mediaDevices
-      .getUserMedia({
-        video: true,
-        audio: true,
-      })
-      .then((stream) => {
-        addVideoStream(videoSocket, chatSocket, myVideo, stream);
-      });
+    navigator.mediaDevices.getUserMedia(configOptions).then((stream) => {
+      addVideoStream(videoSocket, chatSocket, myVideo, stream);
+    });
 
     return function cleanup() {
       disconnectSocket();
@@ -61,11 +57,11 @@ const LiveStream = ({ roomId }) => {
 
   return (
     <>
-      <Grid container spacing={10}>
-        <Grid item xs={12} sm={6}>
+      <Grid container justify="space-between" spacing={10}>
+        <Grid item xs={8} sm={6}>
           <div id="video-grid"></div>
         </Grid>
-        <Grid item sm={3}>
+        <Grid item sm={4}>
           <Chat roomId={roomId} />
         </Grid>
       </Grid>
