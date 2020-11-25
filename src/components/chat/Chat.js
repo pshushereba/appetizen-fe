@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { Button, TextField, Typography } from "@material-ui/core";
+import { initiateChatSocket } from "../../utils/socketHelpers.js";
 
-const Chat = () => {
+const Chat = (props) => {
+  // const viewerChatSocket = initiateChatSocket(username, roomId);
+
   return (
     <div>
-      <h1>Chat Placeholder</h1>
+      <TextField placeholder="Send a Message"></TextField>
+      <Button>Send</Button>
     </div>
   );
 };

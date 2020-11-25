@@ -10,6 +10,7 @@ import Login from "./components/Login.js";
 import About from "./components/About.js";
 import SignUp from "./components/SignUp.js";
 import Pricing from "./components/Pricing.js";
+import ViewStream from "./components/ViewStream.js";
 
 function App() {
   return (
@@ -50,6 +51,11 @@ function App() {
         />
         <PrivateRoute exact path={`/:username/:id`} component={Dashboard} />
         <PrivateRoute exact path={`/:username/profile`} component={Dashboard} />
+        <PrivateRoute
+          exact
+          path={`/:username/streams/:room`}
+          component={ViewStream}
+        />
       </Switch>
       <Footer />
     </ThemeProvider>
