@@ -11,6 +11,7 @@ import Notifications from "./Notifications.js";
 import Explore from "./Explore.js";
 import Profile from "./Profile.js";
 import LiveStream from "./LiveStream.js";
+import ViewStream from "../ViewStream.js";
 import { connect } from "react-redux";
 import { getAccount } from "../../actions/index.js";
 import { useParams } from "react-router-dom";
@@ -66,7 +67,9 @@ const Dashboard = () => {
           ) : menuItem === "live" ? (
             <LiveStream roomId={roomId} />
           ) : menuItem === "explore" ? (
-            <Explore />
+            <Explore setMenuItem={setMenuItem} />
+          ) : menuItem === "viewstream" ? (
+            <ViewStream />
           ) : menuItem === "inbox" ? (
             <Inbox />
           ) : menuItem === "notifications" ? (

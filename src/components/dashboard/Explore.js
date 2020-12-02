@@ -6,8 +6,9 @@ import Chat from "../chat/Chat.js";
 import axios from "axios";
 import UserCard from "../UserCard.js";
 
-const Explore = () => {
+const Explore = (props) => {
   const [activeUsers, setActiveUsers] = useState([]);
+  const { setMenuItem } = props;
   useEffect(() => {
     axios
       .get("http://localhost:5000/active")
@@ -22,7 +23,7 @@ const Explore = () => {
         </Grid>
         <Grid item sm={3}>
           {activeUsers.map((user) => {
-            return <UserCard data={user} />;
+            return <UserCard data={user} setMenuItem={setMenuItem} />;
           })}
           {console.log(activeUsers)}
         </Grid>

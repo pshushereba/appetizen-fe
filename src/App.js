@@ -53,8 +53,8 @@ function App() {
         <PrivateRoute exact path={`/:username/profile`} component={Dashboard} />
         <PrivateRoute
           exact
-          path={`/:username/streams/:room`}
-          component={ViewStream}
+          path={`:username/streams/:room`}
+          component={Dashboard}
         />
       </Switch>
       <Footer />
