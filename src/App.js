@@ -51,11 +51,7 @@ function App() {
         />
         <PrivateRoute exact path={`/:username/:id`} component={Dashboard} />
         <PrivateRoute exact path={`/:username/profile`} component={Dashboard} />
-        <PrivateRoute
-          exact
-          path={`:username/streams/:room`}
-          component={Dashboard}
-        />
+        <PrivateRoute exact path={`/streams/:room`} component={Dashboard} />
       </Switch>
       <Footer />
     </ThemeProvider>

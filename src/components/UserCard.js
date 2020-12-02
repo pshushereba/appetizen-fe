@@ -26,9 +26,8 @@ const UserCard = (props) => {
             size="small"
             component={Link}
             onClick={() => {
-              history.replace({
-                pathname: `/streams/${room}`,
-                state: { username: username, roomID: room },
+              history.push(`/streams/${room}`, {
+                state: { username: streamId, roomID: room, viewer: username },
               });
               props.setMenuItem("viewstream");
             }}
