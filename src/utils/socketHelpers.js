@@ -30,6 +30,12 @@ export const disconnectSocket = () => {
   if (socket) socket.disconnect();
 };
 
+export const loadInitialChat = (cb) => {
+  if (!socket) return true;
+
+  socket.on("joinResponse", (msg) => cb(null, msg));
+};
+
 export const subscribeToChat = (cb) => {
   if (!socket) return true;
   socket.on("chat", (msg) => {
