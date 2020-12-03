@@ -8,17 +8,27 @@ import {
   loadInitialChat,
 } from "../../utils/socketHelpers.js";
 
-const Chat = (props) => {
+const Chat = ({ username, roomId, socket }) => {
   const [message, setMessage] = useState("");
   const [chat, setChat] = useState([]);
-  const viewerChatSocket = initiateChatSocket(props.id, props.username);
-
+  // const viewerChatSocket = initiateChatSocket(props.id, props.username);
+  console.log("chat", chat);
   useEffect(() => {
     loadInitialChat((err, data) => {
       if (err) return;
-      setChat(data);
+      if (data !== null) {
+        setChat(data);
+      }
     });
   }, []);
+
+  useEffect(() => {
+    subscribeToChat((err, data) => {
+      if (err) return;
+
+      setChat([data, ...chat]);
+    });
+  }, [roomId]);
 
   const handleChange = (event) => {
     setMessage(event.target.value);
@@ -26,7 +36,7 @@ const Chat = (props) => {
   console.log(message);
 
   const handleMessage = (event) => {
-    sendMessage(props.id, message);
+    sendMessage(roomId, message);
   };
 
   return (
@@ -36,7 +46,14 @@ const Chat = (props) => {
         value={message}
         onChange={handleChange}
       ></TextField>
-      <Button onClick={handleMessage}>Send</Button>
+      <Button
+        onClick={() => {
+          setChat([message, ...chat]);
+          sendMessage(roomId, message);
+        }}
+      >
+        Send
+      </Button>
       {chat ? chat.map((m, i) => <p key={i}>{m}</p>) : ""}
       {/* {chat.map((m, i) => (
         <p key={i}>{m}</p>

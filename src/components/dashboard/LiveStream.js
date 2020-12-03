@@ -29,7 +29,8 @@ const LiveStream = ({ roomId }) => {
   //   transports: ["websocket"],
   // });
 
-  const videoSocket = initiateVideoSocket(roomId);
+  // const videoSocket = initiateVideoSocket(roomId);
+  const videoSocket = null;
 
   // videoSocket.emit("chat-message", "yo");
 
@@ -62,7 +63,7 @@ const LiveStream = ({ roomId }) => {
           <div id="video-grid"></div>
         </Grid>
         <Grid item sm={4}>
-          <Chat roomId={roomId} />
+          <Chat username={username} roomId={roomId} socket={chatSocket} />
         </Grid>
       </Grid>
     </>

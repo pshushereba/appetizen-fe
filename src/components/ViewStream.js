@@ -9,11 +9,11 @@ const ViewStream = () => {
   const location = useLocation();
   console.log(history.state);
   console.log(username, id);
-  // const viewerChatSocket = initiateChatSocket(username, roomId);
+  const viewerChatSocket = initiateChatSocket(id, username);
   return (
     <>
       <h1>Test</h1>
-      <Chat username={username} id={id} />
+      <Chat username={username} roomId={id} socket={viewerChatSocket} />
     </>
   );
 };
