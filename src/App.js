@@ -10,7 +10,6 @@ import Login from "./components/Login.js";
 import About from "./components/About.js";
 import SignUp from "./components/SignUp.js";
 import Pricing from "./components/Pricing.js";
-import ViewStream from "./components/ViewStream.js";
 
 function App() {
   return (

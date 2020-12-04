@@ -16,6 +16,7 @@ const Chat = ({ username, roomId, socket }) => {
   useEffect(() => {
     loadInitialChat((err, data) => {
       if (err) return;
+
       if (data !== null) {
         setChat(data);
       }
@@ -55,9 +56,6 @@ const Chat = ({ username, roomId, socket }) => {
         Send
       </Button>
       {chat ? chat.map((m, i) => <p key={i}>{m}</p>) : ""}
-      {/* {chat.map((m, i) => (
-        <p key={i}>{m}</p>
-      ))} */}
     </div>
   );
 };

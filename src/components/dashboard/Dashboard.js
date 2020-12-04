@@ -15,7 +15,6 @@ import ViewStream from "../ViewStream.js";
 import { connect } from "react-redux";
 import { getAccount } from "../../actions/index.js";
 import { useParams } from "react-router-dom";
-import { initiateSocket } from "../../utils/socketHelpers.js";
 
 const drawerWidth = 256;
 
