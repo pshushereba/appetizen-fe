@@ -12,7 +12,7 @@ const Chat = ({ username, roomId, socket }) => {
   const [message, setMessage] = useState("");
   const [chat, setChat] = useState([]);
   // const viewerChatSocket = initiateChatSocket(props.id, props.username);
-  console.log("chat", chat);
+
   useEffect(() => {
     loadInitialChat((err, data) => {
       if (err) return;
@@ -22,12 +22,15 @@ const Chat = ({ username, roomId, socket }) => {
       }
     });
   }, []);
+  console.log("chat", chat);
 
   useEffect(() => {
     subscribeToChat((err, data) => {
       if (err) return;
 
-      setChat([data, ...chat]);
+      setChat([...chat, data]);
+      console.log("subscribe chat data", data);
+      console.log("subscribe chat", chat);
     });
   }, [roomId]);
 
@@ -51,6 +54,7 @@ const Chat = ({ username, roomId, socket }) => {
         onClick={() => {
           setChat([message, ...chat]);
           sendMessage(roomId, message);
+          setMessage("");
         }}
       >
         Send

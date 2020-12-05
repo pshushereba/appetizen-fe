@@ -29,7 +29,7 @@ export const getAccount = (username) => (dispatch) => {
   console.log("getAccount Fired");
   dispatch({ type: GET_ACCOUNT_START });
   axiosWithAuth()
-    .get(`https://appetizen-be.herokuapp.com/api/account/${username}`)
+    .get(`https://appetizen-be.herokuapp.com/api/accounts/${username}`)
     .then((res) => {
       dispatch({ type: GET_ACCOUNT_SUCCESS, payload: res.data });
     })

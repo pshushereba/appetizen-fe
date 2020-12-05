@@ -43,9 +43,14 @@ const useStyles = makeStyles((theme) => ({
 
 const Dashboard = () => {
   const classes = useStyles();
-  const userName = useParams();
+  const username = useParams();
   const [menuItem, setMenuItem] = useState("overview");
   const [roomId, setRoomId] = useState("");
+
+  useEffect(() => {
+    debugger;
+    getAccount(username);
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -68,7 +73,7 @@ const Dashboard = () => {
           ) : menuItem === "explore" ? (
             <Explore setMenuItem={setMenuItem} />
           ) : menuItem === "viewstream" ? (
-            <ViewStream />
+            <ViewStream viewer={username} />
           ) : menuItem === "inbox" ? (
             <Inbox />
           ) : menuItem === "notifications" ? (

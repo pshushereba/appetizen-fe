@@ -3,11 +3,11 @@ import { useHistory, useParams, useLocation } from "react-router-dom";
 import { initiateChatSocket } from "../utils/socketHelpers.js";
 import Chat from "./chat/Chat.js";
 
-const ViewStream = () => {
+const ViewStream = ({ username }) => {
   const history = useHistory();
-  const { username, id } = useParams();
+  const { id } = useParams();
   const location = useLocation();
-  console.log(history.state);
+
   console.log(username, id);
   const viewerChatSocket = initiateChatSocket(id, username);
   return (
