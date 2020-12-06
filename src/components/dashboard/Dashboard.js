@@ -41,16 +41,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Dashboard = () => {
+const Dashboard = (props) => {
+  console.log("dashboard", props);
   const classes = useStyles();
   const username = useParams();
   const [menuItem, setMenuItem] = useState("overview");
   const [roomId, setRoomId] = useState("");
 
-  useEffect(() => {
-    debugger;
-    getAccount(username);
-  }, []);
+  // useEffect(() => {
+  //   props.getAccount(username);
+  // }, []);
 
   return (
     <div className={classes.root}>

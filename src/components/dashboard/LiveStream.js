@@ -11,6 +11,14 @@ import {
 
 let videoGrid;
 
+// Set up array to hold chunks of video data
+
+let chunks = [];
+
+// Set up options for media recorder instance
+
+const mediaRecorderOptions = { mimeType: "video/webm codecs=h264" };
+
 function addVideoStream(vs, cs, video, stream) {
   video.srcObject = stream;
   video.addEventListener("loadedmetadata", () => {
@@ -23,6 +31,7 @@ const LiveStream = ({ roomId }) => {
   const [chat, setChat] = useState([]);
   const [videoStream, setVideoStream] = useState(null);
   const { username } = useParams();
+  const [mediaRecorder, setMediaRecorder] = useState(null);
 
   console.log(username);
   // const videoSocket = io("http://localhost:5000/video", {
@@ -31,8 +40,6 @@ const LiveStream = ({ roomId }) => {
 
   // const videoSocket = initiateVideoSocket(roomId);
   const videoSocket = null;
-
-  // videoSocket.emit("chat-message", "yo");
 
   // const chatSocket = io("http://localhost:5000/chat", {
   //   transports: ["websocket"],
@@ -55,6 +62,10 @@ const LiveStream = ({ roomId }) => {
       disconnectSocket();
     };
   }, []);
+
+  const setupMediaRecorder = (mediaStream) => {
+    setMediaRecorder(new MediaRecorder(mediaStream, mediaRecorderOptions));
+  };
 
   return (
     <>
