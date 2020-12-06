@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Grid from "@material-ui/core/Grid";
 import { PlayArrow } from "@material-ui/icons";
 import { useParams } from "react-router-dom";
+import StreamControls from "../video/StreamControls.js";
 import Chat from "../chat/Chat.js";
 import {
   initiateVideoSocket,
@@ -17,7 +18,7 @@ let chunks = [];
 
 // Set up options for media recorder instance
 
-const mediaRecorderOptions = { mimeType: "video/webm codecs=h264" };
+const mediaRecorderOptions = { mimeType: "video/webm;codecs=h264" };
 
 function addVideoStream(vs, cs, video, stream) {
   video.srcObject = stream;
@@ -44,6 +45,7 @@ const LiveStream = ({ roomId }) => {
   // const chatSocket = io("http://localhost:5000/chat", {
   //   transports: ["websocket"],
   // });
+  console.log(mediaRecorder);
 
   const chatSocket = initiateChatSocket(roomId, username);
 
@@ -54,9 +56,13 @@ const LiveStream = ({ roomId }) => {
     const myVideo = document.createElement("video");
     const configOptions = { video: true, audio: true };
     myVideo.muted = true;
-    navigator.mediaDevices.getUserMedia(configOptions).then((stream) => {
-      addVideoStream(videoSocket, chatSocket, myVideo, stream);
-    });
+    navigator.mediaDevices
+      .getUserMedia(configOptions)
+      .then((stream) => {
+        addVideoStream(videoSocket, chatSocket, myVideo, stream);
+        setupMediaRecorder(stream);
+      })
+      .catch((err) => console.log(err));
 
     return function cleanup() {
       disconnectSocket();
@@ -72,6 +78,7 @@ const LiveStream = ({ roomId }) => {
       <Grid container justify="space-between" spacing={10}>
         <Grid item xs={8} sm={6}>
           <div id="video-grid"></div>
+          <StreamControls mediaRecorder={mediaRecorder} />
         </Grid>
         <Grid item sm={4}>
           <Chat username={username} roomId={roomId} socket={chatSocket} />
