@@ -29,7 +29,6 @@ function addVideoStream(vs, cs, video, stream) {
 }
 
 const LiveStream = ({ roomId }) => {
-  const [chat, setChat] = useState([]);
   const [videoStream, setVideoStream] = useState(null);
   const { username } = useParams();
   const [mediaRecorder, setMediaRecorder] = useState(null);
@@ -64,21 +63,70 @@ const LiveStream = ({ roomId }) => {
       })
       .catch((err) => console.log(err));
 
-    return function cleanup() {
-      disconnectSocket();
-    };
+    // return function cleanup() {
+    //   disconnectSocket();
+    // };
   }, []);
+
+  useEffect(() => {
+    function finalizeMediaRecorderSetup() {
+      mediaRecorder.ondataavailable = (e) => {
+        if (e.data.size > 0) {
+          chunks.push(e.data);
+        }
+      };
+    }
+
+    // mediaRecorder.onstop = (e) => {
+    //   // Generate a blob object to represent our video data.
+    //   const blob = new Blob(chunks, { type: "video/webm" });
+
+    //   // Create a URL that points to our video in browser memory.
+    //   const video_url = window.URL.createObjectURL(blob);
+    //   console.log(video_url);
+    //   // Reset the chunk data
+    //   chunks = [];
+
+    //   // Turn off streamer camera and microphone
+    //   e.target.stream.getTracks().forEach((track) => track.stop());
+    // };
+
+    if (mediaRecorder) {
+      finalizeMediaRecorderSetup();
+    }
+  }, [mediaRecorder]);
+
+  const stoppedVideo = (e) => {
+    mediaRecorder.onstop = (e) => {
+      // Generate a blob object to represent our video data.
+      const blob = new Blob(chunks, { type: "video/webm" });
+
+      // Create a URL that points to our video in browser memory.
+      const video_url = window.URL.createObjectURL(blob);
+      console.log(video_url);
+      // Reset the chunk data
+      chunks = [];
+
+      // Turn off streamer camera and microphone
+      e.target.stream.getTracks().forEach((track) => track.stop());
+    };
+  };
 
   const setupMediaRecorder = (mediaStream) => {
     setMediaRecorder(new MediaRecorder(mediaStream, mediaRecorderOptions));
   };
+
+  console.log("chunks", chunks);
 
   return (
     <>
       <Grid container justify="space-between" spacing={10}>
         <Grid item xs={8} sm={6}>
           <div id="video-grid"></div>
-          <StreamControls mediaRecorder={mediaRecorder} />
+          <StreamControls
+            mediaRecorder={mediaRecorder}
+            stoppedVideo={stoppedVideo}
+          />
         </Grid>
         <Grid item sm={4}>
           <Chat username={username} roomId={roomId} socket={chatSocket} />
