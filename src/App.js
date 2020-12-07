@@ -4,12 +4,12 @@ import theme from "./components/styles/Theme.js";
 import { Route, Switch } from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoute.js";
 import Footer from "./components/Footer.js";
-import HomePage from "./components/HomePage.js";
+import HomePage from "./components/pages/HomePage.js";
 import Dashboard from "./components/dashboard/Dashboard.js";
-import Login from "./components/Login.js";
-import About from "./components/About.js";
-import SignUp from "./components/SignUp.js";
-import Pricing from "./components/Pricing.js";
+import Login from "./components/pages/Login.js";
+import About from "./components/pages/About.js";
+import SignUp from "./components/pages/SignUp.js";
+import Pricing from "./components/pages/Pricing.js";
 
 function App() {
   return (

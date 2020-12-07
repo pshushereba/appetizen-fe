@@ -29,8 +29,6 @@ const Chat = ({ username, roomId, socket }) => {
       if (err) return;
 
       setChat([...chat, data]);
-      console.log("subscribe chat data", data);
-      console.log("subscribe chat", chat);
     });
   }, [roomId]);
 

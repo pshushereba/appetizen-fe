@@ -102,6 +102,7 @@ const LiveStream = ({ roomId }) => {
       const blob = new Blob(chunks, { type: "video/webm" });
 
       // Create a URL that points to our video in browser memory.
+      console.log("chunks", chunks);
       const video_url = window.URL.createObjectURL(blob);
       console.log(video_url);
       // Reset the chunk data
@@ -115,8 +116,6 @@ const LiveStream = ({ roomId }) => {
   const setupMediaRecorder = (mediaStream) => {
     setMediaRecorder(new MediaRecorder(mediaStream, mediaRecorderOptions));
   };
-
-  console.log("chunks", chunks);
 
   return (
     <>

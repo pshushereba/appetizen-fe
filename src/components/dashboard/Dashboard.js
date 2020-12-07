@@ -12,7 +12,7 @@ import Explore from "./Explore.js";
 import Profile from "./Profile.js";
 import LiveStream from "./LiveStream.js";
 import ViewStream from "../ViewStream.js";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { getAccount } from "../../actions/index.js";
 import { useParams } from "react-router-dom";
 
@@ -45,12 +45,13 @@ const Dashboard = (props) => {
   console.log("dashboard", props);
   const classes = useStyles();
   const username = useParams();
+  const dispatch = useDispatch();
   const [menuItem, setMenuItem] = useState("overview");
   const [roomId, setRoomId] = useState("");
 
-  // useEffect(() => {
-  //   props.getAccount(username);
-  // }, []);
+  useEffect(() => {
+    dispatch(getAccount(username));
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -99,4 +100,5 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { getAccount })(Dashboard);
+// export default connect(mapStateToProps, { getAccount })(Dashboard);
+export default Dashboard;

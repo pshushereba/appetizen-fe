@@ -1,11 +1,11 @@
 import React from "react";
-import LoginForm from "./LoginForm.js";
-import Nav from "./Nav.js";
+import LoginForm from "../LoginForm.js";
+import Nav from "../Nav.js";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Typography from "@material-ui/core/Typography";
-import login_main from "../assets/login_main.svg";
+import login_main from "../../assets/login_main.svg";
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {

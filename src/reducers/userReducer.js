@@ -1,10 +1,22 @@
 import { GET_USER_START } from "../actions/index.js";
 
 const initialState = {
-  currentUser: {},
+  isAuthenticated: false,
+  first_name: "",
+  last_name: "",
+  username: "",
+  email: "",
+  subscribers: [],
+  videos: [],
+  videoStream: {
+    stream: null,
+    raw: null,
+    playback: false,
+    error: false,
+  },
 };
 
-const currentUserReducer = (state = initialState, action) => {
+const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_USER_START:
       return {
@@ -16,4 +28,4 @@ const currentUserReducer = (state = initialState, action) => {
   }
 };
 
-export default currentUserReducer;
+export default userReducer;

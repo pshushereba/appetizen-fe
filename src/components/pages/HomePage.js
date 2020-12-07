@@ -1,10 +1,10 @@
 import React from "react";
-import Nav from "./Nav.js";
+import Nav from "../Nav.js";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { CssBaseline } from "@material-ui/core";
 import { Grid, Typography, Button, Paper } from "@material-ui/core/";
-import homepage_kitchen from "../assets/homepage_kitchen.svg";
+import homepage_kitchen from "../../assets/homepage_kitchen.svg";
 import VideoCallIcon from "@material-ui/icons/VideoCall";
 import PeopleIcon from "@material-ui/icons/People";
 import ShareIcon from "@material-ui/icons/Share";

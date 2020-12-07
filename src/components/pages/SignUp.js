@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import axiosWithAuth from "../utils/axiosAuth.js";
+import axiosWithAuth from "../../utils/axiosAuth.js";
 import { Box, Button, TextField, Grid, Typography } from "@material-ui/core";
 import { CssBaseline } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import Nav from "./Nav.js";
-import signup_main from "../assets/signup_main.svg";
+import Nav from "../Nav.js";
+import signup_main from "../../assets/signup_main.svg";
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
