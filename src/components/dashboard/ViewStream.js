@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory, useParams, useLocation } from "react-router-dom";
-import { initiateChatSocket } from "../utils/socketHelpers.js";
-import Chat from "./chat/Chat.js";
+import { initiateChatSocket } from "../../utils/socketHelpers.js";
+import Chat from "../chat/Chat.js";
 
 const ViewStream = ({ username }) => {
   const history = useHistory();

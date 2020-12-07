@@ -11,7 +11,7 @@ import Notifications from "./Notifications.js";
 import Explore from "./Explore.js";
 import Profile from "./Profile.js";
 import LiveStream from "./LiveStream.js";
-import ViewStream from "../ViewStream.js";
+import ViewStream from "./ViewStream.js";
 import { connect, useDispatch } from "react-redux";
 import { getAccount } from "../../actions/index.js";
 import { useParams } from "react-router-dom";
@@ -44,13 +44,14 @@ const useStyles = makeStyles((theme) => ({
 const Dashboard = (props) => {
   console.log("dashboard", props);
   const classes = useStyles();
-  const username = useParams();
+  //const username = useParams();
+  const { username } = props;
   const dispatch = useDispatch();
   const [menuItem, setMenuItem] = useState("overview");
   const [roomId, setRoomId] = useState("");
 
   useEffect(() => {
-    dispatch(getAccount(username));
+    getAccount(username);
   }, []);
 
   return (
@@ -96,9 +97,10 @@ const Dashboard = (props) => {
 
 const mapStateToProps = (state) => {
   return {
+    username: state.userReducer.username,
     account: state.accountReducer.account,
   };
 };
 
-// export default connect(mapStateToProps, { getAccount })(Dashboard);
-export default Dashboard;
+export default connect(mapStateToProps, { getAccount })(Dashboard);
+// export default Dashboard;

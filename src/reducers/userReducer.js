@@ -1,4 +1,4 @@
-import { GET_USER_START } from "../actions/index.js";
+import { GET_USER_START, REGISTER_USER, LOGIN_USER } from "../actions/index.js";
 
 const initialState = {
   isAuthenticated: false,
@@ -6,6 +6,7 @@ const initialState = {
   last_name: "",
   username: "",
   email: "",
+  userId: null,
   subscribers: [],
   videos: [],
   videoStream: {
@@ -18,6 +19,30 @@ const initialState = {
 
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
+    case REGISTER_USER:
+      localStorage.setItem("token", action.payload.token);
+      return {
+        ...state,
+        userId: action.payload.id,
+        first_name: action.payload.first_name,
+        last_name: action.payload.last_name,
+        username: action.payload.username,
+        email: action.payload.email,
+        isAuthenticated: true,
+      };
+
+    case LOGIN_USER:
+      localStorage.setItem("token", action.payload.token);
+      return {
+        ...state,
+        userId: action.payload.id,
+        first_name: action.payload.first_name,
+        last_name: action.payload.last_name,
+        username: action.payload.username,
+        email: action.payload.email,
+        isAuthenticated: true,
+      };
+
     case GET_USER_START:
       return {
         ...state,

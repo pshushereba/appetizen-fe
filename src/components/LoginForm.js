@@ -10,6 +10,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import SecurityIcon from "@material-ui/icons/Security";
 import axiosWithAuth from "../utils/axiosAuth.js";
 import { useHistory } from "react-router-dom";
+import { loginUser } from "../actions/index.js";
+import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -50,14 +52,16 @@ const Login = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    axiosWithAuth()
-      .post("/auth/login", user)
-      .then((res) => {
-        localStorage.setItem("token", res.data.token);
+    loginUser(user);
+    history.push(`/${user.username}/dashboard`);
+    // axiosWithAuth()
+    //   .post("/auth/login", user)
+    //   .then((res) => {
+    //     localStorage.setItem("token", res.data.token);
 
-        history.push(`/${res.data.username}/dashboard`);
-      })
-      .catch((err) => console.log(err));
+    //     history.push(`/${res.data.username}/dashboard`);
+    //   })
+    //   .catch((err) => console.log(err));
   };
 
   return (
@@ -92,4 +96,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default connect(null, { loginUser })(Login);
