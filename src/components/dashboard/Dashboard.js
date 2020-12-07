@@ -51,7 +51,11 @@ const Dashboard = (props) => {
   const [roomId, setRoomId] = useState("");
 
   useEffect(() => {
-    getAccount(username);
+    const timer = setTimeout(() => {
+      dispatch(getAccount(username));
+    }, 2000);
+
+    return () => clearTimeout(timer);
   }, []);
 
   return (
@@ -103,4 +107,4 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, { getAccount })(Dashboard);
-// export default Dashboard;
+//xport default Dashboard;

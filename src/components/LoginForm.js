@@ -11,7 +11,7 @@ import SecurityIcon from "@material-ui/icons/Security";
 import axiosWithAuth from "../utils/axiosAuth.js";
 import { useHistory } from "react-router-dom";
 import { loginUser } from "../actions/index.js";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -45,6 +45,7 @@ const Login = () => {
   const [user, setUser] = useState({ username: "", password: "" });
   const history = useHistory();
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const handleChange = (event) => {
     setUser({ ...user, [event.target.name]: event.target.value });
@@ -52,7 +53,7 @@ const Login = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    loginUser(user);
+    dispatch(loginUser(user));
     history.push(`/${user.username}/dashboard`);
     // axiosWithAuth()
     //   .post("/auth/login", user)
@@ -96,4 +97,5 @@ const Login = () => {
   );
 };
 
-export default connect(null, { loginUser })(Login);
+// export default connect(null, { loginUser })(Login);
+export default Login;
