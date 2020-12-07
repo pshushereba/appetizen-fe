@@ -101,10 +101,10 @@ const Dashboard = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    username: state.userReducer.username,
-    account: state.accountReducer.account,
+    username: state.User.username,
+    account: state.Account.account,
   };
 };
 
 export default connect(mapStateToProps, { getAccount })(Dashboard);
-//xport default Dashboard;
+//export default Dashboard;
