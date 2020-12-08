@@ -2,6 +2,7 @@ import axiosWithAuth from "../utils/axiosAuth.js";
 
 export const REGISTER_USER = "REGISTER_USER";
 export const LOGIN_USER = "LOGIN_USER";
+export const LOGOUT_USER = "LOGOUT_USER";
 
 export const GET_USER_START = "GET_USERS_START";
 export const GET_USER_SUCCESS = "GET_USERS_SUCCESS";
@@ -36,6 +37,10 @@ export const loginUser = (credentials) => (dispatch) => {
     .catch((err) => console.log(err));
 };
 
+export const logoutUser = () => (dispatch) => {
+  dispatch({ type: LOGOUT_USER });
+};
+
 export const getUsers = () => (dispatch) => {
   console.log("getUsers Fired");
   dispatch({ type: GET_USER_START });
@@ -53,6 +58,7 @@ export const getAccount = (username) => (dispatch) => {
   axiosWithAuth()
     .get(`https://appetizen-be.herokuapp.com/api/accounts/${username}`)
     .then((res) => {
+      console.log("getAccount data", res.data);
       dispatch({ type: GET_ACCOUNT_SUCCESS, payload: res.data });
     })
     .catch((err) => dispatch({ type: GET_ACCOUNT_FAIL, payload: err }));

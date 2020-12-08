@@ -1,4 +1,9 @@
-import { GET_USER_START, REGISTER_USER, LOGIN_USER } from "../actions/index.js";
+import {
+  GET_USER_START,
+  REGISTER_USER,
+  LOGIN_USER,
+  LOGOUT_USER,
+} from "../actions/index.js";
 
 const initialState = {
   isAuthenticated: false,
@@ -7,6 +12,7 @@ const initialState = {
   username: "",
   email: "",
   userId: null,
+  avatar_img: "",
   subscribers: [],
   videos: [],
   videoStream: {
@@ -42,6 +48,10 @@ const userReducer = (state = initialState, action) => {
         email: action.payload.email,
         isAuthenticated: true,
       };
+
+    case LOGOUT_USER:
+      localStorage.removeItem("token");
+      return initialState;
 
     case GET_USER_START:
       return {

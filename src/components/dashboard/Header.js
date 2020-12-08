@@ -14,6 +14,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import { Menu } from "@material-ui/core";
 import Search from "./Search.js";
+import { useHistory } from "react-router-dom";
 
 const lightColor = "rgba(255, 255, 255, 0.7)";
 
@@ -42,9 +43,14 @@ const useStyles = makeStyles((theme) => ({
 const Header = (props) => {
   const classes = useStyles();
   const [value, setValue] = useState(0);
+  const history = useHistory();
 
   const handleChange = (e, value) => {
     setValue(value);
+  };
+
+  const handleLogout = (e) => {
+    e.preventDefault;
   };
 
   return (
@@ -70,6 +76,16 @@ const Header = (props) => {
                   <NotificationsIcon />
                 </IconButton>
               </Tooltip>
+            </Grid>
+            <Grid item>
+              <Button
+                className={classes.button}
+                variant="outlined"
+                color="inherit"
+                size="small"
+              >
+                Logout
+              </Button>
             </Grid>
           </Grid>
         </Toolbar>

@@ -45,7 +45,7 @@ const Dashboard = (props) => {
   console.log("dashboard", props);
   const classes = useStyles();
   //const username = useParams();
-  const { username } = props;
+  const { username, first_name, last_name, email, id } = props;
   const dispatch = useDispatch();
   const [menuItem, setMenuItem] = useState("overview");
   const [roomId, setRoomId] = useState("");
@@ -102,9 +102,11 @@ const Dashboard = (props) => {
 const mapStateToProps = (state) => {
   return {
     username: state.User.username,
-    account: state.Account.account,
+    userId: state.User.user_id,
+    first_name: state.User.first_name,
+    last_name: state.User.last_name,
+    email: state.User.email,
   };
 };
 
 export default connect(mapStateToProps, { getAccount })(Dashboard);
-//export default Dashboard;

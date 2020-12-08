@@ -7,9 +7,7 @@ import {
   UPDATE_ACCOUNT_FAIL,
 } from "../actions/index.js";
 
-const initialState = {
-  account: {},
-};
+const initialState = {};
 
 const accountReducer = (state = initialState, action) => {
   switch (action.type) {
