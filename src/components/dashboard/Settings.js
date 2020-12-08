@@ -10,7 +10,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
 import { useParams } from "react-router-dom";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { updateAccount } from "../../actions/index";
 
 const lightColor = "rgba(255, 255, 255, 0.7)";
@@ -54,10 +54,8 @@ const Settings = (props) => {
     city: "",
     state: "",
     zip: "",
-    case_number: "",
-    case_type: "",
-    party_name: "",
   });
+  const dispatch = useDispatch();
 
   const classes = useStyles();
   console.log("props", props);
@@ -78,7 +76,7 @@ const Settings = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    updateAccount(props.account.id, updatedAccount);
+    dispatch(updateAccount(props.account.id, updatedAccount));
   };
 
   console.log(updatedAccount);
@@ -167,7 +165,7 @@ const Settings = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    account: state.accountReducer.account,
+    account: state.Account.account,
   };
 };
 

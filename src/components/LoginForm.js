@@ -55,14 +55,6 @@ const Login = () => {
     event.preventDefault();
     dispatch(loginUser(user));
     history.push(`/${user.username}/dashboard`);
-    // axiosWithAuth()
-    //   .post("/auth/login", user)
-    //   .then((res) => {
-    //     localStorage.setItem("token", res.data.token);
-
-    //     history.push(`/${res.data.username}/dashboard`);
-    //   })
-    //   .catch((err) => console.log(err));
   };
 
   return (

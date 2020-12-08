@@ -6,6 +6,8 @@ import { CssBaseline } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Nav from "../Nav.js";
 import signup_main from "../../assets/signup_main.svg";
+import { useDispatch } from "react-redux";
+import { registerUser } from "../../actions/index.js";
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
@@ -23,6 +25,7 @@ const SignUp = () => {
   });
   const history = useHistory();
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const handleChange = (event) => {
     setUser({ ...user, [event.target.name]: event.target.value });
@@ -30,14 +33,8 @@ const SignUp = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    axiosWithAuth()
-      .post("/auth/register", user)
-      .then((res) => {
-        localStorage.setItem("token", res.data.token);
-        console.log(res);
-        history.push(`${user.username}/dashboard`);
-      })
-      .catch((err) => console.log(err));
+    dispatch(registerUser(user));
+    history.push(`/${user.username}/dashboard`);
   };
 
   return (
