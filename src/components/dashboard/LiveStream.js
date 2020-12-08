@@ -11,6 +11,10 @@ import {
 } from "../../utils/socketHelpers.js";
 
 let videoGrid;
+let viewerVideoGrid;
+const myPeer = new Peer();
+const peers = {};
+// console.log(myPeer.id);
 
 // Set up array to hold chunks of video data
 
@@ -28,23 +32,37 @@ function addVideoStream(vs, cs, video, stream) {
   videoGrid.append(video);
 }
 
+function addViewerStream(vs, cs, video, stream) {
+  video.srcObject = stream;
+  video.addEventListener("loadedmetadata", () => {
+    video.play();
+  });
+  viewerVideoGrid.append(video);
+}
+
+function connectToNewViewer(viewerId, stream) {
+  const call = myPeer.call(viewerId, stream);
+  const video = document.createElement("video");
+  call.on("stream", (userVideoStream) => {
+    addVideoStream(video, userVideoStream);
+  });
+  call.on("close", () => {
+    video.remove();
+  });
+
+  peers[userId] = call;
+}
+
 const LiveStream = ({ roomId }) => {
   const [videoStream, setVideoStream] = useState(null);
   const { username } = useParams();
   const [mediaRecorder, setMediaRecorder] = useState(null);
 
-  console.log(username);
-  // const videoSocket = io("http://localhost:5000/video", {
-  //   transports: ["websocket"],
-  // });
+  // console.log(username);
 
-  // const videoSocket = initiateVideoSocket(roomId);
-  const videoSocket = null;
+  const videoSocket = initiateVideoSocket(roomId, username);
 
-  // const chatSocket = io("http://localhost:5000/chat", {
-  //   transports: ["websocket"],
-  // });
-  console.log(mediaRecorder);
+  // console.log(mediaRecorder);
 
   const chatSocket = initiateChatSocket(roomId, username);
 
@@ -52,20 +70,44 @@ const LiveStream = ({ roomId }) => {
 
   useEffect(() => {
     videoGrid = document.getElementById("video-grid");
+    viewerVideoGrid = document.getElementById("viewer-grid");
     const myVideo = document.createElement("video");
     const configOptions = { video: true, audio: true };
     myVideo.muted = true;
     navigator.mediaDevices
       .getUserMedia(configOptions)
       .then((stream) => {
+        setVideoStream(stream);
         addVideoStream(videoSocket, chatSocket, myVideo, stream);
         setupMediaRecorder(stream);
+
+        myPeer.on("call", (call) => {
+          call.answer(stream);
+          const viewerVideo = document.createElement("video");
+
+          call.on("stream", (userVideoStream) => {
+            addViewerStream(
+              videoSocket,
+              chatSocket,
+              viewerVideo,
+              userVideoStream
+            );
+          });
+
+          videoSocket.on("viewer-connected", (viewerId) => {
+            connectToNewViewer(viewerId, stream);
+          });
+        });
+
+        myPeer.on("open", (id) => {
+          videoSocket.emit("join", roomId, id);
+        });
       })
       .catch((err) => console.log(err));
 
-    // return function cleanup() {
-    //   disconnectSocket();
-    // };
+    return function cleanup() {
+      disconnectSocket();
+    };
   }, []);
 
   useEffect(() => {
@@ -76,20 +118,6 @@ const LiveStream = ({ roomId }) => {
         }
       };
     }
-
-    // mediaRecorder.onstop = (e) => {
-    //   // Generate a blob object to represent our video data.
-    //   const blob = new Blob(chunks, { type: "video/webm" });
-
-    //   // Create a URL that points to our video in browser memory.
-    //   const video_url = window.URL.createObjectURL(blob);
-    //   console.log(video_url);
-    //   // Reset the chunk data
-    //   chunks = [];
-
-    //   // Turn off streamer camera and microphone
-    //   e.target.stream.getTracks().forEach((track) => track.stop());
-    // };
 
     if (mediaRecorder) {
       finalizeMediaRecorderSetup();
@@ -102,9 +130,9 @@ const LiveStream = ({ roomId }) => {
       const blob = new Blob(chunks, { type: "video/webm" });
 
       // Create a URL that points to our video in browser memory.
-      console.log("chunks", chunks);
+      //console.log("chunks", chunks);
       const video_url = window.URL.createObjectURL(blob);
-      console.log(video_url);
+      //console.log(video_url);
       // Reset the chunk data
       chunks = [];
 
@@ -119,16 +147,21 @@ const LiveStream = ({ roomId }) => {
 
   return (
     <>
-      <Grid container justify="space-between" spacing={10}>
-        <Grid item xs={8} sm={6}>
-          <div id="video-grid"></div>
-          <StreamControls
-            mediaRecorder={mediaRecorder}
-            stoppedVideo={stoppedVideo}
-          />
+      <Grid container direction="column" justify="space-between" spacing={10}>
+        <Grid container>
+          <Grid item xs={8} sm={6}>
+            <div id="video-grid"></div>
+            <StreamControls
+              mediaRecorder={mediaRecorder}
+              stoppedVideo={stoppedVideo}
+            />
+          </Grid>
+          <Grid item sm={4}>
+            <Chat username={username} roomId={roomId} socket={chatSocket} />
+          </Grid>
         </Grid>
-        <Grid item sm={4}>
-          <Chat username={username} roomId={roomId} socket={chatSocket} />
+        <Grid container>
+          <div id="viewer-grid"></div>
         </Grid>
       </Grid>
     </>

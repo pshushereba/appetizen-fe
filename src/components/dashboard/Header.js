@@ -15,6 +15,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Menu } from "@material-ui/core";
 import Search from "./Search.js";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logoutUser } from "../../actions/index.js";
 
 const lightColor = "rgba(255, 255, 255, 0.7)";
 
@@ -44,6 +46,7 @@ const Header = (props) => {
   const classes = useStyles();
   const [value, setValue] = useState(0);
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const handleChange = (e, value) => {
     setValue(value);
@@ -51,6 +54,8 @@ const Header = (props) => {
 
   const handleLogout = (e) => {
     e.preventDefault;
+    dispatch(logoutUser());
+    history.push("/");
   };
 
   return (
@@ -80,6 +85,7 @@ const Header = (props) => {
             <Grid item>
               <Button
                 className={classes.button}
+                onClick={handleLogout}
                 variant="outlined"
                 color="inherit"
                 size="small"

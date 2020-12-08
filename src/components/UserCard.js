@@ -10,9 +10,6 @@ const UserCard = (props) => {
   const { streamId, room } = props.data;
   const { username } = useParams();
   const history = useHistory();
-  console.log("history", history);
-  console.log("props", props);
-  console.log("username", username);
   return (
     <>
       <Card variant="outlined">
