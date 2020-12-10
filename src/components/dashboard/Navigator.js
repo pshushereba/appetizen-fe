@@ -60,7 +60,6 @@ const Navigator = (props) => {
           <ListItem
             component={Link}
             onClick={() => {
-              setMenuItem("profile");
               history.push(`/${username}/profile`);
             }}
           >

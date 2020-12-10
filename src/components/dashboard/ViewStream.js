@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useHistory, useParams, useLocation } from "react-router-dom";
 import {
   initiateChatSocket,
@@ -14,7 +14,11 @@ const ViewStream = ({ username }) => {
 
   console.log(username, id);
   const viewerVideoSocket = initiateVideoSocket(id, username);
-  viewerVideoSocket.emit("viewer-connected", (id, username));
+  console.log(viewerVideoSocket);
+  viewerVideoSocket.on("connection", (socket) => {
+    socket.emit("viewer-connected", (id, username));
+  });
+
   const viewerChatSocket = initiateChatSocket(id, username);
   return (
     <>

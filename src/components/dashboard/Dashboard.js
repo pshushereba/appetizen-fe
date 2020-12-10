@@ -9,7 +9,6 @@ import Settings from "./Settings.js";
 import Inbox from "./Inbox.js";
 import Notifications from "./Notifications.js";
 import Explore from "./Explore.js";
-import Profile from "./Profile.js";
 import LiveStream from "./LiveStream.js";
 import ViewStream from "./ViewStream.js";
 import { connect, useDispatch } from "react-redux";
@@ -86,8 +85,6 @@ const Dashboard = (props) => {
             <Notifications />
           ) : menuItem === "videos" ? (
             <Video />
-          ) : menuItem === "profile" ? (
-            <Profile />
           ) : menuItem === "settings" ? (
             <Settings />
           ) : (
@@ -106,6 +103,7 @@ const mapStateToProps = (state) => {
     first_name: state.User.first_name,
     last_name: state.User.last_name,
     email: state.User.email,
+    isAuthenticated: state.User.isAuthenticated,
   };
 };
 

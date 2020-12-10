@@ -13,7 +13,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import { Menu } from "@material-ui/core";
-import Search from "./Search.js";
+import Search from "../Search.js";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../../actions/index.js";

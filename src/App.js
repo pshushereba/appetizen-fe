@@ -10,6 +10,7 @@ import Login from "./components/pages/Login.js";
 import About from "./components/pages/About.js";
 import SignUp from "./components/pages/SignUp.js";
 import Pricing from "./components/pages/Pricing.js";
+import Profile from "./components/profile/Profile.js";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/about" component={About} />
         <Route path="/pricing" component={Pricing} />
         <Route path="/signup" component={SignUp} />
+        <PrivateRoute exact path={`/:username/profile`} component={Profile} />
         <PrivateRoute
           exact
           path={`/:username/dashboard`}
@@ -49,7 +51,7 @@ function App() {
           component={Dashboard}
         />
         <PrivateRoute exact path={`/:username/:id`} component={Dashboard} />
-        <PrivateRoute exact path={`/:username/profile`} component={Dashboard} />
+
         <PrivateRoute exact path={`/streams/:room`} component={Dashboard} />
       </Switch>
       <Footer />
