@@ -3,7 +3,7 @@ import { AppBar, Toolbar, Typography, Button, Grid } from "@material-ui/core";
 import HomeIcon from "@material-ui/icons/Home";
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import { makeStyles } from "@material-ui/core/styles";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Search from "../Search.js";
 
 function ElevationScroll(props) {
@@ -42,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ProfileNav = () => {
   const classes = useStyles();
+  const { username } = useParams();
 
   return (
     <>
@@ -52,6 +53,11 @@ const ProfileNav = () => {
               Appetizen
             </Typography>
             <Search />
+            <HomeIcon
+              component={Link}
+              className={classes.link}
+              to={`/${username}/dashboard`}
+            />
             <Button
               variant="contained"
               className={classes.button}
