@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import SearchIcon from "@material-ui/icons/Search";
 import TextField from "@material-ui/core/TextField";
@@ -25,6 +25,15 @@ const useStyles = makeStyles((theme) => ({
 
 const Search = () => {
   const classes = useStyles();
+  const [user, setUser] = useState("");
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    setUser(e.target.value);
+  };
+
+  console.log(user);
+
   return (
     <>
       <Grid container spacing={2} alignItems="center">
@@ -35,6 +44,7 @@ const Search = () => {
           <TextField
             fullWidth
             placeholder="Search for users"
+            onChange={handleChange}
             InputProps={{
               disableUnderline: true,
               className: classes.searchInput,

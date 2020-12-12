@@ -18,6 +18,10 @@ export const UPDATE_ACCOUNT_START = "UPDATE_ACCOUNT_START";
 export const UPDATE_ACCOUNT_SUCCESS = "UPDATE_ACCOUNT_SUCCESS";
 export const UPDATE_ACCOUNT_FAIL = "UPDATE_ACCOUNT_FAIL";
 
+export const SEARCH_USER_START = "SEARCH_USER_START";
+export const SEARCH_USER_SUCCESS = "SEARCH_USER_SUCCESS";
+export const SEARCH_USER_FAIL = "SEARCH_USER_FAIL";
+
 export const registerUser = (newUser) => (dispatch) => {
   axiosWithAuth()
     .post("/auth/register", newUser)

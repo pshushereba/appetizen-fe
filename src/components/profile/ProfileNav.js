@@ -27,17 +27,17 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     color: "white",
     textDecoration: "none",
+    marginRight: "2rem",
   },
   link: {
     textDecoration: "none",
-    color: theme.palette.common.white,
+    // color: theme.palette.common.white,
     margin: theme.spacing(2),
   },
   button: {
     color: theme.palette.common.black,
     margin: theme.spacing(2),
   },
-  root: {},
 }));
 
 const ProfileNav = () => {
@@ -55,6 +55,7 @@ const ProfileNav = () => {
             <Search />
             <HomeIcon
               component={Link}
+              color="primary"
               className={classes.link}
               to={`/${username}/dashboard`}
             />
@@ -64,7 +65,7 @@ const ProfileNav = () => {
               component={Link}
               to="/login"
             >
-              Login
+              Logout
             </Button>
           </Toolbar>
         </AppBar>

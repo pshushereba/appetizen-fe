@@ -11,7 +11,6 @@ import {
 const Chat = ({ username, roomId, socket }) => {
   const [message, setMessage] = useState("");
   const [chat, setChat] = useState([]);
-  // const viewerChatSocket = initiateChatSocket(props.id, props.username);
 
   useEffect(() => {
     loadInitialChat((err, data) => {
@@ -22,7 +21,6 @@ const Chat = ({ username, roomId, socket }) => {
       }
     });
   }, []);
-  // console.log("chat", chat);
 
   useEffect(() => {
     subscribeToChat((err, data) => {
@@ -35,7 +33,6 @@ const Chat = ({ username, roomId, socket }) => {
   const handleChange = (event) => {
     setMessage(event.target.value);
   };
-  // console.log(message);
 
   const handleMessage = (event) => {
     sendMessage(roomId, message);
