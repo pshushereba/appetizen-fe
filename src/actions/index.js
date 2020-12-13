@@ -45,6 +45,8 @@ export const logoutUser = () => (dispatch) => {
   dispatch({ type: LOGOUT_USER });
 };
 
+export const searchUsers = (username) => (dispatch) => {};
+
 export const getUsers = () => (dispatch) => {
   console.log("getUsers Fired");
   dispatch({ type: GET_USER_START });
