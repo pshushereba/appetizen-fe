@@ -42,16 +42,6 @@ const Navigator = (props) => {
   const classes = useStyles();
   const history = useHistory();
   const { username } = useParams();
-  // const [roomId, setRoomId] = useState("");
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/new")
-      .then((res) => {
-        props.setRoomId(res.data);
-      })
-      .catch((err) => console.log(err));
-  }, []);
 
   return (
     <>

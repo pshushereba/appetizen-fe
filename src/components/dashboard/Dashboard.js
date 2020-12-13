@@ -12,7 +12,7 @@ import Explore from "./Explore.js";
 import LiveStream from "./LiveStream.js";
 import ViewStream from "./ViewStream.js";
 import { connect, useDispatch } from "react-redux";
-import { getAccount } from "../../actions/index.js";
+import { getAccount, reserveRoom } from "../../actions/index.js";
 import { useParams } from "react-router-dom";
 
 const drawerWidth = 256;
@@ -44,10 +44,10 @@ const Dashboard = (props) => {
   console.log("dashboard", props);
   const classes = useStyles();
   //const username = useParams();
-  const { username, first_name, last_name, email, id } = props;
+  const { username, first_name, last_name, email, id, roomId } = props;
   const dispatch = useDispatch();
   const [menuItem, setMenuItem] = useState("overview");
-  const [roomId, setRoomId] = useState("");
+  // const [roomId, setRoomId] = useState("");
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -55,6 +55,10 @@ const Dashboard = (props) => {
     }, 2000);
 
     return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    dispatch(reserveRoom());
   }, []);
 
   return (
@@ -65,7 +69,6 @@ const Dashboard = (props) => {
           PaperProps={{ style: { width: drawerWidth } }}
           setMenuItem={setMenuItem}
           roomId={roomId}
-          setRoomId={setRoomId}
         />
       </nav>
       <div className={classes.app}>
@@ -104,6 +107,7 @@ const mapStateToProps = (state) => {
     last_name: state.User.last_name,
     email: state.User.email,
     isAuthenticated: state.User.isAuthenticated,
+    roomId: state.Stream.reservedRoom,
   };
 };
 

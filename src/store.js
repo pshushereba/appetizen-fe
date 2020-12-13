@@ -9,6 +9,7 @@ import { persistStore, persistReducer } from "redux-persist";
 
 import userReducer from "./reducers/userReducer.js";
 import accountReducer from "./reducers/accountReducer.js";
+import streamReducer from "./reducers/streamReducer.js";
 
 const persistConfig = {
   key: "root",
@@ -28,9 +29,16 @@ const accountPersistConfig = {
   stateReconciler: autoMergeLevel2,
 };
 
+const streamPersistConfig = {
+  key: "Stream",
+  storage: storage,
+  stateReconciler: autoMergeLevel2,
+};
+
 const rootReducer = combineReducers({
   User: persistReducer(userPersistConfig, userReducer),
   Account: persistReducer(accountPersistConfig, accountReducer),
+  Stream: persistReducer(streamPersistConfig, streamReducer),
 });
 
 const customPersistReducer = persistReducer(persistConfig, rootReducer);

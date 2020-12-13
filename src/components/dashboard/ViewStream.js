@@ -13,11 +13,11 @@ const ViewStream = ({ username }) => {
   const location = useLocation();
 
   console.log(username, id);
-  // const viewerVideoSocket = initiateVideoSocket(id, username);
-  // console.log(viewerVideoSocket);
-  // viewerVideoSocket.on("connection", (socket) => {
-  //   socket.emit("viewer-connected", (id, username));
-  // });
+  const viewerVideoSocket = initiateVideoSocket(id, username);
+  console.log(viewerVideoSocket);
+  viewerVideoSocket.on("connection", (socket) => {
+    socket.emit("viewer-connected", (id, username));
+  });
 
   const viewerChatSocket = initiateChatSocket(id, username);
   return (

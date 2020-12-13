@@ -22,6 +22,12 @@ export const SEARCH_USER_START = "SEARCH_USER_START";
 export const SEARCH_USER_SUCCESS = "SEARCH_USER_SUCCESS";
 export const SEARCH_USER_FAIL = "SEARCH_USER_FAIL";
 
+// Stream Reducer Action Variables
+
+export const RESERVE_ROOM_START = "RESERVE_ROOM_START";
+export const RESERVE_ROOM_SUCCESS = "RESERVE_ROOM_SUCCESS";
+export const RESERVE_ROOM_FAIL = "RESERVE_ROOM_FAIL";
+
 export const registerUser = (newUser) => (dispatch) => {
   axiosWithAuth()
     .post("/auth/register", newUser)
@@ -81,4 +87,15 @@ export const updateAccount = (acctID, updatedAccount) => (dispatch) => {
       dispatch({ type: UPDATE_ACCOUNT_SUCCESS, payload: res.data });
     })
     .catch((err) => dispatch({ type: UPDATE_ACCOUNT_FAIL, payload: err }));
+};
+
+export const reserveRoom = () => (dispatch) => {
+  dispatch({ type: RESERVE_ROOM_START });
+  axiosWithAuth()
+    .get("https://appetizen-media.herokuapp.com/new")
+    .then((res) => {
+      console.log("reserveRoom fired");
+      dispatch({ type: RESERVE_ROOM_SUCCESS, payload: res.data });
+    })
+    .catch((err) => dispatch({ type: RESERVE_ROOM_FAIL, payload: err }));
 };
