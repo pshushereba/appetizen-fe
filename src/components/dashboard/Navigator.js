@@ -20,7 +20,6 @@ import AddBoxIcon from "@material-ui/icons/AddBox";
 import YouTubeIcon from "@material-ui/icons/YouTube";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link, useParams, useHistory } from "react-router-dom";
-import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   listContainer: {

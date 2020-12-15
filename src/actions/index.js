@@ -28,6 +28,10 @@ export const RESERVE_ROOM_START = "RESERVE_ROOM_START";
 export const RESERVE_ROOM_SUCCESS = "RESERVE_ROOM_SUCCESS";
 export const RESERVE_ROOM_FAIL = "RESERVE_ROOM_FAIL";
 
+export const GET_ACTIVE_USERS_START = "GET_ACTIVE_USERS_START";
+export const GET_ACTIVE_USERS_SUCCESS = "GET_ACTIVE_USERS_SUCCESS";
+export const GET_ACTIVE_USERS_FAIL = "GET_ACTIVE_USERS_FAIL";
+
 export const registerUser = (newUser) => (dispatch) => {
   axiosWithAuth()
     .post("/auth/register", newUser)
@@ -98,4 +102,15 @@ export const reserveRoom = () => (dispatch) => {
       dispatch({ type: RESERVE_ROOM_SUCCESS, payload: res.data });
     })
     .catch((err) => dispatch({ type: RESERVE_ROOM_FAIL, payload: err }));
+};
+
+export const getActiveUsers = () => (dispatch) => {
+  dispatch({ type: GET_ACTIVE_USERS_START });
+  axiosWithAuth()
+    .get("https://appetizen-media.herokuapp.com/active")
+    .then((res) => {
+      console.log("getActiveUsers fired");
+      dispatch({ type: GET_ACTIVE_USERS_SUCCESS, payload: res.data });
+    })
+    .catch((err) => dispatch({ type: GET_ACCOUNT_FAIL, payload: err }));
 };
