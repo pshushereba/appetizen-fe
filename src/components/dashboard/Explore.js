@@ -4,20 +4,20 @@ import io from "socket.io-client";
 import { makeStyles } from "@material-ui/core/styles";
 import Chat from "../chat/Chat.js";
 import { useDispatch, connect } from "react-redux";
-// import axios from "axios";
+import axios from "axios";
 import { getActiveUsers } from "../../actions/index.js";
 import UserCard from "../UserCard.js";
 
 const Explore = (props) => {
-  // const [activeUsers, setActiveUsers] = useState([]);
-  const { setMenuItem, activeUsers } = props;
+  const [activeUsers, setActiveUsers] = useState([]);
+  const { setMenuItem } = props;
   const dispatch = useDispatch();
   useEffect(() => {
-    // axios
-    //   .get("http://localhost:5000/active")
-    //   .then((res) => setActiveUsers(res.data))
-    //   .catch((err) => console.log(err));
-    dispatch(getActiveUsers);
+    axios
+      .get("http://localhost:5000/active")
+      .then((res) => setActiveUsers(res.data))
+      .catch((err) => console.log(err));
+    // dispatch(getActiveUsers);
   }, []);
   return (
     <>
@@ -42,4 +42,5 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, getActiveUsers)(Explore);
+// export default connect(mapStateToProps, getActiveUsers)(Explore);
+export default Explore;

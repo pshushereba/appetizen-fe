@@ -41,6 +41,7 @@ function addViewerStream(vs, cs, video, stream) {
 }
 
 function connectToNewViewer(viewerId, stream) {
+  console.log("connectToNewViewer Called");
   const call = myPeer.call(viewerId, stream);
   const video = document.createElement("video");
   call.on("stream", (userVideoStream) => {
@@ -77,8 +78,10 @@ const LiveStream = ({ roomId }) => {
     navigator.mediaDevices
       .getUserMedia(configOptions)
       .then((stream) => {
-        setVideoStream(stream);
+        // setVideoStream(stream);
+        // console.log("stream", stream);
         addVideoStream(videoSocket, chatSocket, myVideo, stream);
+
         setupMediaRecorder(stream);
 
         myPeer.on("call", (call) => {
@@ -93,7 +96,7 @@ const LiveStream = ({ roomId }) => {
               userVideoStream
             );
           });
-
+          // Need to move this part.
           videoSocket.on("viewer-connected", (viewerId) => {
             connectToNewViewer(viewerId, stream);
           });

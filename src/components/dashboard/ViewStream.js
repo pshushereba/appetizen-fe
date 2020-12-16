@@ -11,8 +11,9 @@ const ViewStream = ({ username }) => {
   const history = useHistory();
   const { id } = useParams();
   const location = useLocation();
+  // let viewerVideoSocket;
 
-  console.log(username, id);
+  console.log("username/id", username, id);
   const viewerVideoSocket = initiateVideoSocket(id, username);
   console.log(viewerVideoSocket);
   viewerVideoSocket.on("connection", (socket) => {

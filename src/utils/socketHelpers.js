@@ -15,6 +15,7 @@ export const initiateVideoSocket = (room, username) => {
   });
   console.log(`Connecting socket...`);
   if (socket && room) socket.emit("join", room, username);
+  return socket;
 };
 
 export const initiateChatSocket = (room, username) => {
@@ -23,6 +24,7 @@ export const initiateChatSocket = (room, username) => {
   });
   console.log(`Connecting socket...`);
   if (socket && room) socket.emit("join", room, username);
+  return socket;
 };
 
 export const disconnectSocket = () => {
