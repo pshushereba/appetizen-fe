@@ -3,6 +3,9 @@ import {
   REGISTER_USER,
   LOGIN_USER,
   LOGOUT_USER,
+  UPDATE_PROFILE_PICTURE_START,
+  UPDATE_PROFILE_PICTURE_SUCCESS,
+  UPDATE_PROFILE_PICTURE_FAIL,
 } from "../actions/index.js";
 
 const initialState = {
@@ -19,6 +22,11 @@ const initialState = {
     stream: null,
     raw: null,
     playback: false,
+    error: false,
+  },
+  imageUpload: {
+    isUploading: false,
+    progress: 0,
     error: false,
   },
 };
@@ -53,9 +61,36 @@ const userReducer = (state = initialState, action) => {
       localStorage.removeItem("token");
       return initialState;
 
-    case GET_USER_START:
+    case UPDATE_PROFILE_PICTURE_START:
       return {
         ...state,
+        imageUpload: {
+          ...state.imageUpload,
+          isUploading: true,
+          progress: 0,
+        },
+      };
+
+    case UPDATE_PROFILE_PICTURE_SUCCESS:
+      return {
+        ...state,
+        imageUpload: {
+          ...state.imageUpload,
+          isUploading: false,
+          progress: 100,
+        },
+        avatar_img: action.payload,
+      };
+
+    case UPDATE_PROFILE_PICTURE_FAIL:
+      return {
+        ...state,
+        imageUpload: {
+          ...state.imageUpload,
+          isUploading: false,
+          progress: 0,
+        },
+        error: action.payload,
       };
 
     default:

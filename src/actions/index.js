@@ -8,6 +8,10 @@ export const GET_USER_START = "GET_USERS_START";
 export const GET_USER_SUCCESS = "GET_USERS_SUCCESS";
 export const GET_USER_FAIL = "GET_USERS_FAIL";
 
+export const UPDATE_PROFILE_PICTURE_START = "UPDATE_PROFILE_PICTURE_START";
+export const UPDATE_PROFILE_PICTURE_SUCCESS = "UPDATE_PROFILE_PICTURE_SUCCESS";
+export const UPDATE_PROFILE_PICTURE_FAIL = "UPDATE_PROFILE_PICTURE_FAIL";
+
 // User Account Reducer Action Variables
 
 export const GET_ACCOUNT_START = "GET_ACCOUNT_START";
@@ -91,6 +95,23 @@ export const updateAccount = (acctID, updatedAccount) => (dispatch) => {
       dispatch({ type: UPDATE_ACCOUNT_SUCCESS, payload: res.data });
     })
     .catch((err) => dispatch({ type: UPDATE_ACCOUNT_FAIL, payload: err }));
+};
+
+export const updateProfilePicture = (id, photo) => (dispatch) => {
+  // Possibly add config object. TBD.
+
+  dispatch({ type: UPDATE_PROFILE_PICTURE_START });
+  axiosWithAuth()
+    .post(`/users/${id}/photo`, photo)
+    .then((res) => {
+      dispatch({
+        type: UPDATE_PROFILE_PICTURE_SUCCESS,
+        payload: res.data.avatar,
+      });
+    })
+    .catch((err) => {
+      dispatch({ type: UPDATE_PROFILE_PICTURE_FAIL, payload: err });
+    });
 };
 
 export const reserveRoom = () => (dispatch) => {
