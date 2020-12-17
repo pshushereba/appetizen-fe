@@ -41,7 +41,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Dashboard = (props) => {
-  console.log("dashboard", props);
   const classes = useStyles();
   //const username = useParams();
   const { username, first_name, last_name, email, id, roomId } = props;

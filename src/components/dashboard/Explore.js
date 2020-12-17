@@ -29,7 +29,6 @@ const Explore = (props) => {
           {activeUsers.map((user) => {
             return <UserCard data={user} setMenuItem={setMenuItem} />;
           })}
-          {console.log(activeUsers)}
         </Grid>
       </Grid>
     </>

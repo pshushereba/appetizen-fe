@@ -67,6 +67,11 @@ const LiveStream = ({ roomId }) => {
 
   const chatSocket = initiateChatSocket(roomId, username);
 
+  videoSocket.on("viewer-connected", (socket, viewerId) => {
+    // connectToNewViewer(viewerId, stream);
+    socket.emit("send-stream", videoStream);
+  });
+
   console.log(roomId);
 
   useEffect(() => {
@@ -78,34 +83,31 @@ const LiveStream = ({ roomId }) => {
     navigator.mediaDevices
       .getUserMedia(configOptions)
       .then((stream) => {
-        // setVideoStream(stream);
+        setVideoStream(stream);
         // console.log("stream", stream);
         addVideoStream(videoSocket, chatSocket, myVideo, stream);
 
         setupMediaRecorder(stream);
 
-        myPeer.on("call", (call) => {
-          call.answer(stream);
-          const viewerVideo = document.createElement("video");
+        // myPeer.on("call", (call) => {
+        //   call.answer(stream);
+        //   const viewerVideo = document.createElement("video");
 
-          call.on("stream", (userVideoStream) => {
-            addViewerStream(
-              videoSocket,
-              chatSocket,
-              viewerVideo,
-              userVideoStream
-            );
-          });
-          // Need to move this part.
-          videoSocket.on("viewer-connected", (viewerId) => {
-            connectToNewViewer(viewerId, stream);
-          });
-        });
-
-        myPeer.on("open", (id) => {
-          videoSocket.emit("join", roomId, id);
-        });
+        //   call.on("stream", (userVideoStream) => {
+        //     addViewerStream(
+        //       videoSocket,
+        //       chatSocket,
+        //       viewerVideo,
+        //       userVideoStream
+        //     );
+        //   });
+        // Need to move this part.
       })
+
+      // myPeer.on("open", (id) => {
+      //   videoSocket.emit("join", roomId, id);
+      // });
+      //})
       .catch((err) => console.log(err));
 
     return function cleanup() {

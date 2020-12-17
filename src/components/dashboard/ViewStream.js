@@ -5,26 +5,45 @@ import {
   initiateVideoSocket,
 } from "../../utils/socketHelpers.js";
 import Chat from "../chat/Chat.js";
+import Grid from "@material-ui/core/Grid";
 import { connect } from "react-redux";
 
 const ViewStream = ({ username }) => {
   const history = useHistory();
   const { id } = useParams();
   const location = useLocation();
-  // let viewerVideoSocket;
+  let streamerVideoDiv;
 
-  console.log("username/id", username, id);
   const viewerVideoSocket = initiateVideoSocket(id, username);
-  console.log(viewerVideoSocket);
+  // console.log(viewerVideoSocket);
+
   viewerVideoSocket.on("connection", (socket) => {
     socket.emit("viewer-connected", (id, username));
+  });
+
+  viewerVideoSocket.on("send-stream", (stream) => {
+    streamerVideoDiv = document.getElementById("streamer-video");
+    const content = document.createElement("video");
+    console.log("stream in ViewStream", stream);
+    content.srcObject = stream;
+    content.addEventListener("loadedmetadata", () => {
+      content.play();
+    });
+    streamerVideoDiv.append(content);
   });
 
   const viewerChatSocket = initiateChatSocket(id, username);
   return (
     <>
-      <h1>Test</h1>
-      <Chat username={username} roomId={id} socket={viewerChatSocket} />
+      <Grid container direction="column">
+        <Grid item>
+          <h1>Test</h1>
+          <div id="streamer-video"></div>
+        </Grid>
+        <Grid item>
+          <Chat username={username} roomId={id} socket={viewerChatSocket} />
+        </Grid>
+      </Grid>
     </>
   );
 };
