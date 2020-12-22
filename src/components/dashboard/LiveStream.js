@@ -67,12 +67,12 @@ const LiveStream = ({ roomId }) => {
 
   const chatSocket = initiateChatSocket(roomId, username);
 
-  videoSocket.on("viewer-connected", (socket, viewerId) => {
+  videoSocket.on("viewer-connected", (id, viewer) => {
     // connectToNewViewer(viewerId, stream);
-    socket.emit("send-stream", videoStream);
+    videoSocket.emit("send-stream", videoStream);
   });
 
-  console.log(roomId);
+  console.log(videoStream);
 
   useEffect(() => {
     videoGrid = document.getElementById("video-grid");
@@ -80,40 +80,60 @@ const LiveStream = ({ roomId }) => {
     const myVideo = document.createElement("video");
     const configOptions = { video: true, audio: true };
     myVideo.muted = true;
-    navigator.mediaDevices
-      .getUserMedia(configOptions)
-      .then((stream) => {
+    async function enableStream() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia(configOptions);
         setVideoStream(stream);
-        // console.log("stream", stream);
-        addVideoStream(videoSocket, chatSocket, myVideo, stream);
-
         setupMediaRecorder(stream);
+        addVideoStream(videoSocket, chatSocket, myVideo, stream);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    // navigator.mediaDevices
+    //   .getUserMedia(configOptions)
+    //   .then((stream) => {
+    //     setVideoStream(stream);
+    // console.log("stream", stream);
+    // addVideoStream(videoSocket, chatSocket, myVideo, stream);
 
-        // myPeer.on("call", (call) => {
-        //   call.answer(stream);
-        //   const viewerVideo = document.createElement("video");
+    // setupMediaRecorder(stream);
 
-        //   call.on("stream", (userVideoStream) => {
-        //     addViewerStream(
-        //       videoSocket,
-        //       chatSocket,
-        //       viewerVideo,
-        //       userVideoStream
-        //     );
-        //   });
-        // Need to move this part.
-      })
+    // myPeer.on("call", (call) => {
+    //   call.answer(stream);
+    //   const viewerVideo = document.createElement("video");
 
-      // myPeer.on("open", (id) => {
-      //   videoSocket.emit("join", roomId, id);
-      // });
-      //})
-      .catch((err) => console.log(err));
+    //   call.on("stream", (userVideoStream) => {
+    //     addViewerStream(
+    //       videoSocket,
+    //       chatSocket,
+    //       viewerVideo,
+    //       userVideoStream
+    //     );
+    //   });
+    // Need to move this part.
+    //})
 
-    return function cleanup() {
-      disconnectSocket();
-    };
-  }, []);
+    // myPeer.on("open", (id) => {
+    //   videoSocket.emit("join", roomId, id);
+    // });
+    //})
+    //   .catch((err) => console.log(err));
+
+    // return function cleanup() {
+    //   disconnectSocket();
+    // };
+    if (!videoStream) {
+      enableStream();
+    } else {
+      return function cleanup() {
+        videoStream.getTracks().forEach((track) => {
+          track.stop();
+        });
+        disconnectSocket();
+      };
+    }
+  }, [videoStream]);
 
   useEffect(() => {
     function finalizeMediaRecorderSetup() {

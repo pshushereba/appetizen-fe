@@ -1,5 +1,10 @@
 import React, { useEffect } from "react";
-import { useHistory, useParams, useLocation } from "react-router-dom";
+import {
+  useHistory,
+  useParams,
+  useLocation,
+  withRouter,
+} from "react-router-dom";
 import {
   initiateChatSocket,
   initiateVideoSocket,
@@ -8,20 +13,28 @@ import Chat from "../chat/Chat.js";
 import Grid from "@material-ui/core/Grid";
 import { connect } from "react-redux";
 
-const ViewStream = ({ username }) => {
+const ViewStream = (props) => {
   const history = useHistory();
-  const { id } = useParams();
+  // const { id } = useParams();
   const location = useLocation();
+  const foo = props.match.params.id;
   let streamerVideoDiv;
 
-  const viewerVideoSocket = initiateVideoSocket(id, username);
+  const viewerVideoSocket = initiateVideoSocket(
+    props.match.params.id,
+    props.username
+  );
   // console.log(viewerVideoSocket);
+  console.log("location state", props.match.params.id);
 
-  viewerVideoSocket.on("connection", (socket) => {
-    socket.emit("viewer-connected", (id, username));
-  });
+  viewerVideoSocket.emit("viewer-connected", foo, props.username);
+
+  // viewerVideoSocket.on("connection", (socket) => {
+  //   socket.emit("viewer-connected", (id, username));
+  // });
 
   viewerVideoSocket.on("send-stream", (stream) => {
+    console.log("send stream fired in viewer", stream);
     streamerVideoDiv = document.getElementById("streamer-video");
     const content = document.createElement("video");
     console.log("stream in ViewStream", stream);
@@ -32,7 +45,10 @@ const ViewStream = ({ username }) => {
     streamerVideoDiv.append(content);
   });
 
-  const viewerChatSocket = initiateChatSocket(id, username);
+  const viewerChatSocket = initiateChatSocket(
+    props.match.params.id,
+    props.username
+  );
   return (
     <>
       <Grid container direction="column">
@@ -41,7 +57,11 @@ const ViewStream = ({ username }) => {
           <div id="streamer-video"></div>
         </Grid>
         <Grid item>
-          <Chat username={username} roomId={id} socket={viewerChatSocket} />
+          <Chat
+            username={props.username}
+            roomId={props.match.params.id}
+            socket={viewerChatSocket}
+          />
         </Grid>
       </Grid>
     </>
@@ -54,4 +74,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, {})(ViewStream);
+export default withRouter(connect(mapStateToProps, {})(ViewStream));
