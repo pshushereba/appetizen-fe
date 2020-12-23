@@ -13,6 +13,8 @@ import Chat from "../chat/Chat.js";
 import Grid from "@material-ui/core/Grid";
 import { connect } from "react-redux";
 
+const viewerPeer = new Peer();
+
 const ViewStream = (props) => {
   const history = useHistory();
   // const { id } = useParams();
@@ -49,6 +51,7 @@ const ViewStream = (props) => {
     props.match.params.id,
     props.username
   );
+
   return (
     <>
       <Grid container direction="column">
