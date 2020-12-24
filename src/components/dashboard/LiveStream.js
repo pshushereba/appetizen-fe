@@ -12,8 +12,8 @@ import {
 
 let videoGrid;
 let viewerVideoGrid;
-const myPeer = new Peer();
-
+let myPeer;
+// const myPeer = new Peer("streamer");
 const peers = {};
 
 // Set up array to hold chunks of video data
@@ -43,15 +43,16 @@ function addViewerStream(vs, cs, video, stream) {
 
 function connectToNewViewer(viewerId, stream) {
   console.log("connectToNewViewer Called");
+
   const call = myPeer.call(viewerId, stream);
   console.log("myPeer call", call);
   const video = document.createElement("video");
-  call.on("stream", (userVideoStream) => {
-    addViewerStream(video, userVideoStream);
-  });
-  call.on("close", () => {
-    video.remove();
-  });
+  // call.on("stream", (userVideoStream) => {
+  //   addViewerStream(video, userVideoStream);
+  // });
+  // call.on("close", () => {
+  //   video.remove();
+  // });
 
   peers[viewerId] = call;
 }
@@ -60,6 +61,7 @@ const LiveStream = ({ roomId }) => {
   const [videoStream, setVideoStream] = useState(null);
   const { username } = useParams();
   const [mediaRecorder, setMediaRecorder] = useState(null);
+  myPeer = new Peer();
 
   // console.log(username);
 
@@ -74,18 +76,23 @@ const LiveStream = ({ roomId }) => {
     //videoSocket.emit("send-stream", videoStream);
   });
 
-  myPeer.on("call", (call) => {
-    call.answer(stream);
-    const viewerVideo = document.createElement("video");
-
-    call.on("stream", (userVideoStream) => {
-      addViewerStream(videoSocket, chatSocket, viewerVideo, userVideoStream);
-    });
-  });
-
   myPeer.on("open", (id) => {
-    videoSocket.emit("join", roomId, id);
+    console.log("My peer ID is: " + id);
   });
+
+  // myPeer.on("call", (call) => {
+  //   call.answer(stream);
+  //   const viewerVideo = document.createElement("video");
+
+  //   call.on("stream", (userVideoStream) => {
+  //     addViewerStream(videoSocket, chatSocket, viewerVideo, userVideoStream);
+  //   });
+  // });
+
+  // myPeer.on("open", (id) => {
+  //   console.log("In myPeer id", id);
+  //   // videoSocket.emit("join", roomId, id);
+  // });
 
   console.log(videoStream);
 

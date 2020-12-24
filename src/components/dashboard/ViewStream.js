@@ -26,7 +26,8 @@ const ViewStream = (props) => {
     props.match.params.id,
     props.username
   );
-  // console.log(viewerVideoSocket);
+
+  console.log(props.match.params);
   console.log("location state", props.match.params.id);
 
   viewerVideoSocket.emit("viewer-connected", foo, props.username);
