@@ -12,7 +12,7 @@ import {
 
 let videoGrid;
 let viewerVideoGrid;
-let myPeer;
+// let myPeer;
 // const myPeer = new Peer("streamer");
 const peers = {};
 
@@ -24,45 +24,12 @@ let chunks = [];
 
 const mediaRecorderOptions = { mimeType: "video/webm;codecs=h264" };
 
-function addVideoStream(vs, cs, video, stream) {
-  video.srcObject = stream;
-  video.addEventListener("loadedmetadata", () => {
-    video.play();
-  });
-  videoGrid.append(video);
-}
-
-function addViewerStream(vs, cs, video, stream) {
-  console.log("addViewerStream fired");
-  video.srcObject = stream;
-  video.addEventListener("loadedmetadata", () => {
-    video.play();
-  });
-  viewerVideoGrid.append(video);
-}
-
-function connectToNewViewer(viewerId, stream) {
-  console.log("connectToNewViewer Called");
-
-  const call = myPeer.call(viewerId, stream);
-  console.log("myPeer call", call);
-  const video = document.createElement("video");
-  // call.on("stream", (userVideoStream) => {
-  //   addViewerStream(video, userVideoStream);
-  // });
-  // call.on("close", () => {
-  //   video.remove();
-  // });
-
-  peers[viewerId] = call;
-}
-
-const LiveStream = ({ roomId }) => {
+const LiveStream = ({ roomId, peer }) => {
   const [videoStream, setVideoStream] = useState(null);
   const { username } = useParams();
   const [mediaRecorder, setMediaRecorder] = useState(null);
-  myPeer = new Peer();
-
+  //myPeer = new Peer();
+  console.log("livestream peer", peer);
   // console.log(username);
 
   const videoSocket = initiateVideoSocket(roomId, username);
@@ -76,7 +43,7 @@ const LiveStream = ({ roomId }) => {
     //videoSocket.emit("send-stream", videoStream);
   });
 
-  myPeer.on("open", (id) => {
+  peer.on("open", (id) => {
     console.log("My peer ID is: " + id);
   });
 
@@ -155,6 +122,39 @@ const LiveStream = ({ roomId }) => {
       finalizeMediaRecorderSetup();
     }
   }, [mediaRecorder]);
+
+  function connectToNewViewer(viewerId, stream) {
+    console.log("connectToNewViewer Called");
+
+    const call = peer.call(viewerId, stream);
+    console.log("myPeer call", call);
+    const video = document.createElement("video");
+    call.on("stream", (userVideoStream) => {
+      addViewerStream(video, userVideoStream);
+    });
+    call.on("close", () => {
+      video.remove();
+    });
+
+    peers[viewerId] = call;
+  }
+
+  function addVideoStream(vs, cs, video, stream) {
+    video.srcObject = stream;
+    video.addEventListener("loadedmetadata", () => {
+      video.play();
+    });
+    videoGrid.append(video);
+  }
+
+  function addViewerStream(vs, cs, video, stream) {
+    console.log("addViewerStream fired");
+    video.srcObject = stream;
+    video.addEventListener("loadedmetadata", () => {
+      video.play();
+    });
+    viewerVideoGrid.append(video);
+  }
 
   const stoppedVideo = (e) => {
     mediaRecorder.onstop = (e) => {

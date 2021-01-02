@@ -13,13 +13,14 @@ import Chat from "../chat/Chat.js";
 import Grid from "@material-ui/core/Grid";
 import { connect } from "react-redux";
 
-const viewerPeer = new Peer();
+// const viewerPeer = new Peer();
 
 const ViewStream = (props) => {
   const history = useHistory();
   // const { id } = useParams();
   const location = useLocation();
   const foo = props.match.params.id;
+  const viewerPeer = props.peer;
   let streamerVideoDiv;
 
   const viewerVideoSocket = initiateVideoSocket(
@@ -35,6 +36,10 @@ const ViewStream = (props) => {
   // viewerVideoSocket.on("connection", (socket) => {
   //   socket.emit("viewer-connected", (id, username));
   // });
+
+  viewerPeer.on("call", (call) => {
+    call.answer();
+  });
 
   viewerVideoSocket.on("send-stream", (stream) => {
     console.log("send stream fired in viewer", stream);

@@ -15,6 +15,8 @@ import { connect, useDispatch } from "react-redux";
 import { getAccount, reserveRoom } from "../../actions/index.js";
 import { useParams } from "react-router-dom";
 
+// Try initiating peer instance here and pass it down as a prop when the live stream component renders. I want to have the peerID available to send to the backend so it can be transmitted to the viewers.
+
 const drawerWidth = 256;
 
 const useStyles = makeStyles((theme) => ({
@@ -47,7 +49,8 @@ const Dashboard = (props) => {
   const dispatch = useDispatch();
   const [menuItem, setMenuItem] = useState("overview");
   // const [roomId, setRoomId] = useState("");
-
+  const myPeer = new Peer();
+  console.log("in dashboard", myPeer);
   useEffect(() => {
     const timer = setTimeout(() => {
       dispatch(getAccount(username));
@@ -68,6 +71,7 @@ const Dashboard = (props) => {
           PaperProps={{ style: { width: drawerWidth } }}
           setMenuItem={setMenuItem}
           roomId={roomId}
+          peer={myPeer}
         />
       </nav>
       <div className={classes.app}>
@@ -76,11 +80,11 @@ const Dashboard = (props) => {
           {menuItem === "overview" ? (
             <Overview />
           ) : menuItem === "live" ? (
-            <LiveStream roomId={roomId} />
+            <LiveStream roomId={roomId} peer={myPeer} />
           ) : menuItem === "explore" ? (
             <Explore setMenuItem={setMenuItem} />
           ) : menuItem === "viewstream" ? (
-            <ViewStream viewer={username} />
+            <ViewStream viewer={username} peer={myPeer} />
           ) : menuItem === "inbox" ? (
             <Inbox />
           ) : menuItem === "notifications" ? (

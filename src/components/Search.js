@@ -32,8 +32,6 @@ const Search = () => {
     setUser(e.target.value);
   };
 
-  console.log(user);
-
   return (
     <>
       <Grid container spacing={2} alignItems="center">
