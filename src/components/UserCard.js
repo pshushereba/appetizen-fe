@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import { useHistory, useParams, Link } from "react-router-dom";
 
 const UserCard = (props) => {
-  const { streamId, room } = props.data;
+  const { streamId, room, peerId: streamerPeerId } = props.data;
   const { username } = useParams();
   const history = useHistory();
   return (
@@ -24,7 +24,12 @@ const UserCard = (props) => {
             component={Link}
             onClick={() => {
               history.push(`/streams/${room}`, {
-                state: { username: streamId, roomID: room, viewer: username },
+                state: {
+                  username: streamId,
+                  roomID: room,
+                  viewer: username,
+                  streamerPeerId: streamerPeerId,
+                },
               });
               props.setMenuItem("viewstream");
             }}

@@ -9,12 +9,12 @@ export const initiateSocket = (room) => {
   if (socket && room) socket.emit("join", room);
 };
 
-export const initiateVideoSocket = (room, username) => {
+export const initiateVideoSocket = (room, username, peerId) => {
   socket = io("http://localhost:5000/video", {
     transports: ["websocket"],
   });
   console.log(`Connecting socket...`);
-  if (socket && room) socket.emit("join", room, username);
+  if (socket && room) socket.emit("join", room, username, peerId);
   return socket;
 };
 

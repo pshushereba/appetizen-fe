@@ -21,17 +21,25 @@ const ViewStream = (props) => {
   const location = useLocation();
   const foo = props.match.params.id;
   const viewerPeer = props.peer;
+  const streamerPeerId = props.streamerPeerId;
+
   let streamerVideoDiv;
 
   const viewerVideoSocket = initiateVideoSocket(
     props.match.params.id,
-    props.username
+    props.username,
+    props.viewerPeerId
   );
 
   console.log(props.match.params);
   console.log("location state", props.match.params.id);
 
-  viewerVideoSocket.emit("viewer-connected", foo, props.username);
+  viewerVideoSocket.emit(
+    "viewer-connected",
+    foo,
+    props.username,
+    props.viewerPeerId
+  );
 
   // viewerVideoSocket.on("connection", (socket) => {
   //   socket.emit("viewer-connected", (id, username));
@@ -39,18 +47,27 @@ const ViewStream = (props) => {
 
   viewerPeer.on("call", (call) => {
     call.answer();
+    call.on("stream", (stream) => {
+      streamerVideoDiv = document.getElementById("streamer-video");
+      const content = document.createElement("video");
+      content.srcObject = stream;
+      content.addEventListener("loadedmetadata", () => {
+        content.play();
+      });
+      streamerVideoDiv.append(content);
+    });
   });
 
   viewerVideoSocket.on("send-stream", (stream) => {
     console.log("send stream fired in viewer", stream);
-    streamerVideoDiv = document.getElementById("streamer-video");
-    const content = document.createElement("video");
+    // streamerVideoDiv = document.getElementById("streamer-video");
+    // const content = document.createElement("video");
     console.log("stream in ViewStream", stream);
-    content.srcObject = stream;
-    content.addEventListener("loadedmetadata", () => {
-      content.play();
-    });
-    streamerVideoDiv.append(content);
+    // content.srcObject = stream;
+    // content.addEventListener("loadedmetadata", () => {
+    //   content.play();
+    // });
+    // streamerVideoDiv.append(content);
   });
 
   const viewerChatSocket = initiateChatSocket(
@@ -80,6 +97,7 @@ const ViewStream = (props) => {
 const mapStateToProps = (state) => {
   return {
     username: state.User.username,
+    viewerPeerId: state.User.peerId,
   };
 };
 

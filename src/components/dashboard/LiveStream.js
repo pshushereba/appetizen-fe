@@ -3,6 +3,7 @@ import Grid from "@material-ui/core/Grid";
 import { PlayArrow } from "@material-ui/icons";
 import { useParams } from "react-router-dom";
 import StreamControls from "../video/StreamControls.js";
+import { connect } from "react-redux";
 import Chat from "../chat/Chat.js";
 import {
   initiateVideoSocket,
@@ -24,50 +25,31 @@ let chunks = [];
 
 const mediaRecorderOptions = { mimeType: "video/webm;codecs=h264" };
 
-const LiveStream = ({ roomId, peer }) => {
+const LiveStream = ({ roomId, peer, peerId }) => {
   const [videoStream, setVideoStream] = useState(null);
   const { username } = useParams();
   const [mediaRecorder, setMediaRecorder] = useState(null);
-  //myPeer = new Peer();
+
   console.log("livestream peer", peer);
-  // console.log(username);
 
-  const videoSocket = initiateVideoSocket(roomId, username);
-
-  // console.log(mediaRecorder);
+  const videoSocket = initiateVideoSocket(roomId, username, peerId);
 
   const chatSocket = initiateChatSocket(roomId, username);
 
-  videoSocket.on("viewer-connected", (id, viewer) => {
-    connectToNewViewer(viewer, videoStream);
+  videoSocket.on("viewer-connected", (id, viewer, viewerPeerId) => {
+    connectToNewViewer(viewerPeerId, videoStream);
     //videoSocket.emit("send-stream", videoStream);
   });
 
-  peer.on("open", (id) => {
-    console.log("My peer ID is: " + id);
-  });
-
-  // myPeer.on("call", (call) => {
-  //   call.answer(stream);
-  //   const viewerVideo = document.createElement("video");
-
-  //   call.on("stream", (userVideoStream) => {
-  //     addViewerStream(videoSocket, chatSocket, viewerVideo, userVideoStream);
-  //   });
+  // peer.on("open", (id) => {
+  //   console.log("My peer ID is: " + id);
   // });
-
-  // myPeer.on("open", (id) => {
-  //   console.log("In myPeer id", id);
-  //   // videoSocket.emit("join", roomId, id);
-  // });
-
-  console.log(videoStream);
 
   useEffect(() => {
     videoGrid = document.getElementById("video-grid");
     viewerVideoGrid = document.getElementById("viewer-grid");
     const myVideo = document.createElement("video");
-    const configOptions = { video: true, audio: true };
+    const configOptions = { video: true, audio: false };
     myVideo.muted = true;
     async function enableStream() {
       try {
@@ -82,23 +64,6 @@ const LiveStream = ({ roomId, peer }) => {
 
     if (!videoStream) {
       enableStream();
-      // myPeer.on("call", (call) => {
-      //   call.answer(stream);
-      //   const viewerVideo = document.createElement("video");
-
-      //   call.on("stream", (userVideoStream) => {
-      //     addViewerStream(
-      //       videoSocket,
-      //       chatSocket,
-      //       viewerVideo,
-      //       userVideoStream
-      //     );
-      //   });
-      // });
-
-      // myPeer.on("open", (id) => {
-      //   videoSocket.emit("join", roomId, id);
-      // });
     } else {
       return function cleanup() {
         videoStream.getTracks().forEach((track) => {
@@ -124,10 +89,7 @@ const LiveStream = ({ roomId, peer }) => {
   }, [mediaRecorder]);
 
   function connectToNewViewer(viewerId, stream) {
-    console.log("connectToNewViewer Called");
-
     const call = peer.call(viewerId, stream);
-    console.log("myPeer call", call);
     const video = document.createElement("video");
     call.on("stream", (userVideoStream) => {
       addViewerStream(video, userVideoStream);
@@ -148,7 +110,6 @@ const LiveStream = ({ roomId, peer }) => {
   }
 
   function addViewerStream(vs, cs, video, stream) {
-    console.log("addViewerStream fired");
     video.srcObject = stream;
     video.addEventListener("loadedmetadata", () => {
       video.play();
@@ -200,4 +161,10 @@ const LiveStream = ({ roomId, peer }) => {
   );
 };
 
-export default LiveStream;
+const mapStateToProps = (state) => {
+  return {
+    peerId: state.User.peerId,
+  };
+};
+
+export default connect(mapStateToProps, {})(LiveStream);

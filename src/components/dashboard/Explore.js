@@ -19,6 +19,7 @@ const Explore = (props) => {
       .catch((err) => console.log(err));
     // dispatch(getActiveUsers);
   }, []);
+  console.log(activeUsers);
   return (
     <>
       <Grid container spacing={10}>
