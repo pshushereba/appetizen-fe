@@ -26,6 +26,10 @@ export const SEARCH_USER_START = "SEARCH_USER_START";
 export const SEARCH_USER_SUCCESS = "SEARCH_USER_SUCCESS";
 export const SEARCH_USER_FAIL = "SEARCH_USER_FAIL";
 
+export const UPDATE_PEER_ID_START = "UPDATE_PEER_ID_START";
+export const UPDATE_PEER_ID_SUCCESS = "UPDATE_PEER_ID_SUCCESS";
+export const UPDATE_PEER_ID_FAIL = "UPDATE_PEER_ID_FAIL";
+
 // Stream Reducer Action Variables
 
 export const RESERVE_ROOM_START = "RESERVE_ROOM_START";
@@ -134,4 +138,14 @@ export const getActiveUsers = () => (dispatch) => {
       dispatch({ type: GET_ACTIVE_USERS_SUCCESS, payload: res.data });
     })
     .catch((err) => dispatch({ type: GET_ACCOUNT_FAIL, payload: err }));
+};
+
+export const updatePeerId = (id) => (dispatch) => {
+  dispatch({ type: UPDATE_PEER_ID_START });
+  try {
+    console.log("in updatePeerId action", id);
+    dispatch({ type: UPDATE_PEER_ID_SUCCESS, payload: id });
+  } catch {
+    dispatch({ type: UPDATE_PEER_ID_FAIL, payload: error });
+  }
 };

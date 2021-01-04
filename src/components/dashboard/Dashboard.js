@@ -12,10 +12,12 @@ import Explore from "./Explore.js";
 import LiveStream from "./LiveStream.js";
 import ViewStream from "./ViewStream.js";
 import { connect, useDispatch } from "react-redux";
-import { getAccount, reserveRoom } from "../../actions/index.js";
+import { getAccount, reserveRoom, updatePeerId } from "../../actions/index.js";
 import { useParams } from "react-router-dom";
 
 // Try initiating peer instance here and pass it down as a prop when the live stream component renders. I want to have the peerID available to send to the backend so it can be transmitted to the viewers.
+//let myPeer;
+const myPeer = new Peer();
 
 const drawerWidth = 256;
 
@@ -49,7 +51,7 @@ const Dashboard = (props) => {
   const dispatch = useDispatch();
   const [menuItem, setMenuItem] = useState("overview");
   // const [roomId, setRoomId] = useState("");
-  const myPeer = new Peer();
+
   console.log("in dashboard", myPeer);
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -61,6 +63,17 @@ const Dashboard = (props) => {
 
   useEffect(() => {
     dispatch(reserveRoom());
+  }, []);
+
+  useEffect(() => {
+    //myPeer = new Peer();
+
+    const timer = setTimeout(() => {
+      console.log("in dashboard peer useEffect", myPeer.id);
+      dispatch(updatePeerId(myPeer.id));
+    }, 1000);
+
+    return () => clearTimeout(timer);
   }, []);
 
   return (
