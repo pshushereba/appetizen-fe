@@ -15,31 +15,39 @@ import { connect } from "react-redux";
 
 // const viewerPeer = new Peer();
 
-const ViewStream = (props) => {
+const ViewStream = ({
+  videoSocket: viewerVideoSocket,
+  chatSocket: viewerChatSocket,
+  peer,
+  streamerPeerId,
+  ...props
+}) => {
   const history = useHistory();
   // const { id } = useParams();
   const location = useLocation();
   const foo = props.match.params.id;
-  const viewerPeer = props.peer;
-  const streamerPeerId = props.streamerPeerId;
+  const viewerPeer = peer;
+  // const streamerPeerId = streamerPeerId;
 
   let streamerVideoDiv;
 
-  const viewerVideoSocket = initiateVideoSocket(
-    props.match.params.id,
-    props.username,
-    props.viewerPeerId
-  );
+  // const viewerVideoSocket = initiateVideoSocket(
+  //   props.match.params.id,
+  //   props.username,
+  //   props.viewerPeerId
+  // );
 
   console.log(props.match.params);
   console.log("location state", props.match.params.id);
 
-  viewerVideoSocket.emit(
-    "viewer-connected",
-    foo,
-    props.username,
-    props.viewerPeerId
-  );
+  useEffect(() => {
+    viewerVideoSocket.emit(
+      "viewer-connected",
+      foo,
+      props.username,
+      props.viewerPeerId
+    );
+  }, []);
 
   // viewerVideoSocket.on("connection", (socket) => {
   //   socket.emit("viewer-connected", (id, username));
@@ -58,22 +66,10 @@ const ViewStream = (props) => {
     });
   });
 
-  viewerVideoSocket.on("send-stream", (stream) => {
-    console.log("send stream fired in viewer", stream);
-    // streamerVideoDiv = document.getElementById("streamer-video");
-    // const content = document.createElement("video");
-    console.log("stream in ViewStream", stream);
-    // content.srcObject = stream;
-    // content.addEventListener("loadedmetadata", () => {
-    //   content.play();
-    // });
-    // streamerVideoDiv.append(content);
-  });
-
-  const viewerChatSocket = initiateChatSocket(
-    props.match.params.id,
-    props.username
-  );
+  // const viewerChatSocket = initiateChatSocket(
+  //   props.match.params.id,
+  //   props.username
+  // );
 
   return (
     <>

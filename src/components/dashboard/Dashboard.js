@@ -14,10 +14,12 @@ import ViewStream from "./ViewStream.js";
 import { connect, useDispatch } from "react-redux";
 import { getAccount, reserveRoom, updatePeerId } from "../../actions/index.js";
 import { useParams } from "react-router-dom";
+import {
+  initiateChatSocket,
+  initiateVideoSocket,
+} from "../../utils/socketHelpers.js";
 
-// Try initiating peer instance here and pass it down as a prop when the live stream component renders. I want to have the peerID available to send to the backend so it can be transmitted to the viewers.
-//let myPeer;
-const myPeer = new Peer();
+let myPeer;
 
 const drawerWidth = 256;
 
@@ -47,12 +49,37 @@ const useStyles = makeStyles((theme) => ({
 const Dashboard = (props) => {
   const classes = useStyles();
   //const username = useParams();
-  const { username, first_name, last_name, email, id, roomId } = props;
+  const { username, first_name, last_name, email, id, roomId, peerId } = props;
   const dispatch = useDispatch();
   const [menuItem, setMenuItem] = useState("overview");
+  const [videoSocket, setVideoSocket] = useState({});
+  const [chatSocket, setChatSocket] = useState({});
   // const [roomId, setRoomId] = useState("");
+  // let videoSocket;
+  // let chatSocket;
+  console.log("dashboard roomId from props", roomId);
 
-  console.log("in dashboard", myPeer);
+  useEffect(() => {
+    dispatch(reserveRoom());
+  }, []);
+
+  useEffect(() => {
+    myPeer = new Peer();
+    const timer = setTimeout(() => {
+      console.log("in dashboard peer useEffect", myPeer.id);
+      dispatch(updatePeerId(myPeer.id));
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    setVideoSocket(initiateVideoSocket(roomId, username, peerId));
+    //setChatSocket(initiateChatSocket(roomId, username));
+  }, []);
+
+  console.log(videoSocket);
+  // console.log("in dashboard", myPeer);
   useEffect(() => {
     const timer = setTimeout(() => {
       dispatch(getAccount(username));
@@ -61,20 +88,7 @@ const Dashboard = (props) => {
     return () => clearTimeout(timer);
   }, []);
 
-  useEffect(() => {
-    dispatch(reserveRoom());
-  }, []);
-
-  useEffect(() => {
-    //myPeer = new Peer();
-
-    const timer = setTimeout(() => {
-      console.log("in dashboard peer useEffect", myPeer.id);
-      dispatch(updatePeerId(myPeer.id));
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  }, []);
+  console.log(myPeer);
 
   return (
     <div className={classes.root}>
@@ -93,11 +107,21 @@ const Dashboard = (props) => {
           {menuItem === "overview" ? (
             <Overview />
           ) : menuItem === "live" ? (
-            <LiveStream roomId={roomId} peer={myPeer} />
+            <LiveStream
+              roomId={roomId}
+              peer={myPeer}
+              videoSocket={videoSocket}
+              chatSocket={chatSocket}
+            />
           ) : menuItem === "explore" ? (
             <Explore setMenuItem={setMenuItem} />
           ) : menuItem === "viewstream" ? (
-            <ViewStream viewer={username} peer={myPeer} />
+            <ViewStream
+              viewer={username}
+              peer={myPeer}
+              videoSocket={videoSocket}
+              chatSocket={chatSocket}
+            />
           ) : menuItem === "inbox" ? (
             <Inbox />
           ) : menuItem === "notifications" ? (
@@ -124,6 +148,7 @@ const mapStateToProps = (state) => {
     email: state.User.email,
     isAuthenticated: state.User.isAuthenticated,
     roomId: state.Stream.reservedRoom,
+    peerId: state.User.peerId,
   };
 };
 

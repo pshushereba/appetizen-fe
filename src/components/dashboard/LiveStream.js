@@ -13,8 +13,6 @@ import {
 
 let videoGrid;
 let viewerVideoGrid;
-// let myPeer;
-// const myPeer = new Peer("streamer");
 const peers = {};
 
 // Set up array to hold chunks of video data
@@ -25,27 +23,24 @@ let chunks = [];
 
 const mediaRecorderOptions = { mimeType: "video/webm;codecs=h264" };
 
-const LiveStream = ({ roomId, peer, peerId }) => {
+const LiveStream = ({ roomId, peer, peerId, videoSocket, chatSocket }) => {
   const [videoStream, setVideoStream] = useState(null);
   const { username } = useParams();
   const [mediaRecorder, setMediaRecorder] = useState(null);
+  //console.log("in LiveStream peer", peer);
+  // const videoSocket = initiateVideoSocket(roomId, username, peerId);
 
-  console.log("livestream peer", peer);
-
-  const videoSocket = initiateVideoSocket(roomId, username, peerId);
-
-  const chatSocket = initiateChatSocket(roomId, username);
+  // const chatSocket = initiateChatSocket(roomId, username);
+  console.log(videoSocket);
+  videoSocket.emit("streaming", (roomId, username, peerId));
 
   videoSocket.on("viewer-connected", (id, viewer, viewerPeerId) => {
     connectToNewViewer(viewerPeerId, videoStream);
     //videoSocket.emit("send-stream", videoStream);
   });
 
-  // peer.on("open", (id) => {
-  //   console.log("My peer ID is: " + id);
-  // });
-
   useEffect(() => {
+    //console.log("useEffect in LiveStream called");
     videoGrid = document.getElementById("video-grid");
     viewerVideoGrid = document.getElementById("viewer-grid");
     const myVideo = document.createElement("video");
@@ -90,6 +85,7 @@ const LiveStream = ({ roomId, peer, peerId }) => {
 
   function connectToNewViewer(viewerId, stream) {
     const call = peer.call(viewerId, stream);
+    console.log("in connectToNewViewer", call);
     const video = document.createElement("video");
     call.on("stream", (userVideoStream) => {
       addViewerStream(video, userVideoStream);
