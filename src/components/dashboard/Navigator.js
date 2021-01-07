@@ -20,6 +20,8 @@ import AddBoxIcon from "@material-ui/icons/AddBox";
 import YouTubeIcon from "@material-ui/icons/YouTube";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link, useParams, useHistory } from "react-router-dom";
+import { connect } from "react-redux";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   listContainer: {
@@ -36,11 +38,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const goLive = (room, user, peerID) => {
+  axios
+    .post("http://localhost:5000/live", { room, user, peerID })
+    .then((res) => console.log(res))
+    .catch((err) => console.error(err));
+};
+
 const Navigator = (props) => {
-  const { setMenuItem, ...other } = props;
+  const { setMenuItem, username, roomId, peerId, ...other } = props;
   const classes = useStyles();
   const history = useHistory();
-  const { username } = useParams();
+  //const { username } = useParams();
 
   return (
     <>
@@ -74,6 +83,7 @@ const Navigator = (props) => {
             component={Link}
             onClick={() => {
               setMenuItem("live");
+              goLive(roomId, username, peerId);
               history.push(`/${username}/${props.roomId}`);
             }}
           >
@@ -158,6 +168,7 @@ const Navigator = (props) => {
             component={Link}
             onClick={() => {
               setMenuItem("subscribers");
+
               history.push(`/${username}/subscribers`);
             }}
           >
@@ -186,4 +197,12 @@ const Navigator = (props) => {
   );
 };
 
-export default Navigator;
+const mapStateToProps = (state) => {
+  return {
+    username: state.User.username,
+    roomId: state.Stream.reservedRoom,
+    peerId: state.User.peerId,
+  };
+};
+
+export default connect(mapStateToProps, {})(Navigator);

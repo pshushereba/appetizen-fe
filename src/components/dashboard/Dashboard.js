@@ -19,7 +19,7 @@ import {
   initiateVideoSocket,
 } from "../../utils/socketHelpers.js";
 
-let myPeer;
+//let myPeer;
 
 const drawerWidth = 256;
 
@@ -59,19 +59,12 @@ const Dashboard = (props) => {
   // let chatSocket;
   console.log("dashboard roomId from props", roomId);
 
-  useEffect(() => {
-    dispatch(reserveRoom());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(reserveRoom());
+  // }, []);
 
-  useEffect(() => {
-    myPeer = new Peer();
-    const timer = setTimeout(() => {
-      console.log("in dashboard peer useEffect", myPeer.id);
-      dispatch(updatePeerId(myPeer.id));
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, []);
+  // myPeer = new Peer();
+  // dispatch(updatePeerId(myPeer.id));
 
   useEffect(() => {
     setVideoSocket(initiateVideoSocket(roomId, username, peerId));
@@ -79,7 +72,7 @@ const Dashboard = (props) => {
   }, []);
 
   console.log(videoSocket);
-  // console.log("in dashboard", myPeer);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       dispatch(getAccount(username));
@@ -87,8 +80,6 @@ const Dashboard = (props) => {
 
     return () => clearTimeout(timer);
   }, []);
-
-  console.log(myPeer);
 
   return (
     <div className={classes.root}>
@@ -98,7 +89,7 @@ const Dashboard = (props) => {
           PaperProps={{ style: { width: drawerWidth } }}
           setMenuItem={setMenuItem}
           roomId={roomId}
-          peer={myPeer}
+          //peer={myPeer}
         />
       </nav>
       <div className={classes.app}>
@@ -109,7 +100,7 @@ const Dashboard = (props) => {
           ) : menuItem === "live" ? (
             <LiveStream
               roomId={roomId}
-              peer={myPeer}
+              //peer={myPeer}
               videoSocket={videoSocket}
               chatSocket={chatSocket}
             />
@@ -118,7 +109,7 @@ const Dashboard = (props) => {
           ) : menuItem === "viewstream" ? (
             <ViewStream
               viewer={username}
-              peer={myPeer}
+              //peer={myPeer}
               videoSocket={videoSocket}
               chatSocket={chatSocket}
             />

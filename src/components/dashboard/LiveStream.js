@@ -23,7 +23,7 @@ let chunks = [];
 
 const mediaRecorderOptions = { mimeType: "video/webm;codecs=h264" };
 
-const LiveStream = ({ roomId, peer, peerId, videoSocket, chatSocket }) => {
+const LiveStream = ({ roomId, peer, peerId, videoSocket }) => {
   const [videoStream, setVideoStream] = useState(null);
   const { username } = useParams();
   const [mediaRecorder, setMediaRecorder] = useState(null);
@@ -34,10 +34,10 @@ const LiveStream = ({ roomId, peer, peerId, videoSocket, chatSocket }) => {
   console.log(videoSocket);
   videoSocket.emit("streaming", (roomId, username, peerId));
 
-  videoSocket.on("viewer-connected", (id, viewer, viewerPeerId) => {
-    connectToNewViewer(viewerPeerId, videoStream);
-    //videoSocket.emit("send-stream", videoStream);
-  });
+  // videoSocket.on("viewer-connected", (id, viewer, viewerPeerId) => {
+  //   connectToNewViewer(viewerPeerId, videoStream);
+  //videoSocket.emit("send-stream", videoStream);
+  //});
 
   useEffect(() => {
     //console.log("useEffect in LiveStream called");
@@ -146,7 +146,7 @@ const LiveStream = ({ roomId, peer, peerId, videoSocket, chatSocket }) => {
             />
           </Grid>
           <Grid item sm={4}>
-            <Chat username={username} roomId={roomId} socket={chatSocket} />
+            <Chat username={username} roomId={roomId} />
           </Grid>
         </Grid>
         <Grid container>
@@ -160,6 +160,7 @@ const LiveStream = ({ roomId, peer, peerId, videoSocket, chatSocket }) => {
 const mapStateToProps = (state) => {
   return {
     peerId: state.User.peerId,
+    roomId: state.Stream.reservedRoom,
   };
 };
 
