@@ -23,28 +23,37 @@ let chunks = [];
 
 const mediaRecorderOptions = { mimeType: "video/webm;codecs=h264" };
 
-const LiveStream = ({ roomId, peer, peerId, videoSocket }) => {
+const LiveStream = ({
+  username,
+  roomId,
+  peer,
+  peerId,
+  videoSocket,
+  chatSocket,
+}) => {
   const [videoStream, setVideoStream] = useState(null);
-  const { username } = useParams();
+  //const { username } = useParams();
   const [mediaRecorder, setMediaRecorder] = useState(null);
-  //console.log("in LiveStream peer", peer);
+  console.log("in LiveStream peer", peer);
   // const videoSocket = initiateVideoSocket(roomId, username, peerId);
 
   // const chatSocket = initiateChatSocket(roomId, username);
   console.log(videoSocket);
   videoSocket.emit("streaming", (roomId, username, peerId));
 
-  // videoSocket.on("viewer-connected", (id, viewer, viewerPeerId) => {
-  //   connectToNewViewer(viewerPeerId, videoStream);
-  //videoSocket.emit("send-stream", videoStream);
-  //});
+  videoSocket.on("viewer-connected", (id, viewer, viewerPeerId) => {
+    console.log("in viewer-connected", id, viewer, viewerPeerId);
+    console.log(videoStream);
+    connectToNewViewer(viewerPeerId, videoStream);
+    //videoSocket.emit("send-stream", videoStream);
+  });
 
   useEffect(() => {
     //console.log("useEffect in LiveStream called");
     videoGrid = document.getElementById("video-grid");
     viewerVideoGrid = document.getElementById("viewer-grid");
     const myVideo = document.createElement("video");
-    const configOptions = { video: true, audio: false };
+    const configOptions = { video: true, audio: true };
     myVideo.muted = true;
     async function enableStream() {
       try {
@@ -84,6 +93,7 @@ const LiveStream = ({ roomId, peer, peerId, videoSocket }) => {
   }, [mediaRecorder]);
 
   function connectToNewViewer(viewerId, stream) {
+    console.log("in connectToNewViewer peer", peer, viewerId, stream);
     const call = peer.call(viewerId, stream);
     console.log("in connectToNewViewer", call);
     const video = document.createElement("video");
@@ -159,9 +169,13 @@ const LiveStream = ({ roomId, peer, peerId, videoSocket }) => {
 
 const mapStateToProps = (state) => {
   return {
-    peerId: state.User.peerId,
+    peerId: state.User.peer.id,
+    peer: state.User.peer,
     roomId: state.Stream.reservedRoom,
+    username: state.User.username,
   };
 };
 
-export default connect(mapStateToProps, {})(LiveStream);
+export const MemoizedLiveStream = React.memo(
+  connect(mapStateToProps, {})(LiveStream)
+);

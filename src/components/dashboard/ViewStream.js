@@ -37,17 +37,10 @@ const ViewStream = ({
   //   props.viewerPeerId
   // );
 
-  console.log(props.match.params);
-  console.log("location state", props.match.params.id);
+  //console.log(props.match.params);
+  //console.log("location state", props.match.params.id);
 
-  useEffect(() => {
-    viewerVideoSocket.emit(
-      "viewer-connected",
-      foo,
-      props.username,
-      props.viewerPeerId
-    );
-  }, []);
+  viewerVideoSocket.emit("viewer-connected", foo, props.username, peer.id);
 
   // viewerVideoSocket.on("connection", (socket) => {
   //   socket.emit("viewer-connected", (id, username));
@@ -93,7 +86,8 @@ const ViewStream = ({
 const mapStateToProps = (state) => {
   return {
     username: state.User.username,
-    viewerPeerId: state.User.peerId,
+    viewerPeerId: state.User.peer.id,
+    peer: state.User.peer,
   };
 };
 

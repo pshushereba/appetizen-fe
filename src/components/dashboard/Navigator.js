@@ -201,7 +201,7 @@ const mapStateToProps = (state) => {
   return {
     username: state.User.username,
     roomId: state.Stream.reservedRoom,
-    peerId: state.User.peerId,
+    peerId: state.User.peer.id,
   };
 };
 

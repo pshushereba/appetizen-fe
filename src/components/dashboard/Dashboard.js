@@ -9,7 +9,7 @@ import Settings from "./Settings.js";
 import Inbox from "./Inbox.js";
 import Notifications from "./Notifications.js";
 import Explore from "./Explore.js";
-import LiveStream from "./LiveStream.js";
+import { MemoizedLiveStream } from "./LiveStream.js";
 import ViewStream from "./ViewStream.js";
 import { connect, useDispatch } from "react-redux";
 import { getAccount, reserveRoom, updatePeerId } from "../../actions/index.js";
@@ -18,8 +18,6 @@ import {
   initiateChatSocket,
   initiateVideoSocket,
 } from "../../utils/socketHelpers.js";
-
-//let myPeer;
 
 const drawerWidth = 256;
 
@@ -68,7 +66,7 @@ const Dashboard = (props) => {
 
   useEffect(() => {
     setVideoSocket(initiateVideoSocket(roomId, username, peerId));
-    //setChatSocket(initiateChatSocket(roomId, username));
+    setChatSocket(initiateChatSocket(roomId, username));
   }, []);
 
   console.log(videoSocket);
@@ -98,7 +96,7 @@ const Dashboard = (props) => {
           {menuItem === "overview" ? (
             <Overview />
           ) : menuItem === "live" ? (
-            <LiveStream
+            <MemoizedLiveStream
               roomId={roomId}
               //peer={myPeer}
               videoSocket={videoSocket}
@@ -139,7 +137,7 @@ const mapStateToProps = (state) => {
     email: state.User.email,
     isAuthenticated: state.User.isAuthenticated,
     roomId: state.Stream.reservedRoom,
-    peerId: state.User.peerId,
+    peerId: state.User.peer.id,
   };
 };
 

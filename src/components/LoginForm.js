@@ -10,7 +10,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import SecurityIcon from "@material-ui/icons/Security";
 import axiosWithAuth from "../utils/axiosAuth.js";
 import { useHistory, Link } from "react-router-dom";
-import { loginUser, updatePeerId, reserveRoom } from "../actions/index.js";
+import { loginUser, updatePeer, reserveRoom } from "../actions/index.js";
 import { connect, useDispatch } from "react-redux";
 
 let myPeer;
@@ -51,21 +51,21 @@ const Login = (props) => {
   const authorized = props.isAuthenticated;
 
   myPeer = new Peer();
-
+  console.log("in login form peer", myPeer);
   const handleChange = (event) => {
     setUser({ ...user, [event.target.name]: event.target.value });
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (!authorized) {
-      dispatch(loginUser(user));
-      dispatch(updatePeerId(myPeer.id));
-      dispatch(reserveRoom());
-      history.push(`/${user.username}/dashboard`);
-    } else {
-      history.push(`/${user.username}/dashboard`);
-    }
+    //if (!authorized) {
+    dispatch(loginUser(user, history));
+    dispatch(updatePeer(myPeer));
+    dispatch(reserveRoom());
+    //history.push(`/${user.username}/dashboard`);
+    //} else {
+    // history.push(`/${user.username}/dashboard`);
+    // }
     //console.log("in login handleSubmit myPeer", myPeer);
   };
 
