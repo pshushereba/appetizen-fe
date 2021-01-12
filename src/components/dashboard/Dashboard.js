@@ -10,6 +10,7 @@ import Inbox from "./Inbox.js";
 import Notifications from "./Notifications.js";
 import Explore from "./Explore.js";
 import { MemoizedLiveStream } from "./LiveStream.js";
+import LiveStream from "./LiveStream.js";
 import ViewStream from "./ViewStream.js";
 import { connect, useDispatch } from "react-redux";
 import { getAccount, reserveRoom, updatePeerId } from "../../actions/index.js";

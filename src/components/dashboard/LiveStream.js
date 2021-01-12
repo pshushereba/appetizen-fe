@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Grid from "@material-ui/core/Grid";
 import { PlayArrow } from "@material-ui/icons";
 import { useParams } from "react-router-dom";
@@ -31,33 +31,33 @@ const LiveStream = ({
   videoSocket,
   chatSocket,
 }) => {
-  const [videoStream, setVideoStream] = useState(null);
-  //const { username } = useParams();
+  // Set the user's video stream in state once given permission on component load
+  const [videoStream, _setVideoStream] = useState(null);
+  const videoStreamRef = useRef(videoStream);
+  const setVideoStream = (data) => {
+    videoStreamRef.current = data;
+    _setVideoStream(data);
+  };
+  // Set up a media recorder instance so that the user can record their video.
   const [mediaRecorder, setMediaRecorder] = useState(null);
-  console.log("in LiveStream peer", peer);
-  // const videoSocket = initiateVideoSocket(roomId, username, peerId);
 
-  // const chatSocket = initiateChatSocket(roomId, username);
-  console.log(videoSocket);
-  videoSocket.emit("streaming", (roomId, username, peerId));
-
+  // When a viewer connects, this event is emitted and the streamer will connect to the viewer.
   videoSocket.on("viewer-connected", (id, viewer, viewerPeerId) => {
-    console.log("in viewer-connected", id, viewer, viewerPeerId);
-    console.log(videoStream);
+    console.log("in viewer-connected event", videoStream);
+    console.log(videoStream.current);
     connectToNewViewer(viewerPeerId, videoStream);
-    //videoSocket.emit("send-stream", videoStream);
   });
 
   useEffect(() => {
-    //console.log("useEffect in LiveStream called");
     videoGrid = document.getElementById("video-grid");
     viewerVideoGrid = document.getElementById("viewer-grid");
     const myVideo = document.createElement("video");
-    const configOptions = { video: true, audio: true };
+    const configOptions = { video: true, audio: false };
     myVideo.muted = true;
     async function enableStream() {
       try {
         const stream = await navigator.mediaDevices.getUserMedia(configOptions);
+        console.log("in stream useEffect", stream);
         setVideoStream(stream);
         setupMediaRecorder(stream);
         addVideoStream(videoSocket, chatSocket, myVideo, stream);
@@ -92,6 +92,11 @@ const LiveStream = ({
     }
   }, [mediaRecorder]);
 
+  console.log("mediaRecorder sanity check.", mediaRecorder);
+  console.log("below useEffect videoStream", videoStream);
+
+  // Function to connect to new viewer using PeerJS. Inputs are the peerID of the viewer, and the streamer's video stream to send
+  // to the viewer.
   function connectToNewViewer(viewerId, stream) {
     console.log("in connectToNewViewer peer", peer, viewerId, stream);
     const call = peer.call(viewerId, stream);
@@ -107,6 +112,8 @@ const LiveStream = ({
     peers[viewerId] = call;
   }
 
+  // Function to add the streamer's video to the LiveStream component on load. Called after permission is given to access the
+  // camera and mic.
   function addVideoStream(vs, cs, video, stream) {
     video.srcObject = stream;
     video.addEventListener("loadedmetadata", () => {
@@ -144,6 +151,10 @@ const LiveStream = ({
     setMediaRecorder(new MediaRecorder(mediaStream, mediaRecorderOptions));
   };
 
+  const setupVideoStream = (mediaStream) => {
+    setVideoStream(mediaStream);
+  };
+
   return (
     <>
       <Grid container direction="column" justify="space-between" spacing={10}>
@@ -179,3 +190,4 @@ const mapStateToProps = (state) => {
 export const MemoizedLiveStream = React.memo(
   connect(mapStateToProps, {})(LiveStream)
 );
+// export default connect(mapStateToProps, {})(LiveStream);
