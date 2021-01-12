@@ -8,7 +8,6 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import SecurityIcon from "@material-ui/icons/Security";
-import axiosWithAuth from "../utils/axiosAuth.js";
 import { useHistory, Link } from "react-router-dom";
 import { loginUser, updatePeer, reserveRoom } from "../actions/index.js";
 import { connect, useDispatch } from "react-redux";
@@ -58,15 +57,9 @@ const Login = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    //if (!authorized) {
     dispatch(loginUser(user, history));
     dispatch(updatePeer(myPeer));
     dispatch(reserveRoom());
-    //history.push(`/${user.username}/dashboard`);
-    //} else {
-    // history.push(`/${user.username}/dashboard`);
-    // }
-    //console.log("in login handleSubmit myPeer", myPeer);
   };
 
   return (
@@ -92,8 +85,6 @@ const Login = (props) => {
             value={user.password}
             onChange={handleChange}
           />
-          {/* <Link>
-          </Link> */}
           <Button
             className={classes.submit}
             type="submit"

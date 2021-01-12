@@ -47,23 +47,12 @@ const useStyles = makeStyles((theme) => ({
 
 const Dashboard = (props) => {
   const classes = useStyles();
-  //const username = useParams();
   const { username, first_name, last_name, email, id, roomId, peerId } = props;
   const dispatch = useDispatch();
   const [menuItem, setMenuItem] = useState("overview");
   const [videoSocket, setVideoSocket] = useState({});
   const [chatSocket, setChatSocket] = useState({});
-  // const [roomId, setRoomId] = useState("");
-  // let videoSocket;
-  // let chatSocket;
   console.log("dashboard roomId from props", roomId);
-
-  // useEffect(() => {
-  //   dispatch(reserveRoom());
-  // }, []);
-
-  // myPeer = new Peer();
-  // dispatch(updatePeerId(myPeer.id));
 
   useEffect(() => {
     setVideoSocket(initiateVideoSocket(roomId, username, peerId));
@@ -88,7 +77,6 @@ const Dashboard = (props) => {
           PaperProps={{ style: { width: drawerWidth } }}
           setMenuItem={setMenuItem}
           roomId={roomId}
-          //peer={myPeer}
         />
       </nav>
       <div className={classes.app}>
@@ -99,7 +87,6 @@ const Dashboard = (props) => {
           ) : menuItem === "live" ? (
             <MemoizedLiveStream
               roomId={roomId}
-              //peer={myPeer}
               videoSocket={videoSocket}
               chatSocket={chatSocket}
             />
@@ -108,7 +95,6 @@ const Dashboard = (props) => {
           ) : menuItem === "viewstream" ? (
             <ViewStream
               viewer={username}
-              //peer={myPeer}
               videoSocket={videoSocket}
               chatSocket={chatSocket}
             />

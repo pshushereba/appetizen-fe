@@ -40,8 +40,6 @@ export const GET_ACTIVE_USERS_START = "GET_ACTIVE_USERS_START";
 export const GET_ACTIVE_USERS_SUCCESS = "GET_ACTIVE_USERS_SUCCESS";
 export const GET_ACTIVE_USERS_FAIL = "GET_ACTIVE_USERS_FAIL";
 
-//let myPeer;
-
 export const registerUser = (newUser) => (dispatch) => {
   axiosWithAuth()
     .post("/auth/register", newUser)
@@ -59,13 +57,6 @@ export const loginUser = (credentials, history) => (dispatch) => {
     .then((res) => {
       dispatch({ type: LOGIN_USER, payload: res.data });
       history.push(`/${res.data.username}/dashboard`);
-      // myPeer = new Peer();
-      // dispatch({ type: UPDATE_PEER_ID_START });
-      // try {
-      //   dispatch({ type: UPDATE_PEER_ID_SUCCESS, payload: myPeer.id });
-      // } catch {
-      //   dispatch({ type: UPDATE_PEER_ID_FAIL, payload: error });
-      // }
     })
     .catch((err) => console.log(err));
 };
@@ -145,7 +136,7 @@ export const reserveRoom = () => (dispatch) => {
 export const getActiveUsers = () => (dispatch) => {
   dispatch({ type: GET_ACTIVE_USERS_START });
   axiosWithAuth()
-    .get("https://appetizen-media.herokuapp.com/active")
+    .get("http://localhost:5000/active")
     .then((res) => {
       console.log("getActiveUsers fired");
       dispatch({ type: GET_ACTIVE_USERS_SUCCESS, payload: res.data });
