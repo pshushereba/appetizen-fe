@@ -14,7 +14,7 @@ import {
 let videoGrid;
 let viewerVideoGrid;
 const peers = {};
-
+let chatSocket;
 // Set up array to hold chunks of video data
 
 let chunks = [];
@@ -23,14 +23,7 @@ let chunks = [];
 
 const mediaRecorderOptions = { mimeType: "video/webm;codecs=h264" };
 
-const LiveStream = ({
-  username,
-  roomId,
-  peer,
-  peerId,
-  videoSocket,
-  chatSocket,
-}) => {
+const LiveStream = ({ username, roomId, peer, peerId }) => {
   // Set the user's video stream in state once given permission on component load
   const [videoStream, _setVideoStream] = useState(null);
   const videoStreamRef = useRef(videoStream);
@@ -38,13 +31,14 @@ const LiveStream = ({
     videoStreamRef.current = data;
     _setVideoStream(data);
   };
+
   // Set up a media recorder instance so that the user can record their video.
   const [mediaRecorder, setMediaRecorder] = useState(null);
 
+  const videoSocket = initiateVideoSocket(roomId, username, peerId);
+
   // When a viewer connects, this event is emitted and the streamer will connect to the viewer.
   videoSocket.on("viewer-connected", (id, viewer, viewerPeerId) => {
-    console.log("in viewer-connected event", videoStream);
-    console.log(videoStream.current);
     connectToNewViewer(viewerPeerId, videoStream);
   });
 
@@ -57,7 +51,6 @@ const LiveStream = ({
     async function enableStream() {
       try {
         const stream = await navigator.mediaDevices.getUserMedia(configOptions);
-        console.log("in stream useEffect", stream);
         setVideoStream(stream);
         setupMediaRecorder(stream);
         addVideoStream(videoSocket, chatSocket, myVideo, stream);
@@ -92,15 +85,10 @@ const LiveStream = ({
     }
   }, [mediaRecorder]);
 
-  console.log("mediaRecorder sanity check.", mediaRecorder);
-  console.log("below useEffect videoStream", videoStream);
-
   // Function to connect to new viewer using PeerJS. Inputs are the peerID of the viewer, and the streamer's video stream to send
   // to the viewer.
   function connectToNewViewer(viewerId, stream) {
-    console.log("in connectToNewViewer peer", peer, viewerId, stream);
     const call = peer.call(viewerId, stream);
-    console.log("in connectToNewViewer", call);
     const video = document.createElement("video");
     call.on("stream", (userVideoStream) => {
       addViewerStream(video, userVideoStream);
@@ -136,9 +124,7 @@ const LiveStream = ({
       const blob = new Blob(chunks, { type: "video/webm" });
 
       // Create a URL that points to our video in browser memory.
-      //console.log("chunks", chunks);
       const video_url = window.URL.createObjectURL(blob);
-      //console.log(video_url);
       // Reset the chunk data
       chunks = [];
 

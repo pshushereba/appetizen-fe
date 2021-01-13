@@ -8,54 +8,46 @@ import {
 import {
   initiateChatSocket,
   initiateVideoSocket,
+  disconnectSocket,
 } from "../../utils/socketHelpers.js";
 import Chat from "../chat/Chat.js";
 import Grid from "@material-ui/core/Grid";
 import { connect } from "react-redux";
 
-const ViewStream = ({
-  videoSocket: viewerVideoSocket,
-  chatSocket: viewerChatSocket,
-  peer,
-  streamerPeerId,
-  ...props
-}) => {
+const ViewStream = ({ peer, streamerPeerId, ...props }) => {
   const history = useHistory();
   // const { id } = useParams();
   const location = useLocation();
   const foo = props.match.params.id;
   const viewerPeer = peer;
   // const streamerPeerId = streamerPeerId;
-
+  const viewerVideoSocket = initiateVideoSocket(
+    props.match.params.id,
+    props.username,
+    props.viewerPeerId
+  );
   let streamerVideoDiv;
 
-  // const viewerVideoSocket = initiateVideoSocket(
-  //   props.match.params.id,
-  //   props.username,
-  //   props.viewerPeerId
-  // );
+  useEffect(() => {
+    viewerVideoSocket.emit("viewer-connected", foo, props.username, peer.id);
 
-  //console.log(props.match.params);
-  //console.log("location state", props.match.params.id);
-
-  viewerVideoSocket.emit("viewer-connected", foo, props.username, peer.id);
-
-  // viewerVideoSocket.on("connection", (socket) => {
-  //   socket.emit("viewer-connected", (id, username));
-  // });
-
-  viewerPeer.on("call", (call) => {
-    call.answer();
-    call.on("stream", (stream) => {
-      streamerVideoDiv = document.getElementById("streamer-video");
-      const content = document.createElement("video");
-      content.srcObject = stream;
-      content.addEventListener("loadedmetadata", () => {
-        content.play();
+    viewerPeer.on("call", (call) => {
+      call.answer();
+      call.on("stream", (stream) => {
+        streamerVideoDiv = document.getElementById("streamer-video");
+        const content = document.createElement("video");
+        content.srcObject = stream;
+        content.addEventListener("loadedmetadata", () => {
+          content.play();
+        });
+        streamerVideoDiv.append(content);
       });
-      streamerVideoDiv.append(content);
     });
-  });
+
+    return () => {
+      disconnectSocket();
+    };
+  }, []);
 
   return (
     <>
@@ -68,7 +60,7 @@ const ViewStream = ({
           <Chat
             username={props.username}
             roomId={props.match.params.id}
-            socket={viewerChatSocket}
+            //socket={viewerChatSocket}
           />
         </Grid>
       </Grid>
@@ -84,4 +76,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default withRouter(connect(mapStateToProps, {})(ViewStream));
+export const MemoizedViewStream = React.memo(
+  withRouter(connect(mapStateToProps, {})(ViewStream))
+);

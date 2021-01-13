@@ -11,6 +11,7 @@ import Notifications from "./Notifications.js";
 import Explore from "./Explore.js";
 import { MemoizedLiveStream } from "./LiveStream.js";
 import LiveStream from "./LiveStream.js";
+import { MemoizedViewStream } from "./ViewStream.js";
 import ViewStream from "./ViewStream.js";
 import { connect, useDispatch } from "react-redux";
 import { getAccount, reserveRoom, updatePeerId } from "../../actions/index.js";
@@ -50,16 +51,6 @@ const Dashboard = (props) => {
   const { username, first_name, last_name, email, id, roomId, peerId } = props;
   const dispatch = useDispatch();
   const [menuItem, setMenuItem] = useState("overview");
-  const [videoSocket, setVideoSocket] = useState({});
-  const [chatSocket, setChatSocket] = useState({});
-  console.log("dashboard roomId from props", roomId);
-
-  useEffect(() => {
-    setVideoSocket(initiateVideoSocket(roomId, username, peerId));
-    setChatSocket(initiateChatSocket(roomId, username));
-  }, []);
-
-  console.log(videoSocket);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -87,16 +78,16 @@ const Dashboard = (props) => {
           ) : menuItem === "live" ? (
             <MemoizedLiveStream
               roomId={roomId}
-              videoSocket={videoSocket}
-              chatSocket={chatSocket}
+              //videoSocket={videoSocket}
+              //chatSocket={chatSocket}
             />
           ) : menuItem === "explore" ? (
             <Explore setMenuItem={setMenuItem} />
           ) : menuItem === "viewstream" ? (
-            <ViewStream
+            <MemoizedViewStream
               viewer={username}
-              videoSocket={videoSocket}
-              chatSocket={chatSocket}
+              //videoSocket={videoSocket}
+              //chatSocket={chatSocket}
             />
           ) : menuItem === "inbox" ? (
             <Inbox />

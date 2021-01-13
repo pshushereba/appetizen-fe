@@ -50,7 +50,6 @@ const Login = (props) => {
   const authorized = props.isAuthenticated;
 
   myPeer = new Peer();
-  console.log("in login form peer", myPeer);
   const handleChange = (event) => {
     setUser({ ...user, [event.target.name]: event.target.value });
   };
