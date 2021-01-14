@@ -18,18 +18,18 @@ const ViewStream = ({ peer, streamerPeerId, ...props }) => {
   const history = useHistory();
   // const { id } = useParams();
   const location = useLocation();
-  const foo = props.match.params.id;
+  const room = props.match.params.id;
   const viewerPeer = peer;
   // const streamerPeerId = streamerPeerId;
   const viewerVideoSocket = initiateVideoSocket(
-    props.match.params.id,
+    room,
     props.username,
     props.viewerPeerId
   );
   let streamerVideoDiv;
 
   useEffect(() => {
-    viewerVideoSocket.emit("viewer-connected", foo, props.username, peer.id);
+    viewerVideoSocket.emit("viewer-connected", room, props.username, peer.id);
 
     viewerPeer.on("call", (call) => {
       call.answer();

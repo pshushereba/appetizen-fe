@@ -17,7 +17,8 @@ const Chat = ({ username, roomId, socket }) => {
       if (err) return;
 
       if (data !== null) {
-        setChat(data);
+        setChat([message, ...chat]);
+        // setChat(data);
       }
     });
   }, []);

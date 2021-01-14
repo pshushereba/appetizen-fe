@@ -12,6 +12,7 @@ import {
 } from "../../utils/socketHelpers.js";
 
 let videoGrid;
+let videoSocket;
 let viewerVideoGrid;
 const peers = {};
 let chatSocket;
@@ -19,13 +20,12 @@ let chatSocket;
 
 let chunks = [];
 
-// Set up options for media recorder instance
-
 const mediaRecorderOptions = { mimeType: "video/webm;codecs=h264" };
 
 const LiveStream = ({ username, roomId, peer, peerId }) => {
   // Set the user's video stream in state once given permission on component load
   const [videoStream, _setVideoStream] = useState(null);
+  const [socketRegistered, setSocketRegistered] = useState(false);
   const videoStreamRef = useRef(videoStream);
   const setVideoStream = (data) => {
     videoStreamRef.current = data;
@@ -34,13 +34,6 @@ const LiveStream = ({ username, roomId, peer, peerId }) => {
 
   // Set up a media recorder instance so that the user can record their video.
   const [mediaRecorder, setMediaRecorder] = useState(null);
-
-  const videoSocket = initiateVideoSocket(roomId, username, peerId);
-
-  // When a viewer connects, this event is emitted and the streamer will connect to the viewer.
-  videoSocket.on("viewer-connected", (id, viewer, viewerPeerId) => {
-    connectToNewViewer(viewerPeerId, videoStream);
-  });
 
   useEffect(() => {
     videoGrid = document.getElementById("video-grid");
@@ -69,6 +62,16 @@ const LiveStream = ({ username, roomId, peer, peerId }) => {
         disconnectSocket();
       };
     }
+  }, [videoStream]);
+
+  useEffect(() => {
+    videoSocket = initiateVideoSocket(roomId, username, peerId);
+    console.log(videoSocket);
+    // When a viewer connects, this event is emitted and the streamer will connect to the viewer.
+    videoSocket.on("viewer-connected", (id, viewer, viewerPeerId) => {
+      console.log("inside videoSocket listener", videoStream);
+      connectToNewViewer(viewerPeerId, videoStream);
+    });
   }, [videoStream]);
 
   useEffect(() => {
@@ -135,10 +138,6 @@ const LiveStream = ({ username, roomId, peer, peerId }) => {
 
   const setupMediaRecorder = (mediaStream) => {
     setMediaRecorder(new MediaRecorder(mediaStream, mediaRecorderOptions));
-  };
-
-  const setupVideoStream = (mediaStream) => {
-    setVideoStream(mediaStream);
   };
 
   return (

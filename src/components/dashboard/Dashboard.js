@@ -16,10 +16,6 @@ import ViewStream from "./ViewStream.js";
 import { connect, useDispatch } from "react-redux";
 import { getAccount, reserveRoom, updatePeerId } from "../../actions/index.js";
 import { useParams } from "react-router-dom";
-import {
-  initiateChatSocket,
-  initiateVideoSocket,
-} from "../../utils/socketHelpers.js";
 
 const drawerWidth = 256;
 
@@ -76,19 +72,11 @@ const Dashboard = (props) => {
           {menuItem === "overview" ? (
             <Overview />
           ) : menuItem === "live" ? (
-            <MemoizedLiveStream
-              roomId={roomId}
-              //videoSocket={videoSocket}
-              //chatSocket={chatSocket}
-            />
+            <MemoizedLiveStream roomId={roomId} />
           ) : menuItem === "explore" ? (
             <Explore setMenuItem={setMenuItem} />
           ) : menuItem === "viewstream" ? (
-            <MemoizedViewStream
-              viewer={username}
-              //videoSocket={videoSocket}
-              //chatSocket={chatSocket}
-            />
+            <MemoizedViewStream viewer={username} />
           ) : menuItem === "inbox" ? (
             <Inbox />
           ) : menuItem === "notifications" ? (
