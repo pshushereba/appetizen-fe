@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 
 const goLive = (room, user, peerID) => {
   axios
-    .post("http://localhost:5000/live", { room, user, peerID })
+    .post("https://appetizen-media.herokuapp.com/live", { room, user, peerID })
     .then((res) => console.log(res))
     .catch((err) => console.error(err));
 };
@@ -49,7 +49,6 @@ const Navigator = (props) => {
   const { setMenuItem, username, roomId, peerId, ...other } = props;
   const classes = useStyles();
   const history = useHistory();
-  //const { username } = useParams();
 
   return (
     <>
