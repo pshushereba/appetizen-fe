@@ -8,10 +8,11 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import SecurityIcon from "@material-ui/icons/Security";
-import axiosWithAuth from "../utils/axiosAuth.js";
-import { useHistory } from "react-router-dom";
-import { loginUser } from "../actions/index.js";
+import { useHistory, Link } from "react-router-dom";
+import { loginUser, updatePeer, reserveRoom } from "../actions/index.js";
 import { connect, useDispatch } from "react-redux";
+
+let myPeer;
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -41,20 +42,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Login = () => {
+const Login = (props) => {
   const [user, setUser] = useState({ username: "", password: "" });
   const history = useHistory();
   const classes = useStyles();
   const dispatch = useDispatch();
+  const authorized = props.isAuthenticated;
 
+  myPeer = new Peer();
   const handleChange = (event) => {
     setUser({ ...user, [event.target.name]: event.target.value });
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(loginUser(user));
-    history.push(`/${user.username}/dashboard`);
+    dispatch(loginUser(user, history));
+    dispatch(updatePeer(myPeer));
+    dispatch(reserveRoom());
   };
 
   return (
@@ -66,7 +70,7 @@ const Login = () => {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} onSubmit={handleSubmit}>
+        <form className={classes.form}>
           <TextField
             name="username"
             label="Username"
@@ -80,13 +84,24 @@ const Login = () => {
             value={user.password}
             onChange={handleChange}
           />
-          <Button className={classes.submit} type="submit">
+          <Button
+            className={classes.submit}
+            type="submit"
+            component={Link}
+            onClick={handleSubmit}
+          >
             Login
           </Button>
         </form>
       </div>
     </Container>
   );
+};
+
+const mapStateToProps = (state) => {
+  return {
+    isAuthenticated: state.User.isAuthenticated,
+  };
 };
 
 // export default connect(null, { loginUser })(Login);

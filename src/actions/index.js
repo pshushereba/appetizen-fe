@@ -26,9 +26,9 @@ export const SEARCH_USER_START = "SEARCH_USER_START";
 export const SEARCH_USER_SUCCESS = "SEARCH_USER_SUCCESS";
 export const SEARCH_USER_FAIL = "SEARCH_USER_FAIL";
 
-export const UPDATE_PEER_ID_START = "UPDATE_PEER_ID_START";
-export const UPDATE_PEER_ID_SUCCESS = "UPDATE_PEER_ID_SUCCESS";
-export const UPDATE_PEER_ID_FAIL = "UPDATE_PEER_ID_FAIL";
+export const UPDATE_PEER_START = "UPDATE_PEER_START";
+export const UPDATE_PEER_SUCCESS = "UPDATE_PEER_SUCCESS";
+export const UPDATE_PEER_FAIL = "UPDATE_PEER_FAIL";
 
 // Stream Reducer Action Variables
 
@@ -49,12 +49,14 @@ export const registerUser = (newUser) => (dispatch) => {
     .catch((err) => console.log(err));
 };
 
-export const loginUser = (credentials) => (dispatch) => {
+export const loginUser = (credentials, history) => (dispatch) => {
   console.log("loginUser Fired");
+
   axiosWithAuth()
     .post("/auth/login", credentials)
     .then((res) => {
       dispatch({ type: LOGIN_USER, payload: res.data });
+      history.push(`/${res.data.username}/dashboard`);
     })
     .catch((err) => console.log(err));
 };
@@ -129,10 +131,12 @@ export const reserveRoom = () => (dispatch) => {
     .catch((err) => dispatch({ type: RESERVE_ROOM_FAIL, payload: err }));
 };
 
+// export const goLive = () => (dispatch) => {};
+
 export const getActiveUsers = () => (dispatch) => {
   dispatch({ type: GET_ACTIVE_USERS_START });
   axiosWithAuth()
-    .get("https://appetizen-media.herokuapp.com/active")
+    .get("http://localhost:5000/active")
     .then((res) => {
       console.log("getActiveUsers fired");
       dispatch({ type: GET_ACTIVE_USERS_SUCCESS, payload: res.data });
@@ -140,12 +144,12 @@ export const getActiveUsers = () => (dispatch) => {
     .catch((err) => dispatch({ type: GET_ACCOUNT_FAIL, payload: err }));
 };
 
-export const updatePeerId = (id) => (dispatch) => {
-  dispatch({ type: UPDATE_PEER_ID_START });
+export const updatePeer = (peerObj) => (dispatch) => {
+  dispatch({ type: UPDATE_PEER_START });
   try {
-    console.log("in updatePeerId action", id);
-    dispatch({ type: UPDATE_PEER_ID_SUCCESS, payload: id });
+    console.log("in updatePeerId action", peerObj);
+    dispatch({ type: UPDATE_PEER_SUCCESS, payload: peerObj });
   } catch {
-    dispatch({ type: UPDATE_PEER_ID_FAIL, payload: error });
+    dispatch({ type: UPDATE_PEER_FAIL, payload: error });
   }
 };

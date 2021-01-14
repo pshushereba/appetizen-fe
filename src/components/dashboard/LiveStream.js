@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Grid from "@material-ui/core/Grid";
 import { PlayArrow } from "@material-ui/icons";
 import { useParams } from "react-router-dom";
@@ -12,35 +12,30 @@ import {
 } from "../../utils/socketHelpers.js";
 
 let videoGrid;
+let videoSocket;
 let viewerVideoGrid;
 const peers = {};
-
+let chatSocket;
 // Set up array to hold chunks of video data
 
 let chunks = [];
 
-// Set up options for media recorder instance
-
 const mediaRecorderOptions = { mimeType: "video/webm;codecs=h264" };
 
-const LiveStream = ({ roomId, peer, peerId, videoSocket, chatSocket }) => {
-  const [videoStream, setVideoStream] = useState(null);
-  const { username } = useParams();
+const LiveStream = ({ username, roomId, peer, peerId }) => {
+  // Set the user's video stream in state once given permission on component load
+  const [videoStream, _setVideoStream] = useState(null);
+  const [socketRegistered, setSocketRegistered] = useState(false);
+  const videoStreamRef = useRef(videoStream);
+  const setVideoStream = (data) => {
+    videoStreamRef.current = data;
+    _setVideoStream(data);
+  };
+
+  // Set up a media recorder instance so that the user can record their video.
   const [mediaRecorder, setMediaRecorder] = useState(null);
-  //console.log("in LiveStream peer", peer);
-  // const videoSocket = initiateVideoSocket(roomId, username, peerId);
-
-  // const chatSocket = initiateChatSocket(roomId, username);
-  console.log(videoSocket);
-  videoSocket.emit("streaming", (roomId, username, peerId));
-
-  videoSocket.on("viewer-connected", (id, viewer, viewerPeerId) => {
-    connectToNewViewer(viewerPeerId, videoStream);
-    //videoSocket.emit("send-stream", videoStream);
-  });
 
   useEffect(() => {
-    //console.log("useEffect in LiveStream called");
     videoGrid = document.getElementById("video-grid");
     viewerVideoGrid = document.getElementById("viewer-grid");
     const myVideo = document.createElement("video");
@@ -70,6 +65,16 @@ const LiveStream = ({ roomId, peer, peerId, videoSocket, chatSocket }) => {
   }, [videoStream]);
 
   useEffect(() => {
+    videoSocket = initiateVideoSocket(roomId, username, peerId);
+    console.log(videoSocket);
+    // When a viewer connects, this event is emitted and the streamer will connect to the viewer.
+    videoSocket.on("viewer-connected", (id, viewer, viewerPeerId) => {
+      console.log("inside videoSocket listener", videoStream);
+      connectToNewViewer(viewerPeerId, videoStream);
+    });
+  }, [videoStream]);
+
+  useEffect(() => {
     function finalizeMediaRecorderSetup() {
       mediaRecorder.ondataavailable = (e) => {
         if (e.data.size > 0) {
@@ -83,9 +88,10 @@ const LiveStream = ({ roomId, peer, peerId, videoSocket, chatSocket }) => {
     }
   }, [mediaRecorder]);
 
+  // Function to connect to new viewer using PeerJS. Inputs are the peerID of the viewer, and the streamer's video stream to send
+  // to the viewer.
   function connectToNewViewer(viewerId, stream) {
     const call = peer.call(viewerId, stream);
-    console.log("in connectToNewViewer", call);
     const video = document.createElement("video");
     call.on("stream", (userVideoStream) => {
       addViewerStream(video, userVideoStream);
@@ -97,6 +103,8 @@ const LiveStream = ({ roomId, peer, peerId, videoSocket, chatSocket }) => {
     peers[viewerId] = call;
   }
 
+  // Function to add the streamer's video to the LiveStream component on load. Called after permission is given to access the
+  // camera and mic.
   function addVideoStream(vs, cs, video, stream) {
     video.srcObject = stream;
     video.addEventListener("loadedmetadata", () => {
@@ -119,9 +127,7 @@ const LiveStream = ({ roomId, peer, peerId, videoSocket, chatSocket }) => {
       const blob = new Blob(chunks, { type: "video/webm" });
 
       // Create a URL that points to our video in browser memory.
-      //console.log("chunks", chunks);
       const video_url = window.URL.createObjectURL(blob);
-      //console.log(video_url);
       // Reset the chunk data
       chunks = [];
 
@@ -146,7 +152,7 @@ const LiveStream = ({ roomId, peer, peerId, videoSocket, chatSocket }) => {
             />
           </Grid>
           <Grid item sm={4}>
-            <Chat username={username} roomId={roomId} socket={chatSocket} />
+            <Chat username={username} roomId={roomId} />
           </Grid>
         </Grid>
         <Grid container>
@@ -159,8 +165,14 @@ const LiveStream = ({ roomId, peer, peerId, videoSocket, chatSocket }) => {
 
 const mapStateToProps = (state) => {
   return {
-    peerId: state.User.peerId,
+    peerId: state.User.peer.id,
+    peer: state.User.peer,
+    roomId: state.Stream.reservedRoom,
+    username: state.User.username,
   };
 };
 
-export default connect(mapStateToProps, {})(LiveStream);
+export const MemoizedLiveStream = React.memo(
+  connect(mapStateToProps, {})(LiveStream)
+);
+// export default connect(mapStateToProps, {})(LiveStream);

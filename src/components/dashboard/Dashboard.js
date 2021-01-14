@@ -9,17 +9,13 @@ import Settings from "./Settings.js";
 import Inbox from "./Inbox.js";
 import Notifications from "./Notifications.js";
 import Explore from "./Explore.js";
+import { MemoizedLiveStream } from "./LiveStream.js";
 import LiveStream from "./LiveStream.js";
+import { MemoizedViewStream } from "./ViewStream.js";
 import ViewStream from "./ViewStream.js";
 import { connect, useDispatch } from "react-redux";
 import { getAccount, reserveRoom, updatePeerId } from "../../actions/index.js";
 import { useParams } from "react-router-dom";
-import {
-  initiateChatSocket,
-  initiateVideoSocket,
-} from "../../utils/socketHelpers.js";
-
-let myPeer;
 
 const drawerWidth = 256;
 
@@ -48,38 +44,10 @@ const useStyles = makeStyles((theme) => ({
 
 const Dashboard = (props) => {
   const classes = useStyles();
-  //const username = useParams();
   const { username, first_name, last_name, email, id, roomId, peerId } = props;
   const dispatch = useDispatch();
   const [menuItem, setMenuItem] = useState("overview");
-  const [videoSocket, setVideoSocket] = useState({});
-  const [chatSocket, setChatSocket] = useState({});
-  // const [roomId, setRoomId] = useState("");
-  // let videoSocket;
-  // let chatSocket;
-  console.log("dashboard roomId from props", roomId);
 
-  useEffect(() => {
-    dispatch(reserveRoom());
-  }, []);
-
-  useEffect(() => {
-    myPeer = new Peer();
-    const timer = setTimeout(() => {
-      console.log("in dashboard peer useEffect", myPeer.id);
-      dispatch(updatePeerId(myPeer.id));
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
-    setVideoSocket(initiateVideoSocket(roomId, username, peerId));
-    //setChatSocket(initiateChatSocket(roomId, username));
-  }, []);
-
-  console.log(videoSocket);
-  // console.log("in dashboard", myPeer);
   useEffect(() => {
     const timer = setTimeout(() => {
       dispatch(getAccount(username));
@@ -87,8 +55,6 @@ const Dashboard = (props) => {
 
     return () => clearTimeout(timer);
   }, []);
-
-  console.log(myPeer);
 
   return (
     <div className={classes.root}>
@@ -98,7 +64,6 @@ const Dashboard = (props) => {
           PaperProps={{ style: { width: drawerWidth } }}
           setMenuItem={setMenuItem}
           roomId={roomId}
-          peer={myPeer}
         />
       </nav>
       <div className={classes.app}>
@@ -107,21 +72,11 @@ const Dashboard = (props) => {
           {menuItem === "overview" ? (
             <Overview />
           ) : menuItem === "live" ? (
-            <LiveStream
-              roomId={roomId}
-              peer={myPeer}
-              videoSocket={videoSocket}
-              chatSocket={chatSocket}
-            />
+            <MemoizedLiveStream roomId={roomId} />
           ) : menuItem === "explore" ? (
             <Explore setMenuItem={setMenuItem} />
           ) : menuItem === "viewstream" ? (
-            <ViewStream
-              viewer={username}
-              peer={myPeer}
-              videoSocket={videoSocket}
-              chatSocket={chatSocket}
-            />
+            <MemoizedViewStream viewer={username} />
           ) : menuItem === "inbox" ? (
             <Inbox />
           ) : menuItem === "notifications" ? (
@@ -148,7 +103,7 @@ const mapStateToProps = (state) => {
     email: state.User.email,
     isAuthenticated: state.User.isAuthenticated,
     roomId: state.Stream.reservedRoom,
-    peerId: state.User.peerId,
+    peerId: state.User.peer.id,
   };
 };
 
