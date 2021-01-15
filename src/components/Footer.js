@@ -1,59 +1,140 @@
 import React from "react";
+import Section from "./Section";
+import Container from "@material-ui/core/Container";
 import { Link } from "react-router-dom";
+import Typography from "@material-ui/core/Typography";
+import TwitterIcon from "@material-ui/icons/Twitter";
+import FacebookIcon from "@material-ui/icons/Facebook";
+import InstagramIcon from "@material-ui/icons/Instagram";
+//import useDarkMode from "use-dark-mode";
 import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles((theme) => ({
-  footer: {
-    position: "fixed",
+  sticky: {
+    marginTop: "auto",
+  },
+  wrapper: {
+    display: "flex",
+    flexWrap: "wrap",
+  },
+  item: {
+    display: "flex",
+    flex: "none",
+    justifyContent: "center",
     width: "100%",
+    marginBottom: 24,
+    [theme.breakpoints.up("sm")]: {
+      flex: "50%",
+    },
   },
-  footerContainer: {
-    backgroundColor: theme.palette.primary.main,
+  brand: {
+    display: "block",
+    height: 32,
   },
-  links: {
-    color: theme.palette.common.white,
+  social: {
+    alignItems: "flex-end",
+  },
+  link: {
     textDecoration: "none",
+    color: "inherit",
+    lineHeight: 1,
+    "&:hover": {
+      opacity: 0.8,
+    },
+    "&:not(:first-of-type)": {
+      marginLeft: 20,
+    },
+  },
+  left: {
+    [theme.breakpoints.up("sm")]: {
+      justifyContent: "flex-start",
+    },
+  },
+  right: {
+    [theme.breakpoints.up("sm")]: {
+      justifyContent: "flex-end",
+    },
+  },
+  // Move links to end (bottom right)
+  // Swaps position with social
+  smallLinks: {
+    [theme.breakpoints.up("sm")]: {
+      order: 1,
+    },
   },
 }));
 
-const Footer = () => {
+function Footer(props) {
   const classes = useStyles();
 
+  // const darkMode = useDarkMode();
+  // Use inverted logo if specified
+  // and we are in dark mode
+  // const logo =
+  //   props.logoInverted && darkMode.value ? props.logoInverted : props.logo;
+
   return (
-    <footer>
-      <Grid
-        container
-        justify="center"
-        className={classes.footerContainer}
-        spacing={2}
-      >
-        <Grid item>
-          <Grid container direction="column" spacing={4}>
-            <Grid item component={Link} to="/" className={classes.links}>
-              Home
-            </Grid>
-          </Grid>
-        </Grid>
-        <Grid item>
-          <Grid container direction="column" spacing={2}>
-            {/* <Grid item component={Link} to="/about" className={classes.links}>
-              About
-            </Grid> */}
-            <Grid item component={Link} to="/signup" className={classes.links}>
-              Sign Up
-            </Grid>
-            <Grid item className={classes.links}>
-              Contact Us
-            </Grid>
-            {/* <Grid item className={classes.links}>
-              Pricing
-            </Grid> */}
-          </Grid>
-        </Grid>
-      </Grid>
-    </footer>
+    <Section
+      bgColor={props.bgColor}
+      size={props.size}
+      //bgImage={props.bgImage}
+      bgImageOpacity={props.bgImageOpacity}
+      className={props.sticky && classes.sticky}
+    >
+      <Container>
+        <div className={classes.wrapper}>
+          <div className={`${classes.item} ${classes.left}`}>
+            <Link to="/">
+              {/* <img src={logo} alt="Logo" className={classes.brand} /> */}
+            </Link>
+          </div>
+          <div
+            className={`${classes.item} ${classes.right} ${classes.smallLinks}`}
+          >
+            <Typography>
+              <Link to="/about" className={classes.link}>
+                About
+              </Link>
+              <Link to="/faq" className={classes.link}>
+                FAQ
+              </Link>
+              <Link to="/contact" className={classes.link}>
+                Contact
+              </Link>
+              <a
+                href="https://medium.com"
+                target="_blank"
+                className={classes.link}
+              >
+                Blog
+              </a>
+            </Typography>
+          </div>
+          <div className={`${classes.item} ${classes.right} ${classes.social}`}>
+            <a href="#" target="_blank" className={classes.link}>
+              <TwitterIcon fontSize="small" />
+            </a>
+            <a href="#" target="_blank" className={classes.link}>
+              <FacebookIcon fontSize="small" />
+            </a>
+            <a
+              href="https://instagram.com"
+              target="_blank"
+              className={classes.link}
+            >
+              <InstagramIcon fontSize="small" />
+            </a>
+          </div>
+
+          {props.copyright && (
+            <div className={`${classes.item} ${classes.left}`}>
+              <Typography component="p">{props.copyright}</Typography>
+            </div>
+          )}
+        </div>
+      </Container>
+    </Section>
   );
-};
+}
 
 export default Footer;

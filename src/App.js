@@ -54,7 +54,15 @@ function App() {
 
         <PrivateRoute exact path={`/streams/:room`} component={Dashboard} />
       </Switch>
-      <Footer />
+      <Footer
+        bgColor="light"
+        size="normal"
+        bgImage=""
+        bgImageOpacity={1}
+        description="Authentic cooking for all."
+        copyright="© 2021 Appetizen"
+        sticky={true}
+      />
     </ThemeProvider>
   );
 }
