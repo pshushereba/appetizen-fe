@@ -123,7 +123,7 @@ export const updateProfilePicture = (id, photo) => (dispatch) => {
 export const reserveRoom = () => (dispatch) => {
   dispatch({ type: RESERVE_ROOM_START });
   axiosWithAuth()
-    .get("https://appetizen-media.herokuapp.com/new")
+    .get("http://localhost:5000/new")
     .then((res) => {
       console.log("reserveRoom fired");
       dispatch({ type: RESERVE_ROOM_SUCCESS, payload: res.data });

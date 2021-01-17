@@ -15,7 +15,7 @@ let videoGrid;
 let videoSocket;
 let viewerVideoGrid;
 const peers = {};
-let chatSocket;
+//let chatSocket;
 // Set up array to hold chunks of video data
 
 let chunks = [];
@@ -31,7 +31,7 @@ const LiveStream = ({ username, roomId, peer, peerId }) => {
     videoStreamRef.current = data;
     _setVideoStream(data);
   };
-
+  const chatSocket = initiateChatSocket(roomId, username);
   // Set up a media recorder instance so that the user can record their video.
   const [mediaRecorder, setMediaRecorder] = useState(null);
 
@@ -66,6 +66,7 @@ const LiveStream = ({ username, roomId, peer, peerId }) => {
 
   useEffect(() => {
     videoSocket = initiateVideoSocket(roomId, username, peerId);
+
     console.log(videoSocket);
     // When a viewer connects, this event is emitted and the streamer will connect to the viewer.
     videoSocket.on("viewer-connected", (id, viewer, viewerPeerId) => {
@@ -152,7 +153,7 @@ const LiveStream = ({ username, roomId, peer, peerId }) => {
             />
           </Grid>
           <Grid item sm={4}>
-            <Chat username={username} roomId={roomId} />
+            <Chat username={username} roomId={roomId} socket={chatSocket} />
           </Grid>
         </Grid>
         <Grid container>

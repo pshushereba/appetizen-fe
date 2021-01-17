@@ -3,7 +3,8 @@ import thunk from "redux-thunk";
 import logger from "redux-logger";
 import storage from "redux-persist/lib/storage";
 import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
-import { persistStore, persistReducer } from "redux-persist";
+import { persistStore, persistReducer, createTransform } from "redux-persist";
+import JSOG from "jsog";
 
 // Import reducers
 
@@ -11,10 +12,18 @@ import userReducer from "./reducers/userReducer.js";
 import accountReducer from "./reducers/accountReducer.js";
 import streamReducer from "./reducers/streamReducer.js";
 
+// Create transform
+
+export const JSOGTransform = createTransform(
+  (inboundState, key) => JSOG.encode(inboundState),
+  (outboundState, key) => JSOG.decode(outboundState)
+);
+
 const persistConfig = {
   key: "root",
   storage: storage,
   stateReconciler: autoMergeLevel2,
+  transforms: [JSOGTransform],
 };
 
 const userPersistConfig = {

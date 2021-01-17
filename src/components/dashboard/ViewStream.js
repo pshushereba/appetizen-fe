@@ -26,6 +26,8 @@ const ViewStream = ({ peer, streamerPeerId, ...props }) => {
     props.username,
     props.viewerPeerId
   );
+
+  const viewerChatSocket = initiateChatSocket(room, props.username);
   let streamerVideoDiv;
 
   useEffect(() => {
@@ -51,16 +53,15 @@ const ViewStream = ({ peer, streamerPeerId, ...props }) => {
 
   return (
     <>
-      <Grid container direction="column">
-        <Grid item>
-          <h1>Test</h1>
+      <Grid container direction="column" justify="space-between" spacing={10}>
+        <Grid item xs={8} sm={6}>
           <div id="streamer-video"></div>
         </Grid>
-        <Grid item>
+        <Grid item sm={4}>
           <Chat
             username={props.username}
             roomId={props.match.params.id}
-            //socket={viewerChatSocket}
+            socket={viewerChatSocket}
           />
         </Grid>
       </Grid>
