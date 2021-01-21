@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, TextField, Typography } from "@material-ui/core";
 import {
@@ -12,24 +12,26 @@ const Chat = ({ username, roomId, socket }) => {
   const [message, setMessage] = useState("");
   const [chat, setChat] = useState([]);
 
+  console.log("chat", chat);
   useEffect(() => {
     loadInitialChat((err, data) => {
       if (err) return;
 
       if (data !== null) {
-        setChat([message, ...chat]);
-        // setChat(data);
+        //setChat([message, ...chat]);
+        setChat(data);
       }
     });
-  }, []);
+  }, [roomId]);
 
   useEffect(() => {
     subscribeToChat((err, data) => {
       if (err) return;
+      console.log("in subscribeToChat", data, chat);
 
       setChat([...chat, data]);
     });
-  }, [roomId]);
+  }, [chat]);
 
   const handleChange = (event) => {
     setMessage(event.target.value);
@@ -48,7 +50,7 @@ const Chat = ({ username, roomId, socket }) => {
       ></TextField>
       <Button
         onClick={() => {
-          setChat([message, ...chat]);
+          setChat([...chat, message]);
           sendMessage(roomId, message);
           setMessage("");
         }}

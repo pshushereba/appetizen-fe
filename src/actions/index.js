@@ -12,6 +12,11 @@ export const UPDATE_PROFILE_PICTURE_START = "UPDATE_PROFILE_PICTURE_START";
 export const UPDATE_PROFILE_PICTURE_SUCCESS = "UPDATE_PROFILE_PICTURE_SUCCESS";
 export const UPDATE_PROFILE_PICTURE_FAIL = "UPDATE_PROFILE_PICTURE_FAIL";
 
+export const SUBSCRIBE_TO_NEWSLETTER_START = "SUBSCRIBE_TO_NEWSLETTER_START";
+export const SUBSCRIBE_TO_NEWSLETTER_SUCCESS =
+  "SUBSCRIBE_TO_NEWSLETTER_SUCCESS";
+export const SUBSCRIBE_TO_NEWSLETTER_FAIL = "SUBSCRIBE_TO_NEWSLETTER_FAIL";
+
 // User Account Reducer Action Variables
 
 export const GET_ACCOUNT_START = "GET_ACCOUNT_START";
@@ -26,9 +31,9 @@ export const SEARCH_USER_START = "SEARCH_USER_START";
 export const SEARCH_USER_SUCCESS = "SEARCH_USER_SUCCESS";
 export const SEARCH_USER_FAIL = "SEARCH_USER_FAIL";
 
-export const UPDATE_PEER_START = "UPDATE_PEER_START";
-export const UPDATE_PEER_SUCCESS = "UPDATE_PEER_SUCCESS";
-export const UPDATE_PEER_FAIL = "UPDATE_PEER_FAIL";
+export const UPDATE_PEER_ID_START = "UPDATE_PEER_ID_START";
+export const UPDATE_PEER_ID_SUCCESS = "UPDATE_PEER_ID_SUCCESS";
+export const UPDATE_PEER_ID_FAIL = "UPDATE_PEER_ID_FAIL";
 
 // Stream Reducer Action Variables
 
@@ -123,7 +128,7 @@ export const updateProfilePicture = (id, photo) => (dispatch) => {
 export const reserveRoom = () => (dispatch) => {
   dispatch({ type: RESERVE_ROOM_START });
   axiosWithAuth()
-    .get("https://appetizen-media.herokuapp.com/new")
+    .get("http://localhost:5000/new")
     .then((res) => {
       console.log("reserveRoom fired");
       dispatch({ type: RESERVE_ROOM_SUCCESS, payload: res.data });
@@ -144,12 +149,24 @@ export const getActiveUsers = () => (dispatch) => {
     .catch((err) => dispatch({ type: GET_ACCOUNT_FAIL, payload: err }));
 };
 
-export const updatePeer = (peerObj) => (dispatch) => {
-  dispatch({ type: UPDATE_PEER_START });
+export const updatePeerId = (peerID) => (dispatch) => {
+  dispatch({ type: UPDATE_PEER_ID_START });
   try {
-    console.log("in updatePeerId action", peerObj);
-    dispatch({ type: UPDATE_PEER_SUCCESS, payload: peerObj });
+    console.log("in updatePeerId action", peerID);
+    dispatch({ type: UPDATE_PEER_ID_SUCCESS, payload: peerID });
   } catch {
-    dispatch({ type: UPDATE_PEER_FAIL, payload: error });
+    dispatch({ type: UPDATE_PEER_ID_FAIL, payload: error });
   }
+};
+
+export const subscribeToNewsletter = (email) => (dispatch) => {
+  dispatch({ type: SUBSCRIBE_TO_NEWSLETTER_START });
+  axiosWithAuth()
+    .post(`https://appetizen-be.herokuapp.com/api/newsletter`, email)
+    .then((res) =>
+      dispatch({ type: SUBSCRIBE_TO_NEWSLETTER_SUCCESS, payload: res.data })
+    )
+    .catch((err) =>
+      dispatch({ type: SUBSCRIBE_TO_NEWSLETTER_FAIL, payload: err })
+    );
 };

@@ -49,7 +49,7 @@ const Login = (props) => {
   const dispatch = useDispatch();
   const authorized = props.isAuthenticated;
 
-  myPeer = new Peer();
+  //myPeer = new Peer();
   const handleChange = (event) => {
     setUser({ ...user, [event.target.name]: event.target.value });
   };
@@ -57,7 +57,7 @@ const Login = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     dispatch(loginUser(user, history));
-    dispatch(updatePeer(myPeer));
+    //dispatch(updatePeer(myPeer));
     dispatch(reserveRoom());
   };
 

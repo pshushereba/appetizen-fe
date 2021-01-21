@@ -6,9 +6,9 @@ import {
   UPDATE_PROFILE_PICTURE_START,
   UPDATE_PROFILE_PICTURE_SUCCESS,
   UPDATE_PROFILE_PICTURE_FAIL,
-  UPDATE_PEER_START,
-  UPDATE_PEER_SUCCESS,
-  UPDATE_PEER_FAIL,
+  UPDATE_PEER_ID_START,
+  UPDATE_PEER_ID_SUCCESS,
+  UPDATE_PEER_ID_FAIL,
 } from "../actions/index.js";
 
 const initialState = {
@@ -22,7 +22,7 @@ const initialState = {
   avatar_img: "",
   subscribers: [],
   videos: [],
-  peer: null,
+  peerId: null,
   videoStream: {
     stream: null,
     raw: null,
@@ -98,20 +98,20 @@ const userReducer = (state = initialState, action) => {
         error: action.payload,
       };
 
-    case UPDATE_PEER_START:
+    case UPDATE_PEER_ID_START:
       return {
         ...state,
         isUpdating: true,
       };
 
-    case UPDATE_PEER_SUCCESS:
+    case UPDATE_PEER_ID_SUCCESS:
       return {
         ...state,
-        peer: action.payload,
+        peerId: action.payload,
         isUpdating: false,
       };
 
-    case UPDATE_PEER_FAIL:
+    case UPDATE_PEER_ID_FAIL:
       return {
         ...state,
         isUploading: false,

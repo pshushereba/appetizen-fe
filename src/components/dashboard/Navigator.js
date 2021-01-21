@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { PeerContext } from "../../contexts/index.js";
 import {
   Drawer,
   List,
@@ -40,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
 const goLive = (room, user, peerID) => {
   axios
-    .post("https://appetizen-media.herokuapp.com/live", { room, user, peerID })
+    .post("http://localhost:5000/live", { room, user, peerID })
     .then((res) => console.log(res))
     .catch((err) => console.error(err));
 };
@@ -49,6 +50,7 @@ const Navigator = (props) => {
   const { setMenuItem, username, roomId, peerId, ...other } = props;
   const classes = useStyles();
   const history = useHistory();
+  const peerObj = useContext(PeerContext);
 
   return (
     <>
@@ -200,7 +202,7 @@ const mapStateToProps = (state) => {
   return {
     username: state.User.username,
     roomId: state.Stream.reservedRoom,
-    peerId: state.User.peer.id,
+    peerId: state.User.peerId,
   };
 };
 

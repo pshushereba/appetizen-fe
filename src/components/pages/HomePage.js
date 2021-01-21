@@ -8,6 +8,7 @@ import homepage_kitchen from "../../assets/homepage_kitchen.svg";
 import VideoCallIcon from "@material-ui/icons/VideoCall";
 import PeopleIcon from "@material-ui/icons/People";
 import ShareIcon from "@material-ui/icons/Share";
+import NewsletterSection from "../NewsletterSection.js";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -108,6 +109,20 @@ const HomePage = () => {
               </Grid>
             </Grid>
           </Grid>
+        </Grid>
+        <Grid item>
+          <NewsletterSection
+            bgColor="default"
+            size="medium"
+            bgImage=""
+            bgImageOpacity={1}
+            title="Stay in the know"
+            subtitle="Receive our latest articles and feature updates"
+            buttonText="Subscribe"
+            buttonColor="primary"
+            inputPlaceholder="Enter your email"
+            subscribedMessage="You are now subscribed!"
+          />
         </Grid>
       </Grid>
     </>

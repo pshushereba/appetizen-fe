@@ -2,7 +2,7 @@ import io from "socket.io-client";
 let socket;
 
 export const initiateSocket = (room) => {
-  socket = io("https://appetizen-media.herokuapp.com/", {
+  socket = io("http://localhost:5000", {
     transports: ["websocket"],
   });
   console.log(`Connecting socket...`);
@@ -10,7 +10,7 @@ export const initiateSocket = (room) => {
 };
 
 export const initiateVideoSocket = (room, username, peerId) => {
-  socket = io("https://appetizen-media.herokuapp.com/video", {
+  socket = io("http://localhost:5000/video", {
     transports: ["websocket"],
   });
   console.log(`Connecting video socket...`);
@@ -19,7 +19,7 @@ export const initiateVideoSocket = (room, username, peerId) => {
 };
 
 export const initiateChatSocket = (room, username) => {
-  socket = io("https://appetizen-media.herokuapp.com/chat", {
+  socket = io("http://localhost:5000/chat", {
     transports: ["websocket"],
   });
   console.log(`Connecting chat socket...`);

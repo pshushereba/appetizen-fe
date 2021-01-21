@@ -11,6 +11,7 @@ import About from "./components/pages/About.js";
 import SignUp from "./components/pages/SignUp.js";
 import Pricing from "./components/pages/Pricing.js";
 import Profile from "./components/profile/Profile.js";
+import FAQ from "./components/pages/FAQ.js";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/about" component={About} />
         <Route path="/pricing" component={Pricing} />
         <Route path="/signup" component={SignUp} />
+        <Route path="/faq" component={FAQ} />
         <PrivateRoute exact path={`/:username/profile`} component={Profile} />
         <PrivateRoute
           exact
