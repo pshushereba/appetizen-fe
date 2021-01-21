@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, TextField, Typography } from "@material-ui/core";
 import {
@@ -11,6 +11,7 @@ import {
 const Chat = ({ username, roomId, socket }) => {
   const [message, setMessage] = useState("");
   const [chat, setChat] = useState([]);
+
   console.log("chat", chat);
   useEffect(() => {
     loadInitialChat((err, data) => {

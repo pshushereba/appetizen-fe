@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createContext } from "react";
+import { PeerContext } from "../../contexts/index.js";
 import Navigator from "./Navigator.js";
 import Header from "./Header.js";
 import Video from "./Video.js";
@@ -16,6 +17,8 @@ import ViewStream from "./ViewStream.js";
 import { connect, useDispatch } from "react-redux";
 import { getAccount, reserveRoom, updatePeerId } from "../../actions/index.js";
 import { useParams } from "react-router-dom";
+
+let myPeer;
 
 const drawerWidth = 256;
 
@@ -49,6 +52,17 @@ const Dashboard = (props) => {
   const [menuItem, setMenuItem] = useState("overview");
 
   useEffect(() => {
+    myPeer = new Peer();
+    const timer = setTimeout(() => {
+      dispatch(updatePeerId(myPeer.id));
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Add dispatch in for updatePeerId
+
+  useEffect(() => {
     const timer = setTimeout(() => {
       dispatch(getAccount(username));
     }, 2000);
@@ -60,11 +74,13 @@ const Dashboard = (props) => {
     <div className={classes.root}>
       <CssBaseline />
       <nav className={classes.drawer}>
-        <Navigator
-          PaperProps={{ style: { width: drawerWidth } }}
-          setMenuItem={setMenuItem}
-          roomId={roomId}
-        />
+        <PeerContext.Provider value={myPeer}>
+          <Navigator
+            PaperProps={{ style: { width: drawerWidth } }}
+            setMenuItem={setMenuItem}
+            roomId={roomId}
+          />
+        </PeerContext.Provider>
       </nav>
       <div className={classes.app}>
         <Header />
@@ -72,11 +88,15 @@ const Dashboard = (props) => {
           {menuItem === "overview" ? (
             <Overview />
           ) : menuItem === "live" ? (
-            <MemoizedLiveStream roomId={roomId} />
+            <PeerContext.Provider value={myPeer}>
+              <MemoizedLiveStream roomId={roomId} />
+            </PeerContext.Provider>
           ) : menuItem === "explore" ? (
             <Explore setMenuItem={setMenuItem} />
           ) : menuItem === "viewstream" ? (
-            <MemoizedViewStream viewer={username} />
+            <PeerContext.Provider value={myPeer}>
+              <MemoizedViewStream viewer={username} />
+            </PeerContext.Provider>
           ) : menuItem === "inbox" ? (
             <Inbox />
           ) : menuItem === "notifications" ? (
@@ -103,7 +123,7 @@ const mapStateToProps = (state) => {
     email: state.User.email,
     isAuthenticated: state.User.isAuthenticated,
     roomId: state.Stream.reservedRoom,
-    peerId: state.User.peer.id,
+    //peerId: state.User.peer.id,
   };
 };
 

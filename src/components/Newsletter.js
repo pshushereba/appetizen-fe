@@ -5,13 +5,22 @@ import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 //import newsletter from "./../util/newsletter.js";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { subscribeToNewsletter } from "../actions/index.js";
 
 function Newsletter(props) {
   const [subscribed, setSubscribed] = useState(false);
+  const [subscriberEmail, setSubscriberEmail] = useState("");
 
   const { handleSubmit, register, errors } = useForm();
+  const dispatch = useDispatch();
 
-  const onSubmit = ({ email }) => {
+  const handleChange = (e) => {
+    setSubscriberEmail(e.target.value);
+  };
+
+  const onSubmit = (subscriberEmail) => {
+    dispatch(subscribeToNewsletter(subscriberEmail));
     setSubscribed(true);
     // Parent component can optionally
     // find out when subscribed.
@@ -31,6 +40,8 @@ function Newsletter(props) {
                 type="email"
                 label="Email"
                 name="email"
+                value={subscriberEmail}
+                onChange={handleChange}
                 error={errors.email ? true : false}
                 helperText={errors.email && errors.email.message}
                 fullWidth={true}

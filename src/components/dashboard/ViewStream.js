@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
+import { PeerContext } from "../../contexts/index.js";
 import {
   useHistory,
   useParams,
@@ -14,24 +15,38 @@ import Chat from "../chat/Chat.js";
 import Grid from "@material-ui/core/Grid";
 import { connect } from "react-redux";
 
-const ViewStream = ({ peer, streamerPeerId, ...props }) => {
+const ViewStream = ({ streamerPeerId, viewerPeerId, ...props }) => {
   const history = useHistory();
   // const { id } = useParams();
   const location = useLocation();
   const room = props.match.params.id;
-  const viewerPeer = peer;
-  // const streamerPeerId = streamerPeerId;
+  // const [videoStream, _setVideoStream] = useState(null);
+  // const [socketRegistered, setSocketRegistered] = useState(false);
+  // const videoStreamRef = useRef(videoStream);
+  // const setVideoStream = (data) => {
+  //   videoStreamRef.current = data;
+  //   _setVideoStream(data);
+  // };
+
+  const viewerPeer = useContext(PeerContext);
+
   const viewerVideoSocket = initiateVideoSocket(
     room,
     props.username,
-    props.viewerPeerId
+    viewerPeerId
   );
 
   const viewerChatSocket = initiateChatSocket(room, props.username);
   let streamerVideoDiv;
 
   useEffect(() => {
-    viewerVideoSocket.emit("viewer-connected", room, props.username, peer.id);
+    console.log("viewerPeer useEffect", viewerPeer);
+    viewerVideoSocket.emit(
+      "viewer-connected",
+      room,
+      props.username,
+      viewerPeerId
+    );
 
     viewerPeer.on("call", (call) => {
       call.answer();
@@ -53,11 +68,11 @@ const ViewStream = ({ peer, streamerPeerId, ...props }) => {
 
   return (
     <>
-      <Grid container direction="column" justify="space-between" spacing={10}>
-        <Grid item xs={8} sm={6}>
+      <Grid container direction="column" justify="space-around" spacing={10}>
+        <Grid item={true} xs={8} sm={6}>
           <div id="streamer-video"></div>
         </Grid>
-        <Grid item sm={4}>
+        <Grid item={true} sm={4}>
           <Chat
             username={props.username}
             roomId={props.match.params.id}
@@ -72,8 +87,8 @@ const ViewStream = ({ peer, streamerPeerId, ...props }) => {
 const mapStateToProps = (state) => {
   return {
     username: state.User.username,
-    viewerPeerId: state.User.peer.id,
-    peer: state.User.peer,
+    viewerPeerId: state.User.peerId,
+    //peer: state.User.peer,
   };
 };
 
