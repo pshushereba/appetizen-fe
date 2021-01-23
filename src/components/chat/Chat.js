@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, TextField, Typography } from "@material-ui/core";
 import {
@@ -29,17 +29,18 @@ const Chat = ({ username, roomId, socket }) => {
       if (err) return;
       console.log("in subscribeToChat", data, chat);
 
-      setChat([...chat, data]);
+      handleMessage(data);
+      //setChat([...chat, data]);
     });
-  }, [chat]);
+  }, []);
 
   const handleChange = (event) => {
     setMessage(event.target.value);
   };
 
-  const handleMessage = (event) => {
-    sendMessage(roomId, message);
-  };
+  const handleMessage = useCallback((data) => {
+    setChat(() => [...chat, data]);
+  });
 
   return (
     <div>
@@ -50,7 +51,8 @@ const Chat = ({ username, roomId, socket }) => {
       ></TextField>
       <Button
         onClick={() => {
-          setChat([...chat, message]);
+          handleMessage(message);
+          //setChat([...chat, message]);
           sendMessage(roomId, message);
           setMessage("");
         }}
@@ -62,4 +64,4 @@ const Chat = ({ username, roomId, socket }) => {
   );
 };
 
-export default Chat;
+export const MemoizedChat = React.memo(Chat);

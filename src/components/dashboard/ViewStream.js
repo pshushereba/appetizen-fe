@@ -11,7 +11,8 @@ import {
   initiateVideoSocket,
   disconnectSocket,
 } from "../../utils/socketHelpers.js";
-import Chat from "../chat/Chat.js";
+//import Chat from "../chat/Chat.js";
+import { MemoizedChat } from "../chat/Chat.js";
 import Grid from "@material-ui/core/Grid";
 import { connect } from "react-redux";
 
@@ -73,7 +74,7 @@ const ViewStream = ({ streamerPeerId, viewerPeerId, ...props }) => {
           <div id="streamer-video"></div>
         </Grid>
         <Grid item={true} sm={4}>
-          <Chat
+          <MemoizedChat
             username={props.username}
             roomId={props.match.params.id}
             socket={viewerChatSocket}

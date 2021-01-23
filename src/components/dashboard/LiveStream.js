@@ -1,22 +1,32 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { PeerContext } from "../../contexts/index.js";
+import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import { PlayArrow } from "@material-ui/icons";
 import { useParams } from "react-router-dom";
+import { Card, CardMedia } from "@material-ui/core";
 import StreamControls from "../video/StreamControls.js";
 import { connect } from "react-redux";
 import Chat from "../chat/Chat.js";
+import { MemoizedChat } from "../chat/Chat.js";
 import {
   initiateVideoSocket,
   initiateChatSocket,
   disconnectSocket,
 } from "../../utils/socketHelpers.js";
 
+const useStyles = makeStyles((theme) => ({
+  vidContainer: {
+    width: "320px",
+    height: "240px",
+  },
+}));
+
 let videoGrid;
 let videoSocket;
 let viewerVideoGrid;
 const peers = {};
-//let chatSocket;
+
 // Set up array to hold chunks of video data
 
 let chunks = [];
@@ -24,6 +34,7 @@ let chunks = [];
 const mediaRecorderOptions = { mimeType: "video/webm;codecs=h264" };
 
 const LiveStream = ({ username, roomId }) => {
+  const classes = useStyles();
   // Set the user's video stream in state once given permission on component load
   const [videoStream, _setVideoStream] = useState(null);
   const [socketRegistered, setSocketRegistered] = useState(false);
@@ -35,7 +46,7 @@ const LiveStream = ({ username, roomId }) => {
   const chatSocket = initiateChatSocket(roomId, username);
   const peer = useContext(PeerContext);
   console.log("peer from PeerContext", peer);
-
+  const videoRef = useRef();
   // Set up a media recorder instance so that the user can record their video.
   const [mediaRecorder, setMediaRecorder] = useState(null);
 
@@ -113,6 +124,8 @@ const LiveStream = ({ username, roomId }) => {
   // camera and mic.
   function addVideoStream(vs, cs, video, stream) {
     video.srcObject = stream;
+
+    // video = <CardMedia component="video" src={stream} ref={videoRef} />;
     video.addEventListener("loadedmetadata", () => {
       video.play();
     });
@@ -148,20 +161,34 @@ const LiveStream = ({ username, roomId }) => {
 
   return (
     <>
-      <Grid container direction="column" justify="space-between" spacing={10}>
-        <Grid container spacing={8}>
-          <Grid item={true} xs={8} sm={6}>
-            <div id="video-grid"></div>
-            <StreamControls
-              mediaRecorder={mediaRecorder}
-              stoppedVideo={stoppedVideo}
-            />
+      <Grid
+        container={true}
+        direction="column"
+        justify="space-between"
+        spacing={10}
+      >
+        <Grid container={true} justify="space-around">
+          <Grid container={true} className={classes.vidContainer}>
+            <Grid item={true} xs={6} sm={4}>
+              <Card ref={videoRef} id="video-grid" />
+
+              <StreamControls
+                mediaRecorder={mediaRecorder}
+                stoppedVideo={stoppedVideo}
+              />
+            </Grid>
           </Grid>
-          <Grid item={true} sm={4}>
-            <Chat username={username} roomId={roomId} socket={chatSocket} />
+          <Grid container={true}>
+            <Grid item={true}>
+              <MemoizedChat
+                username={username}
+                roomId={roomId}
+                socket={chatSocket}
+              />
+            </Grid>
           </Grid>
         </Grid>
-        <Grid container>
+        <Grid container={true}>
           <div id="viewer-grid"></div>
         </Grid>
       </Grid>

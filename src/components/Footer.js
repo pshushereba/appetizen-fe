@@ -92,13 +92,13 @@ function Footer(props) {
             className={`${classes.item} ${classes.right} ${classes.smallLinks}`}
           >
             <Typography>
-              <Link to="/about" className={classes.link}>
+              <Link to="#" className={classes.link}>
                 About
               </Link>
               <Link to="/faq" className={classes.link}>
                 FAQ
               </Link>
-              <Link to="/contact" className={classes.link}>
+              <Link to="#" className={classes.link}>
                 Contact
               </Link>
               <a
