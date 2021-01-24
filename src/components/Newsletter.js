@@ -22,11 +22,6 @@ function Newsletter(props) {
   const onSubmit = (subscriberEmail) => {
     dispatch(subscribeToNewsletter(subscriberEmail));
     setSubscribed(true);
-    // Parent component can optionally
-    // find out when subscribed.
-    //props.onSubscribed && props.onSubscribed();
-    // Subscribe them
-    //newsletter.subscribe({ email });
   };
 
   return (

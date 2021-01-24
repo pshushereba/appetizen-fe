@@ -1,6 +1,16 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Button, TextField, Typography } from "@material-ui/core";
+import { useDispatch } from "react-redux";
+import { appendMessate, isTyping, notTyping } from "../../actions/index.js";
+import Message from "./Message.js";
+import {
+  Button,
+  TextField,
+  Typography,
+  List,
+  ListItem,
+  Grid,
+} from "@material-ui/core";
 import {
   initiateChatSocket,
   sendMessage,
@@ -8,11 +18,20 @@ import {
   loadInitialChat,
 } from "../../utils/socketHelpers.js";
 
+const useStyles = makeStyles((theme) => ({
+  messageContainer: {
+    height: "16.75rem",
+    paddingBottom: "2rem",
+    overflow: "scroll",
+  },
+}));
+
 const Chat = ({ username, roomId, socket }) => {
+  const classes = useStyles();
   const [message, setMessage] = useState("");
   const [chat, setChat] = useState([]);
+  const dispatch = useDispatch();
 
-  console.log("chat", chat);
   useEffect(() => {
     loadInitialChat((err, data) => {
       if (err) return;
@@ -34,6 +53,20 @@ const Chat = ({ username, roomId, socket }) => {
     });
   }, []);
 
+  // Socket event handlers
+
+  // socket.on("typing", (data) => {
+  //   dispatch(isTyping(data));
+  // });
+
+  // socket.on("new_message", (data) => {
+  //   dispatch(appendMessage(data));
+  // });
+
+  // socket.on("not_typing", (data) => {
+  //   dispatch(notTyping(data));
+  // })
+
   const handleChange = (event) => {
     setMessage(event.target.value);
   };
@@ -42,25 +75,31 @@ const Chat = ({ username, roomId, socket }) => {
     setChat(() => [...chat, data]);
   });
 
+  const handleTyping = () => {};
+
   return (
-    <div>
-      <TextField
-        placeholder="Send a Message"
-        value={message}
-        onChange={handleChange}
-      ></TextField>
-      <Button
-        onClick={() => {
-          handleMessage(message);
-          //setChat([...chat, message]);
-          sendMessage(roomId, message);
-          setMessage("");
-        }}
-      >
-        Send
-      </Button>
-      {chat ? chat.map((m, i) => <p key={i}>{m}</p>) : ""}
-    </div>
+    <>
+      <Grid container={true} direction="column">
+        <List className={classes.messageContainer}>
+          {chat ? chat.map((m, i) => <Message message={m} key={i} />) : ""}
+        </List>
+        <TextField
+          placeholder="Send a Message"
+          value={message}
+          onChange={handleChange}
+        ></TextField>
+        <Button
+          onClick={() => {
+            handleMessage(message);
+            //setChat([...chat, message]);
+            sendMessage(roomId, message);
+            setMessage("");
+          }}
+        >
+          Send
+        </Button>
+      </Grid>
+    </>
   );
 };
 

@@ -45,6 +45,12 @@ export const GET_ACTIVE_USERS_START = "GET_ACTIVE_USERS_START";
 export const GET_ACTIVE_USERS_SUCCESS = "GET_ACTIVE_USERS_SUCCESS";
 export const GET_ACTIVE_USERS_FAIL = "GET_ACTIVE_USERS_FAIL";
 
+// Chat Reducer Action Variables
+
+export const APPEND_MESSAGE = "APPEND_MESSAGE";
+export const IS_TYPING = "IS_TYPING";
+export const NOT_TYPING = "NOT_TYPING";
+
 export const registerUser = (newUser) => (dispatch) => {
   axiosWithAuth()
     .post("/auth/register", newUser)
@@ -169,4 +175,16 @@ export const subscribeToNewsletter = (email) => (dispatch) => {
     .catch((err) =>
       dispatch({ type: SUBSCRIBE_TO_NEWSLETTER_FAIL, payload: err })
     );
+};
+
+export const appendMessage = (message) => (dispatch) => {
+  dispatch({ type: APPEND_MESSAGE, payload: message });
+};
+
+export const isTyping = (data) => (dispatch) => {
+  dispatch({ type: IS_TYPING, payload: data });
+};
+
+export const notTyping = (data) => (dispatch) => {
+  dispatch({ type: NOT_TYPING, payload: data });
 };

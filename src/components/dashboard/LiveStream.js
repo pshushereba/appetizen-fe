@@ -17,8 +17,12 @@ import {
 
 const useStyles = makeStyles((theme) => ({
   vidContainer: {
-    width: "320px",
-    height: "240px",
+    width: "480px",
+    height: "360px",
+    "& video": {
+      width: "100%",
+      height: "auto",
+    },
   },
 }));
 
@@ -54,6 +58,7 @@ const LiveStream = ({ username, roomId }) => {
     videoGrid = document.getElementById("video-grid");
     viewerVideoGrid = document.getElementById("viewer-grid");
     const myVideo = document.createElement("video");
+
     const configOptions = { video: true, audio: false };
     myVideo.muted = true;
     async function enableStream() {
@@ -125,7 +130,9 @@ const LiveStream = ({ username, roomId }) => {
   function addVideoStream(vs, cs, video, stream) {
     video.srcObject = stream;
 
-    // video = <CardMedia component="video" src={stream} ref={videoRef} />;
+    // video = (
+    //   <CardMedia component="video" src={videoStream} ref={videoStreamRef} />
+    // );
     video.addEventListener("loadedmetadata", () => {
       video.play();
     });
@@ -167,29 +174,21 @@ const LiveStream = ({ username, roomId }) => {
         justify="space-between"
         spacing={10}
       >
-        <Grid container={true} justify="space-around">
-          <Grid container={true} className={classes.vidContainer}>
-            <Grid item={true} xs={6} sm={4}>
-              <Card ref={videoRef} id="video-grid" />
-
-              <StreamControls
-                mediaRecorder={mediaRecorder}
-                stoppedVideo={stoppedVideo}
-              />
-            </Grid>
+        <Grid container={true} spacing={10} justify="space-evenly">
+          <Grid item={true} xs={6}>
+            <Card className={classes.vidContainer} id="video-grid" />
+            <StreamControls
+              mediaRecorder={mediaRecorder}
+              stoppedVideo={stoppedVideo}
+            />
           </Grid>
-          <Grid container={true}>
-            <Grid item={true}>
-              <MemoizedChat
-                username={username}
-                roomId={roomId}
-                socket={chatSocket}
-              />
-            </Grid>
+          <Grid item={true} xs={4}>
+            <MemoizedChat
+              username={username}
+              roomId={roomId}
+              socket={chatSocket}
+            />
           </Grid>
-        </Grid>
-        <Grid container={true}>
-          <div id="viewer-grid"></div>
         </Grid>
       </Grid>
     </>
