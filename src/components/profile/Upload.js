@@ -20,6 +20,7 @@ const Upload = () => {
   return (
     <div>
       <Dropzone onFileAdded={onFileAdded} />
+      <Button type="submit" onClick={sendRequest} />
     </div>
   );
 };

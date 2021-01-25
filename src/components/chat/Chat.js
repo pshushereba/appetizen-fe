@@ -75,7 +75,11 @@ const Chat = ({ username, roomId, socket }) => {
     setChat(() => [...chat, data]);
   });
 
-  const handleTyping = () => {};
+  // const handleTyping = () => {
+  //   socket.emit("typing", () => {
+
+  //   });
+  // };
 
   return (
     <>

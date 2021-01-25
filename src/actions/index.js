@@ -123,7 +123,7 @@ export const updateProfilePicture = (id, photo) => (dispatch) => {
     .then((res) => {
       dispatch({
         type: UPDATE_PROFILE_PICTURE_SUCCESS,
-        payload: res.data.avatar,
+        payload: res.data,
       });
     })
     .catch((err) => {
