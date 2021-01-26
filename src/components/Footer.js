@@ -98,7 +98,7 @@ function Footer(props) {
               <Link to="/faq" className={classes.link}>
                 FAQ
               </Link>
-              <Link to="#" className={classes.link}>
+              <Link to="/contact" className={classes.link}>
                 Contact
               </Link>
               <a

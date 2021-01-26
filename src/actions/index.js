@@ -17,6 +17,12 @@ export const SUBSCRIBE_TO_NEWSLETTER_SUCCESS =
   "SUBSCRIBE_TO_NEWSLETTER_SUCCESS";
 export const SUBSCRIBE_TO_NEWSLETTER_FAIL = "SUBSCRIBE_TO_NEWSLETTER_FAIL";
 
+// Submit Contact Form Action Variables
+
+export const SUBMIT_CONTACT_FORM_START = "SUBMIT_CONTACT_FORM_START";
+export const SUBMIT_CONTACT_FORM_SUCCESS = "SUBMIT_CONTACT_FORM_SUCCESS";
+export const SUBMIT_CONTACT_FORM_FAIL = "SUBMIT_CONTACT_FORM_FAIL";
+
 // User Account Reducer Action Variables
 
 export const GET_ACCOUNT_START = "GET_ACCOUNT_START";
@@ -175,6 +181,19 @@ export const subscribeToNewsletter = (email) => (dispatch) => {
     .catch((err) =>
       dispatch({ type: SUBSCRIBE_TO_NEWSLETTER_FAIL, payload: err })
     );
+};
+
+export const submitContactForm = (data) => (dispatch) => {
+  console.log("submitContactForm Fired");
+  dispatch({ type: SUBMIT_CONTACT_FORM_START });
+  axiosWithAuth()
+    .post(`https://formspree.io/f/${process.env.FORMSPREE_CONTACT_ID}`, data)
+    .then((res) => {
+      dispatch({ type: SUBMIT_CONTACT_FORM_SUCCESS, payload: res.data });
+    })
+    .catch((err) => {
+      dispatch({ type: SUBMIT_CONTACT_FORM_FAIL, payload: err });
+    });
 };
 
 export const appendMessage = (message) => (dispatch) => {

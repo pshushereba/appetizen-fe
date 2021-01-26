@@ -12,7 +12,7 @@ const About = () => {
       <AboutHeroSection
         bgColor="primary"
         size="large"
-        bgImage="https://source.unsplash.com/FyD3OWBuXnY/1600x800"
+        bgImage=""
         bgImageOpacity={0.2}
         title="We help you make money"
         subtitle="Appetizen is a place for you to interact with your followers. Grow your audience, leverage your network, and make the most out of your cooking and baking skills."
