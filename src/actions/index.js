@@ -57,6 +57,10 @@ export const APPEND_MESSAGE = "APPEND_MESSAGE";
 export const IS_TYPING = "IS_TYPING";
 export const NOT_TYPING = "NOT_TYPING";
 
+export const CLEAR_CHAT_START = "CLEAR_CHAT_START";
+export const CLEAR_CHAT_SUCCESS = "CLEAR_CHAT_SUCCESS";
+export const CLEAR_CHAT_FAIL = "CLEAR_CHAT_FAIL";
+
 export const registerUser = (newUser) => (dispatch) => {
   axiosWithAuth()
     .post("/auth/register", newUser)
@@ -206,4 +210,13 @@ export const isTyping = (data) => (dispatch) => {
 
 export const notTyping = (data) => (dispatch) => {
   dispatch({ type: NOT_TYPING, payload: data });
+};
+
+export const clearChat = () => (dispatch) => {
+  dispatch({ type: CLEAR_CHAT_START });
+  try {
+    dispatch({ type: CLEAR_CHAT_SUCCESS });
+  } catch {
+    dispatch({ type: CLEAR_CHAT_FAIL, payload: error });
+  }
 };

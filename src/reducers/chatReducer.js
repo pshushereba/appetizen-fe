@@ -1,9 +1,17 @@
-import { APPEND_MESSAGE, IS_TYPING, NOT_TYPING } from "../actions/index.js";
+import {
+  APPEND_MESSAGE,
+  IS_TYPING,
+  NOT_TYPING,
+  CLEAR_CHAT_START,
+  CLEAR_CHAT_SUCCESS,
+  CLEAR_CHAT_FAIL,
+} from "../actions/index.js";
 
 const initialState = {
   messages: [],
   isTyping: false,
   typist: null,
+  error: null,
 };
 
 const chatReducer = (state = initialState, action) => {
@@ -17,7 +25,7 @@ const chatReducer = (state = initialState, action) => {
 
     case IS_TYPING:
       return {
-        ...payload,
+        ...state,
         isTyping: true,
         typist: action.payload.username,
       };
@@ -27,6 +35,20 @@ const chatReducer = (state = initialState, action) => {
         ...state,
         isTyping: false,
         typist: null,
+      };
+
+    case CLEAR_CHAT_START:
+      return state;
+
+    case CLEAR_CHAT_SUCCESS:
+      return {
+        ...state,
+        messages: [],
+      };
+    case CLEAR_CHAT_FAIL:
+      return {
+        ...state,
+        error: action.payload,
       };
     default:
       return state;

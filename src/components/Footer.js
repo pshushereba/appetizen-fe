@@ -92,6 +92,9 @@ function Footer(props) {
             className={`${classes.item} ${classes.right} ${classes.smallLinks}`}
           >
             <Typography>
+              <Link to="/" className={classes.link}>
+                Home
+              </Link>
               <Link to="/about" className={classes.link}>
                 About
               </Link>

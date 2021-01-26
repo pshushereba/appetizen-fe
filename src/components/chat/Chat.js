@@ -1,7 +1,12 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { useDispatch } from "react-redux";
-import { appendMessate, isTyping, notTyping } from "../../actions/index.js";
+import { connect, useDispatch } from "react-redux";
+import {
+  appendMessage,
+  isTyping,
+  notTyping,
+  clearChat,
+} from "../../actions/index.js";
 import Message from "./Message.js";
 import {
   Button,
@@ -16,6 +21,7 @@ import {
   sendMessage,
   subscribeToChat,
   loadInitialChat,
+  disconnectSocket,
 } from "../../utils/socketHelpers.js";
 
 const useStyles = makeStyles((theme) => ({
@@ -26,11 +32,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Chat = ({ username, roomId, socket }) => {
+const Chat = ({ username, roomId, socket, history }) => {
   const classes = useStyles();
   const [message, setMessage] = useState("");
   const [chat, setChat] = useState([]);
+  const [error, setError] = useState("");
   const dispatch = useDispatch();
+  console.log(history);
 
   useEffect(() => {
     loadInitialChat((err, data) => {
@@ -38,8 +46,21 @@ const Chat = ({ username, roomId, socket }) => {
 
       if (data !== null) {
         //setChat([message, ...chat]);
+        // Need to pull the message history from the server and then dispatch the action to update the store.
         setChat(data);
       }
+    });
+
+    socket.on("typing", (data) => {
+      dispatch(isTyping(data));
+    });
+
+    socket.on("new_message", (data) => {
+      dispatch(appendMessage(data));
+    });
+
+    socket.on("not_typing", (data) => {
+      dispatch(notTyping(data));
     });
   }, [roomId]);
 
@@ -48,12 +69,17 @@ const Chat = ({ username, roomId, socket }) => {
       if (err) return;
       console.log("in subscribeToChat", data, chat);
 
-      handleMessage(data);
+      //handleMessage(data);
       //setChat([...chat, data]);
     });
+
+    return function cleanup() {
+      disconnectSocket();
+      dispatch(clearChat());
+    };
   }, []);
 
-  // Socket event handlers
+  // Socket event listeners. Will dispatch actions based on events from other connected users.
 
   // socket.on("typing", (data) => {
   //   dispatch(isTyping(data));
@@ -65,27 +91,48 @@ const Chat = ({ username, roomId, socket }) => {
 
   // socket.on("not_typing", (data) => {
   //   dispatch(notTyping(data));
-  // })
+  // });
+
+  // Functions to handle changes for current user.
 
   const handleChange = (event) => {
     setMessage(event.target.value);
+    if (event.target.value !== "") {
+      handleTyping();
+    } else {
+      handleNotTyping();
+    }
   };
 
   const handleMessage = useCallback((data) => {
-    setChat(() => [...chat, data]);
+    if (message === "") {
+      setError("There is no message.");
+      return;
+    }
+    setError("");
+    socket.emit("new_message", message);
+    // setChat(() => [...chat, data]);
   });
 
-  // const handleTyping = () => {
-  //   socket.emit("typing", () => {
+  const handleTyping = () => {
+    socket.emit("typing", {
+      username: username,
+    });
+  };
 
-  //   });
-  // };
+  const handleNotTyping = () => {
+    socket.emit("not_typing", {
+      username: username,
+    });
+  };
 
   return (
     <>
       <Grid container={true} direction="column">
         <List className={classes.messageContainer}>
-          {chat ? chat.map((m, i) => <Message message={m} key={i} />) : ""}
+          {history
+            ? history.map((m, i) => <Message message={m} key={i} />)
+            : ""}
         </List>
         <TextField
           placeholder="Send a Message"
@@ -107,4 +154,10 @@ const Chat = ({ username, roomId, socket }) => {
   );
 };
 
-export const MemoizedChat = React.memo(Chat);
+const mapStateToProps = (state) => {
+  return {
+    history: state.Chat.messages,
+  };
+};
+
+export const MemoizedChat = React.memo(connect(mapStateToProps, {})(Chat));
