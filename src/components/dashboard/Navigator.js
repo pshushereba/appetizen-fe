@@ -62,7 +62,7 @@ const Navigator = (props) => {
               history.push(`/${username}/profile`);
             }}
           >
-            <Avatar>P</Avatar>
+            <Avatar src={props.avatar} />
           </ListItem>
           <ListItem
             button
@@ -203,6 +203,7 @@ const mapStateToProps = (state) => {
     username: state.User.username,
     roomId: state.Stream.reservedRoom,
     peerId: state.User.peerId,
+    avatar: state.User.avatar_img,
   };
 };
 

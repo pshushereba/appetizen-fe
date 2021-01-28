@@ -54,7 +54,7 @@ const userReducer = (state = initialState, action) => {
       localStorage.setItem("token", action.payload.token);
       return {
         ...state,
-        userId: action.payload.id,
+        userId: action.payload.user_id,
         first_name: action.payload.first_name,
         last_name: action.payload.last_name,
         username: action.payload.username,
@@ -84,7 +84,7 @@ const userReducer = (state = initialState, action) => {
           isUploading: false,
           progress: 100,
         },
-        avatar_img: action.payload,
+        avatar_img: action.payload.avatar_img,
       };
 
     case UPDATE_PROFILE_PICTURE_FAIL:

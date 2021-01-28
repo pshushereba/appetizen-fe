@@ -1,26 +1,31 @@
 import React, { useState } from "react";
 import Dropzone from "./Dropzone.js";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { updateProfilePicture } from "../../actions/index.js";
+import { Button } from "@material-ui/core";
 
-const Upload = () => {
+const Upload = ({ user_id }) => {
   const [file, setFile] = useState({});
+  const dispatch = useDispatch();
 
-  const onFileAdded = (file) => {
-    setFile(file[0]);
+  const onFileAdded = (photo) => {
+    console.log("in Upload onFileAdded", photo[0].path);
+    setFile(photo[0]);
   };
+  console.log("useState file", file);
 
-  const sendRequest = (file) => {
+  const sendRequest = () => {
     const formData = new FormData();
     formData.append("photo", file, file.name);
-
-    updateProfilePicture(user_id, formData);
+    dispatch(updateProfilePicture(user_id, formData));
   };
 
   return (
     <div>
       <Dropzone onFileAdded={onFileAdded} />
-      <Button type="submit" onClick={sendRequest} />
+      <Button type="submit" onClick={sendRequest}>
+        Test Photo Upload
+      </Button>
     </div>
   );
 };
@@ -31,4 +36,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, {})(Upload);
+export default connect(mapStateToProps, { updateProfilePicture })(Upload);

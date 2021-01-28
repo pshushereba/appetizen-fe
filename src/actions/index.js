@@ -125,15 +125,13 @@ export const updateAccount = (acctID, updatedAccount) => (dispatch) => {
 };
 
 export const updateProfilePicture = (id, photo) => (dispatch) => {
-  // Possibly add config object. TBD.
-
   dispatch({ type: UPDATE_PROFILE_PICTURE_START });
   axiosWithAuth()
     .post(`/users/${id}/photo`, photo)
     .then((res) => {
       dispatch({
         type: UPDATE_PROFILE_PICTURE_SUCCESS,
-        payload: res.data,
+        payload: res.data.photoLink[0],
       });
     })
     .catch((err) => {

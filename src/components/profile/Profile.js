@@ -1,6 +1,7 @@
 import React from "react";
 import { Grid, Typography } from "@material-ui/core/";
 import ProfileNav from "./ProfileNav.js";
+import Upload from "./Upload.js";
 
 const Profile = () => {
   return (
@@ -8,6 +9,7 @@ const Profile = () => {
       <ProfileNav />
       <Grid container direction="column">
         <Grid item>
+          <Upload />
           <h1>Profile Header will go here</h1>
           <h2>This section will also have user information</h2>
         </Grid>

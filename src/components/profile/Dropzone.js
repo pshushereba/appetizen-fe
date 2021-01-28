@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import Avatar from "@material-ui/core/Avatar";
-import Input from "@material-ui/core";
-import Button from "@material-ui/core";
+import { Input, Button } from "@material-ui/core";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 
 const Dropzone = (props) => {
@@ -20,6 +19,8 @@ const Dropzone = (props) => {
 
   const onFileAdded = (evt) => {
     const files = evt.target.files;
+    // When a file is added, it is stored in a FileList. We move the file info into an array to work with it.
+    console.log("in onFileAdded", files);
     if (props.onFileAdded) {
       const array = fileListToArray(files);
       props.onFileAdded(array);
@@ -45,14 +46,13 @@ const Dropzone = (props) => {
 
   return (
     <div>
-      <Avatar />
+      <Avatar src={props.avatar} />
       <CloudUploadIcon
         onDragOver={onDragOver}
         onDragLeave={onDragLeave}
         onDrop={onDrop}
       />
       <Input type="file" onChange={onFileAdded} />
-      <Button>Change Profile Picture</Button>
     </div>
   );
 };
