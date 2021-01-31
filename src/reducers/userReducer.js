@@ -59,6 +59,7 @@ const userReducer = (state = initialState, action) => {
         last_name: action.payload.last_name,
         username: action.payload.username,
         email: action.payload.email,
+        avatar_img: action.payload.avatar_img,
         isAuthenticated: true,
       };
 
