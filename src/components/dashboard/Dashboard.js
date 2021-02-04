@@ -5,6 +5,7 @@ import Header from "./Header.js";
 import Video from "./Video.js";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import { Container } from "@material-ui/core";
 import Overview from "./Overview.js";
 import Settings from "./Settings.js";
 import Inbox from "./Inbox.js";
@@ -71,46 +72,48 @@ const Dashboard = (props) => {
   }, []);
 
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <nav className={classes.drawer}>
-        <PeerContext.Provider value={myPeer}>
-          <Navigator
-            PaperProps={{ style: { width: drawerWidth } }}
-            setMenuItem={setMenuItem}
-            roomId={roomId}
-          />
-        </PeerContext.Provider>
-      </nav>
-      <div className={classes.app}>
-        <Header />
-        <div className={classes.main}>
-          {menuItem === "overview" ? (
-            <Overview />
-          ) : menuItem === "live" ? (
-            <PeerContext.Provider value={myPeer}>
-              <MemoizedLiveStream roomId={roomId} />
-            </PeerContext.Provider>
-          ) : menuItem === "explore" ? (
-            <Explore setMenuItem={setMenuItem} />
-          ) : menuItem === "viewstream" ? (
-            <PeerContext.Provider value={myPeer}>
-              <MemoizedViewStream viewer={username} />
-            </PeerContext.Provider>
-          ) : menuItem === "inbox" ? (
-            <Inbox />
-          ) : menuItem === "notifications" ? (
-            <Notifications />
-          ) : menuItem === "videos" ? (
-            <Video />
-          ) : menuItem === "settings" ? (
-            <Settings />
-          ) : (
-            "Error"
-          )}
+    <>
+      <div className={classes.root}>
+        <CssBaseline />
+        <nav className={classes.drawer}>
+          <PeerContext.Provider value={myPeer}>
+            <Navigator
+              PaperProps={{ style: { width: drawerWidth } }}
+              setMenuItem={setMenuItem}
+              roomId={roomId}
+            />
+          </PeerContext.Provider>
+        </nav>
+        <div className={classes.app}>
+          <Header />
+          <div className={classes.main}>
+            {menuItem === "overview" ? (
+              <Overview />
+            ) : menuItem === "live" ? (
+              <PeerContext.Provider value={myPeer}>
+                <MemoizedLiveStream roomId={roomId} />
+              </PeerContext.Provider>
+            ) : menuItem === "explore" ? (
+              <Explore setMenuItem={setMenuItem} />
+            ) : menuItem === "viewstream" ? (
+              <PeerContext.Provider value={myPeer}>
+                <MemoizedViewStream viewer={username} />
+              </PeerContext.Provider>
+            ) : menuItem === "inbox" ? (
+              <Inbox />
+            ) : menuItem === "notifications" ? (
+              <Notifications />
+            ) : menuItem === "videos" ? (
+              <Video />
+            ) : menuItem === "settings" ? (
+              <Settings />
+            ) : (
+              "Error"
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

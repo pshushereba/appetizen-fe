@@ -61,6 +61,10 @@ export const CLEAR_CHAT_START = "CLEAR_CHAT_START";
 export const CLEAR_CHAT_SUCCESS = "CLEAR_CHAT_SUCCESS";
 export const CLEAR_CHAT_FAIL = "CLEAR_CHAT_FAIL";
 
+export const LOAD_CHAT_HISTORY_START = "LOAD_CHAT_HISTORY_START";
+export const LOAD_CHAT_HISTORY_SUCCESS = "LOAD_CHAT_HISTORY_SUCCESS";
+export const LOAD_CHAT_HISTORY_FAIL = "LOAD_CHAT_HISTORY_FAIL";
+
 export const registerUser = (newUser) => (dispatch) => {
   axiosWithAuth()
     .post("/auth/register", newUser)

@@ -1,5 +1,6 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
+import { Container } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
@@ -21,40 +22,42 @@ const Overview = () => {
 
   return (
     <>
-      <Grid container direction="column">
-        <Grid container spacing={10} justify="center">
-          <Grid item xs={3} className={classes.tile}>
-            <Paper>
-              <Typography variant="subtitle1" align="center">
-                New Subscribers
-              </Typography>
-              <Typography variant="body1" align="center">
-                300
-              </Typography>
-            </Paper>
-          </Grid>
-          <Grid item xs={3} className={classes.tile}>
-            <Paper>
-              <Typography variant="subtitle1" align="center">
-                New Views
-              </Typography>
-              <Typography variant="body2" align="center">
-                600
-              </Typography>
-            </Paper>
-          </Grid>
-          <Grid item xs={3} className={classes.tile}>
-            <Paper>
-              <Typography variant="subtitle1" align="center">
-                Engagement
-              </Typography>
-              <Typography variant="body2" align="center">
-                +135%
-              </Typography>
-            </Paper>
+      <Container maxWidth={false}>
+        <Grid container direction="column">
+          <Grid container spacing={10} justify="center">
+            <Grid item xs={3} className={classes.tile}>
+              <Paper>
+                <Typography variant="subtitle1" align="center">
+                  New Subscribers
+                </Typography>
+                <Typography variant="body1" align="center">
+                  300
+                </Typography>
+              </Paper>
+            </Grid>
+            <Grid item xs={3} className={classes.tile}>
+              <Paper>
+                <Typography variant="subtitle1" align="center">
+                  New Views
+                </Typography>
+                <Typography variant="body2" align="center">
+                  600
+                </Typography>
+              </Paper>
+            </Grid>
+            <Grid item xs={3} className={classes.tile}>
+              <Paper>
+                <Typography variant="subtitle1" align="center">
+                  Engagement
+                </Typography>
+                <Typography variant="body2" align="center">
+                  +135%
+                </Typography>
+              </Paper>
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      </Container>
     </>
   );
 };

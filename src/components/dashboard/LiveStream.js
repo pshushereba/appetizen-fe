@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import { PlayArrow } from "@material-ui/icons";
 import { useParams } from "react-router-dom";
-import { Card, CardMedia } from "@material-ui/core";
+import { Card, CardMedia, Container } from "@material-ui/core";
 import StreamControls from "../video/StreamControls.js";
 import { connect } from "react-redux";
 import Chat from "../chat/Chat.js";
@@ -168,29 +168,31 @@ const LiveStream = ({ username, roomId }) => {
 
   return (
     <>
-      <Grid
-        container={true}
-        direction="column"
-        justify="space-between"
-        spacing={10}
-      >
-        <Grid container={true} spacing={10} justify="space-evenly">
-          <Grid item={true} xs={6}>
-            <Card className={classes.vidContainer} id="video-grid" />
-            <StreamControls
-              mediaRecorder={mediaRecorder}
-              stoppedVideo={stoppedVideo}
-            />
-          </Grid>
-          <Grid item={true} xs={4}>
-            <MemoizedChat
-              username={username}
-              roomId={roomId}
-              socket={chatSocket}
-            />
+      <Container maxWidth={false}>
+        <Grid
+          container={true}
+          direction="column"
+          justify="space-between"
+          spacing={4}
+        >
+          <Grid container={true} spacing={10} justify="space-evenly">
+            <Grid item={true} xs={6}>
+              <Card className={classes.vidContainer} id="video-grid" />
+              <StreamControls
+                mediaRecorder={mediaRecorder}
+                stoppedVideo={stoppedVideo}
+              />
+            </Grid>
+            <Grid item={true} xs={4}>
+              <MemoizedChat
+                username={username}
+                roomId={roomId}
+                socket={chatSocket}
+              />
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      </Container>
     </>
   );
 };
