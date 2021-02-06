@@ -146,7 +146,7 @@ export const updateProfilePicture = (id, photo) => (dispatch) => {
 export const reserveRoom = () => (dispatch) => {
   dispatch({ type: RESERVE_ROOM_START });
   axiosWithAuth()
-    .get("https://appetizen-media.herokuapp.com/new")
+    .get("http://localhost:5000/new")
     .then((res) => {
       console.log("reserveRoom fired");
       dispatch({ type: RESERVE_ROOM_SUCCESS, payload: res.data });
@@ -159,7 +159,7 @@ export const reserveRoom = () => (dispatch) => {
 export const getActiveUsers = () => (dispatch) => {
   dispatch({ type: GET_ACTIVE_USERS_START });
   axiosWithAuth()
-    .get("https://appetizen-media.herokuapp.com/active")
+    .get("http://localhost:5000/active")
     .then((res) => {
       console.log("getActiveUsers fired");
       dispatch({ type: GET_ACTIVE_USERS_SUCCESS, payload: res.data });

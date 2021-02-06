@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Grid from "@material-ui/core/Grid";
 import { Container } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
+import { connect, useDispatch } from "react-redux";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   tile: {
@@ -19,7 +21,37 @@ const useStyles = makeStyles((theme) => ({
 
 const Overview = () => {
   const classes = useStyles();
+  const [data, updateData] = useState(null);
+  // const useEventSource = (url) => {
+  //   const [data, updateData] = useState(null);
 
+  //   useEffect(() => {
+  //     const source = new EventSource(url);
+
+  //     source.onmessage = function logEvents(event) {
+  //       updateData(JSON.parse(event.data));
+  //     };
+  //   }, []);
+
+  //   return data;
+  // };
+  // const data = useEventSource("http://localhost:4000/api/profiles/events");
+
+  useEffect(() => {
+    const source = new EventSource(
+      `http://localhost:4000/api/profiles/events/1`
+    );
+
+    source.onmessage = function logEvents(event) {
+      updateData(JSON.parse(event.data));
+    };
+
+    return () => {
+      source.close();
+    };
+  }, []);
+
+  console.log(data);
   return (
     <>
       <Container maxWidth={false}>
@@ -31,7 +63,7 @@ const Overview = () => {
                   New Subscribers
                 </Typography>
                 <Typography variant="body1" align="center">
-                  300
+                  {data ? data.num : ""}
                 </Typography>
               </Paper>
             </Grid>

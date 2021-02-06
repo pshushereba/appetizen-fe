@@ -56,7 +56,7 @@ const Dashboard = (props) => {
     myPeer = new Peer();
     const timer = setTimeout(() => {
       dispatch(updatePeerId(myPeer.id));
-    }, 500);
+    }, 200);
 
     return () => clearTimeout(timer);
   }, []);

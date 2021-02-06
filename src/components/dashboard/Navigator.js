@@ -84,7 +84,7 @@ const Navigator = (props) => {
             component={Link}
             onClick={() => {
               setMenuItem("live");
-              goLive(roomId, username, peerId);
+              goLive(roomId, username, peerObj.id);
               history.push(`/${username}/${props.roomId}`);
             }}
           >
