@@ -18,7 +18,8 @@ const useStyles = makeStyles((theme) => ({
 
 const SignUp = () => {
   const [user, setUser] = useState({
-    name: "",
+    first_name: "",
+    last_name: "",
     email: "",
     username: "",
     password: "",
@@ -60,9 +61,15 @@ const SignUp = () => {
             onSubmit={handleSubmit}
           >
             <TextField
-              name="name"
-              label="Name"
-              value={user.name}
+              name="first_name"
+              label="First Name"
+              value={user.first_name}
+              onChange={handleChange}
+            />
+            <TextField
+              name="last_name"
+              label="Last Name"
+              value={user.last_name}
               onChange={handleChange}
             />
             <TextField
