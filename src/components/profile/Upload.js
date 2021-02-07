@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Dropzone from "./Dropzone.js";
 import { connect, useDispatch } from "react-redux";
 import { updateProfilePicture } from "../../actions/index.js";
-import { Button } from "@material-ui/core";
+import { Button, Grid } from "@material-ui/core";
 
 const Upload = ({ user_id }) => {
   const [file, setFile] = useState({});
@@ -21,12 +21,21 @@ const Upload = ({ user_id }) => {
   };
 
   return (
-    <div>
-      <Dropzone onFileAdded={onFileAdded} />
-      <Button type="submit" onClick={sendRequest}>
-        Test Photo Upload
-      </Button>
-    </div>
+    <>
+      <Grid
+        container={true}
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Grid item={true} justifyContent="center" alignContent="center">
+          <Dropzone onFileAdded={onFileAdded} />
+          <Button type="submit" onClick={sendRequest}>
+            Test Photo Upload
+          </Button>
+        </Grid>
+      </Grid>
+    </>
   );
 };
 

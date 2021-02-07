@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import Avatar from "@material-ui/core/Avatar";
 import { Input, Button } from "@material-ui/core";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import IconButton from "@material-ui/core/IconButton";
 
 const Dropzone = (props) => {
   const fileListToArray = (list) => {
@@ -45,15 +46,17 @@ const Dropzone = (props) => {
   };
 
   return (
-    <div>
-      <Avatar src={props.avatar} />
-      <CloudUploadIcon
-        onDragOver={onDragOver}
-        onDragLeave={onDragLeave}
-        onDrop={onDrop}
-      />
-      <Input type="file" onChange={onFileAdded} />
-    </div>
+    <>
+      <IconButton>
+        <CloudUploadIcon
+          onDragOver={onDragOver}
+          onDragLeave={onDragLeave}
+          onDrop={onDrop}
+        >
+          <Input type="file" onChange={onFileAdded} />
+        </CloudUploadIcon>
+      </IconButton>
+    </>
   );
 };
 

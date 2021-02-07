@@ -17,6 +17,7 @@ import SubscriptionsIcon from "@material-ui/icons/Subscriptions";
 import AssessmentIcon from "@material-ui/icons/Assessment";
 import ExploreIcon from "@material-ui/icons/Explore";
 import VisibilityIcon from "@material-ui/icons/Visibility";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import YouTubeIcon from "@material-ui/icons/YouTube";
 import { makeStyles } from "@material-ui/core/styles";
@@ -47,7 +48,7 @@ const goLive = (room, user, peerID) => {
 };
 
 const Navigator = (props) => {
-  const { setMenuItem, username, roomId, peerId, ...other } = props;
+  const { setMenuItem, username, roomId, first_name, peerId, ...other } = props;
   const classes = useStyles();
   const history = useHistory();
   const peerObj = useContext(PeerContext);
@@ -62,7 +63,10 @@ const Navigator = (props) => {
               history.push(`/${username}/profile`);
             }}
           >
-            <Avatar src={props.avatar} />
+            <ListItemAvatar>
+              <Avatar src={props.avatar} />
+            </ListItemAvatar>
+            <ListItemText>Welcome {first_name}</ListItemText>
           </ListItem>
           <ListItem
             button
@@ -204,6 +208,7 @@ const mapStateToProps = (state) => {
     roomId: state.Stream.reservedRoom,
     peerId: state.User.peerId,
     avatar: state.User.avatar_img,
+    first_name: state.User.first_name,
   };
 };
 

@@ -51,7 +51,7 @@ const Overview = () => {
     };
   }, []);
 
-  console.log(data);
+  //console.log(data);
   return (
     <>
       <Container maxWidth={false}>
@@ -62,7 +62,7 @@ const Overview = () => {
                 <Typography variant="subtitle1" align="center">
                   New Subscribers
                 </Typography>
-                <Typography variant="body1" align="center">
+                <Typography variant="h4" align="center">
                   {data ? data.num : ""}
                 </Typography>
               </Paper>
