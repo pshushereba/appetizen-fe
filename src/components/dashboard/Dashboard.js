@@ -56,17 +56,7 @@ const Dashboard = (props) => {
     myPeer = new Peer();
     const timer = setTimeout(() => {
       dispatch(updatePeerId(myPeer.id));
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  // Add dispatch in for updatePeerId
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      dispatch(getAccount(username));
-    }, 2000);
+    }, 1000);
 
     return () => clearTimeout(timer);
   }, []);
@@ -126,7 +116,6 @@ const mapStateToProps = (state) => {
     email: state.User.email,
     isAuthenticated: state.User.isAuthenticated,
     roomId: state.Stream.reservedRoom,
-    //peerId: state.User.peer.id,
   };
 };
 

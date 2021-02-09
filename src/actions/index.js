@@ -80,6 +80,7 @@ export const loginUser = (credentials, history) => (dispatch) => {
   axiosWithAuth()
     .post("/auth/login", credentials)
     .then((res) => {
+      console.log("response from login", res);
       dispatch({ type: LOGIN_USER, payload: res.data });
       history.push(`/${res.data.username}/dashboard`);
     })

@@ -53,12 +53,14 @@ const ProfileNav = () => {
               Appetizen
             </Typography>
             <Search />
-            <HomeIcon
+            <Typography
               component={Link}
               color="primary"
               className={classes.link}
               to={`/${username}/dashboard`}
-            />
+            >
+              Home
+            </Typography>
             <Button
               variant="contained"
               className={classes.button}
