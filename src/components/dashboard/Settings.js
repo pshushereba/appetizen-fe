@@ -165,7 +165,8 @@ const Settings = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    account: state.Account.account,
+    first_name: state.User.first_name,
+    last_name: state.User.last_name,
   };
 };
 

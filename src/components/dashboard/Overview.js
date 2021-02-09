@@ -19,27 +19,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Overview = () => {
+const Overview = ({ userId }) => {
   const classes = useStyles();
   const [data, updateData] = useState(null);
-  // const useEventSource = (url) => {
-  //   const [data, updateData] = useState(null);
-
-  //   useEffect(() => {
-  //     const source = new EventSource(url);
-
-  //     source.onmessage = function logEvents(event) {
-  //       updateData(JSON.parse(event.data));
-  //     };
-  //   }, []);
-
-  //   return data;
-  // };
-  // const data = useEventSource("http://localhost:4000/api/profiles/events");
 
   useEffect(() => {
     const source = new EventSource(
-      `http://localhost:4000/api/profiles/events/1`
+      `http://localhost:4000/api/users/events/${userId}`
     );
 
     source.onmessage = function logEvents(event) {
@@ -51,7 +37,6 @@ const Overview = () => {
     };
   }, []);
 
-  //console.log(data);
   return (
     <>
       <Container maxWidth={false}>
@@ -63,7 +48,7 @@ const Overview = () => {
                   New Subscribers
                 </Typography>
                 <Typography variant="h4" align="center">
-                  {data ? data.num : ""}
+                  {data ? data.subscribers.count : ""}
                 </Typography>
               </Paper>
             </Grid>
@@ -94,4 +79,10 @@ const Overview = () => {
   );
 };
 
-export default Overview;
+const mapStateToProps = (state) => {
+  return {
+    userId: state.User.userId,
+  };
+};
+
+export default connect(mapStateToProps, {})(Overview);
