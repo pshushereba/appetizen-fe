@@ -6,6 +6,7 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Divider from "@material-ui/core/Divider";
+import { MenuItem } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
@@ -38,15 +39,83 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     padding: 0,
   },
+  fieldset: {
+    border: 0,
+  },
+  input: {
+    margin: "1.5rem",
+  },
   divider: {
     //
   },
 }));
 
+const stateAbbreviations = [
+  "AL",
+  "AK",
+  "AS",
+  "AZ",
+  "AR",
+  "CA",
+  "CO",
+  "CT",
+  "DE",
+  "DC",
+  "FM",
+  "FL",
+  "GA",
+  "GU",
+  "HI",
+  "ID",
+  "IL",
+  "IN",
+  "IA",
+  "KS",
+  "KY",
+  "LA",
+  "ME",
+  "MH",
+  "MD",
+  "MA",
+  "MI",
+  "MN",
+  "MS",
+  "MO",
+  "MT",
+  "NE",
+  "NV",
+  "NH",
+  "NJ",
+  "NM",
+  "NY",
+  "NC",
+  "ND",
+  "MP",
+  "OH",
+  "OK",
+  "OR",
+  "PW",
+  "PA",
+  "PR",
+  "RI",
+  "SC",
+  "SD",
+  "TN",
+  "TX",
+  "UT",
+  "VT",
+  "VI",
+  "VA",
+  "WA",
+  "WV",
+  "WI",
+  "WY",
+];
+
 const Settings = (props) => {
   const [isEditing, setIsEditing] = useState(false);
   const [updatedAccount, setUpdatedAccount] = useState({
-    id: props.account.id,
+    id: props.user_id,
     first_name: "",
     last_name: "",
     address: "",
@@ -61,12 +130,6 @@ const Settings = (props) => {
   console.log("props", props);
   console.log("classes", classes);
 
-  useEffect(() => {
-    setUpdatedAccount(props.account);
-  }, []);
-
-  // console.log(props.account);
-
   const handleChange = (event) => {
     setUpdatedAccount({
       ...updatedAccount,
@@ -76,7 +139,7 @@ const Settings = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(updateAccount(props.account.id, updatedAccount));
+    dispatch(updateAccount(props.user_id, updatedAccount));
   };
 
   console.log(updatedAccount);
@@ -96,62 +159,73 @@ const Settings = (props) => {
         color="primary"
         position="fixed"
         elevation={0}
-      >
-        {/* Need to fix the position of this. */}
-        <Tabs value={0} textColor="inherit">
-          <Tab textColor="inherit" label="Case Settings" />
-          <Tab textColor="inherit" label="Account Settings" />
-        </Tabs>
-      </AppBar>
+      ></AppBar>
       <form onSubmit={handleSubmit}>
-        <fieldset disabled={isEditing}>
-          <Grid container direction="column">
-            <Grid item sm>
-              <Typography>Personal Information</Typography>
-              <Divider />
-              <TextField
-                name="first_name"
-                label="First Name"
-                value={updatedAccount.first_name}
-                onChange={handleChange}
-              />
-              <TextField
-                name="last_name"
-                label="Last Name"
-                value={updatedAccount.last_name}
-                onChange={handleChange}
-              />
+        <fieldset disabled={isEditing} className={classes.fieldset}>
+          <Grid container={true} direction="column">
+            <Grid container={true}>
+              <Grid item={true} xs={12} sm={12} md={12} justify="space-around">
+                <Typography variant="h5" gutterBottom="true">
+                  Personal Information
+                </Typography>
+                <Divider />
+                <TextField
+                  name="first_name"
+                  label="First Name"
+                  value={updatedAccount.first_name}
+                  onChange={handleChange}
+                  className={classes.input}
+                />
+                <TextField
+                  name="last_name"
+                  label="Last Name"
+                  value={updatedAccount.last_name}
+                  onChange={handleChange}
+                  className={classes.input}
+                />
+              </Grid>
             </Grid>
-            <Grid item sm>
+
+            <Grid item={true} sm>
               <TextField
                 name="address"
                 label="Address"
                 value={updatedAccount.address}
                 onChange={handleChange}
+                fullWidth
               />
               <TextField
                 name="address2"
                 label="Apt/Unit/PO Box"
                 value={updatedAccount.address2}
                 onChange={handleChange}
+                fullWidth
               />
               <TextField
                 name="city"
                 label="City"
                 value={updatedAccount.city}
                 onChange={handleChange}
+                className={classes.input}
               />
               <TextField
                 name="state"
                 label="State"
                 value={updatedAccount.state}
                 onChange={handleChange}
-              />
+                className={classes.input}
+                select
+              >
+                {stateAbbreviations.map((state) => {
+                  return <MenuItem>{state}</MenuItem>;
+                })}
+              </TextField>
               <TextField
                 name="zip"
                 label="Zip Code"
                 value={updatedAccount.zip}
                 onChange={handleChange}
+                className={classes.input}
               />
             </Grid>
           </Grid>
@@ -165,8 +239,14 @@ const Settings = (props) => {
 
 const mapStateToProps = (state) => {
   return {
+    user_id: state.User.userId,
     first_name: state.User.first_name,
     last_name: state.User.last_name,
+    address: state.User.address,
+    address2: state.User.address2,
+    city: state.User.city,
+    state: state.User.state,
+    zip: state.User.zip,
   };
 };
 
