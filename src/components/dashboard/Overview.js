@@ -5,7 +5,9 @@ import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import { connect, useDispatch } from "react-redux";
-import axios from "axios";
+import { green, red } from "@material-ui/core/colors";
+import StatsTile from "../StatsTile.js";
+import BarChart from "../BarChart.js";
 
 const useStyles = makeStyles((theme) => ({
   tile: {
@@ -41,7 +43,52 @@ const Overview = ({ userId }) => {
     <>
       <Container maxWidth={false}>
         <Grid container direction="column">
-          <Grid container spacing={10} justify="center">
+          <Grid container spacing={6}>
+            <Grid item xs={12} lg={5}>
+              <Grid container spacing={6}>
+                <Grid item xs={12} sm={12} md={6}>
+                  <StatsTile
+                    title="Subscribers"
+                    amount={data ? data.subscribers.count : ""}
+                    chip="Today"
+                    percentageText="+14%"
+                    percentagecolor={green[500]}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={12} md={6}>
+                  <StatsTile
+                    title="Activity"
+                    amount="63.200"
+                    chip="Annual"
+                    percentageText="-12%"
+                    percentagecolor={red[500]}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={12} md={6}>
+                  <StatsTile
+                    title="Real-Time"
+                    amount="1.320"
+                    chip="Monthly"
+                    percentageText="-18%"
+                    percentagecolor={red[500]}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={12} md={6}>
+                  <StatsTile
+                    title="Bounce"
+                    amount="12.364"
+                    chip="Yearly"
+                    percentageText="+27%"
+                    percentagecolor={green[500]}
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid item xs={12} lg={7}>
+              <BarChart />
+            </Grid>
+          </Grid>
+          {/* <Grid container spacing={10} justify="center">
             <Grid item xs={3} className={classes.tile}>
               <Paper>
                 <Typography variant="subtitle1" align="center">
@@ -62,17 +109,10 @@ const Overview = ({ userId }) => {
                 </Typography>
               </Paper>
             </Grid>
-            <Grid item xs={3} className={classes.tile}>
-              <Paper>
-                <Typography variant="subtitle1" align="center">
-                  Engagement
-                </Typography>
-                <Typography variant="body2" align="center">
-                  +135%
-                </Typography>
-              </Paper>
+            <Grid item xs={3}>
+              <StatsTile percentageColor={green[500]} />
             </Grid>
-          </Grid>
+          </Grid> */}
         </Grid>
       </Container>
     </>
