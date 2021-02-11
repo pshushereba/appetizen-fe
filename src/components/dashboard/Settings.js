@@ -116,13 +116,13 @@ const Settings = (props) => {
   const [isEditing, setIsEditing] = useState(false);
   const [updatedAccount, setUpdatedAccount] = useState({
     id: props.user_id,
-    first_name: "",
-    last_name: "",
-    address: "",
-    address2: "",
-    city: "",
-    state: "",
-    zip: "",
+    first_name: props.first_name,
+    last_name: props.last_name,
+    address: props.address,
+    address2: props.address2,
+    city: props.city,
+    state: props.state,
+    zip: props.zip,
   });
   const dispatch = useDispatch();
 
@@ -146,25 +146,11 @@ const Settings = (props) => {
 
   return (
     <Paper className={classes.paper}>
-      <AppBar
-        component="div"
-        className={classes.secondaryBar}
-        color="primary"
-        position="static"
-        elevation={0}
-      ></AppBar>
-      <AppBar
-        component="div"
-        className={classes.secondaryBar}
-        color="primary"
-        position="fixed"
-        elevation={0}
-      ></AppBar>
       <form onSubmit={handleSubmit}>
         <fieldset disabled={isEditing} className={classes.fieldset}>
           <Grid container={true} direction="column">
-            <Grid container={true}>
-              <Grid item={true} xs={12} sm={12} md={12} justify="space-around">
+            <Grid container={true} justify="space-around">
+              <Grid item={true} xs={12} sm={6} md={4}>
                 <Typography variant="h5" gutterBottom="true">
                   Personal Information
                 </Typography>
@@ -185,48 +171,46 @@ const Settings = (props) => {
                 />
               </Grid>
             </Grid>
-
-            <Grid item={true} sm>
-              <TextField
-                name="address"
-                label="Address"
-                value={updatedAccount.address}
-                onChange={handleChange}
-                fullWidth
-              />
-              <TextField
-                name="address2"
-                label="Apt/Unit/PO Box"
-                value={updatedAccount.address2}
-                onChange={handleChange}
-                fullWidth
-              />
-              <TextField
-                name="city"
-                label="City"
-                value={updatedAccount.city}
-                onChange={handleChange}
-                className={classes.input}
-              />
-              <TextField
-                name="state"
-                label="State"
-                value={updatedAccount.state}
-                onChange={handleChange}
-                className={classes.input}
-                select
-              >
-                {stateAbbreviations.map((state) => {
-                  return <MenuItem>{state}</MenuItem>;
-                })}
-              </TextField>
-              <TextField
-                name="zip"
-                label="Zip Code"
-                value={updatedAccount.zip}
-                onChange={handleChange}
-                className={classes.input}
-              />
+            <Grid container={true} justify="space-around">
+              <Grid item={true} xs={12} sm={6} md={4}>
+                <TextField
+                  name="address"
+                  label="Address"
+                  value={updatedAccount.address}
+                  onChange={handleChange}
+                  fullWidth
+                />
+                <TextField
+                  name="address2"
+                  label="Apt/Unit/PO Box"
+                  value={updatedAccount.address2}
+                  onChange={handleChange}
+                  fullWidth
+                />
+                <TextField
+                  name="city"
+                  label="City"
+                  value={updatedAccount.city}
+                  onChange={handleChange}
+                />
+                <TextField
+                  name="state"
+                  label="State"
+                  value={updatedAccount.state}
+                  onChange={handleChange}
+                  select
+                >
+                  {stateAbbreviations.map((state) => {
+                    return <MenuItem>{state}</MenuItem>;
+                  })}
+                </TextField>
+                <TextField
+                  name="zip"
+                  label="Zip Code"
+                  value={updatedAccount.zip}
+                  onChange={handleChange}
+                />
+              </Grid>
             </Grid>
           </Grid>
           <Button onClick={() => setIsEditing(!isEditing)}>Edit</Button>

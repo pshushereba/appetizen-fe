@@ -1,27 +1,39 @@
 import React from "react";
-import { Grid, Typography } from "@material-ui/core/";
+import { Grid, Typography, Container } from "@material-ui/core/";
+import { CssBaseline } from "@material-ui/core";
 import ProfileNav from "./ProfileNav.js";
 import Upload from "./Upload.js";
 import ProfileUserCard from "./ProfileUserCard.js";
+import ProfileHeader from "./ProfileHeader.js";
+import { spacing } from "@material-ui/system";
 
 const Profile = () => {
   return (
     <>
       <ProfileNav />
-      <Grid container direction="column">
-        <Grid item={true}>
-          <ProfileUserCard />
+      <CssBaseline />
+      <Container>
+        <Grid container spacing={4}>
+          <Grid item xs={12} lg={4} xl={3}>
+            <ProfileUserCard />
+          </Grid>
+          <Grid item xs={12} lg={8} xl={9}>
+            <ProfileHeader />
+            <Grid container spacing={6}>
+              <Grid item xs={12} lg={4}>
+                <h2>Placeholder 1</h2>
+              </Grid>
+              <Grid item xs={12} lg={4}>
+                <h2>Placeholder 2</h2>
+              </Grid>
+              <Grid item xs={12} lg={4}>
+                <h2>Placeholder 3</h2>
+              </Grid>
+            </Grid>
+            <h2>Placeholder 4</h2>
+          </Grid>
         </Grid>
-        <Grid item={true}>
-          {/* <Upload /> */}
-          <h1>Profile Header will go here</h1>
-          <h2>This section will also have user information</h2>
-        </Grid>
-        <Grid item={true}>
-          <h1>This section might hold the side nav</h1>
-          <h2>Need to display photos, videos, recipes</h2>
-        </Grid>
-      </Grid>
+      </Container>
     </>
   );
 };

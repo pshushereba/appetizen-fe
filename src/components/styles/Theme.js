@@ -10,6 +10,7 @@ const theme = createMuiTheme({
       main: "#222222",
     },
   },
+  spacing: 8,
 });
 
 export default theme;

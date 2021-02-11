@@ -30,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     height: "100%",
+    margin: theme.spacing(3),
   },
   avatarWrapper: {
     display: "flex",
@@ -63,7 +64,7 @@ const ProfileUserCard = ({ avatar }) => {
 
   return (
     <>
-      <Grid item={true} xs={12} sm={6} md={4}>
+      <Grid item={true} xs={12} md={10}>
         <Card className={classes.card}>
           <CardContent>
             <Box className={classes.avatarWrapper}>
