@@ -11,18 +11,23 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import Toolbar from "@material-ui/core/Toolbar";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { Menu } from "@material-ui/core";
 import Search from "../Search.js";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../../actions/index.js";
+import NotificationDropdown from "../NotificationDropdown.js";
 
 const lightColor = "rgba(255, 255, 255, 0.7)";
 
 const useStyles = makeStyles((theme) => ({
+  primaryBar: {
+    backgroundColor: theme.palette.secondary.dark,
+  },
   secondaryBar: {
     zIndex: 0,
+    backgroundColor: theme.palette.secondary.dark,
   },
   menuButton: {
     marginLeft: -theme.spacing(1),
@@ -44,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Header = (props) => {
   const classes = useStyles();
+  const theme = useTheme();
   const [value, setValue] = useState(0);
   const history = useHistory();
   const dispatch = useDispatch();
@@ -60,7 +66,7 @@ const Header = (props) => {
 
   return (
     <>
-      <AppBar color="secondary" position="sticky" elevation={0}>
+      <AppBar className={classes.primaryBar} position="sticky" elevation={0}>
         <Toolbar>
           <Grid container spacing={1} alignItems="center">
             <Hidden smUp>
@@ -76,11 +82,7 @@ const Header = (props) => {
             </Hidden>
             <Grid item xs />
             <Grid item>
-              <Tooltip title="Alerts">
-                <IconButton color="inherit">
-                  <NotificationsIcon />
-                </IconButton>
-              </Tooltip>
+              <NotificationDropdown />
             </Grid>
             <Grid item>
               <Button
@@ -99,7 +101,7 @@ const Header = (props) => {
       <AppBar
         component="div"
         className={classes.secondaryBar}
-        color="secondary"
+        //color="secondary"
         position="static"
         elevation={0}
       >

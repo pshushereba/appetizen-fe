@@ -8,6 +8,8 @@ import { connect, useDispatch } from "react-redux";
 import { green, red } from "@material-ui/core/colors";
 import StatsTile from "../StatsTile.js";
 import BarChart from "../BarChart.js";
+import UserMap from "../UserMap.js";
+import RevenueWidget from "../RevenueWidget.js";
 
 const useStyles = makeStyles((theme) => ({
   tile: {
@@ -88,31 +90,15 @@ const Overview = ({ userId }) => {
               <BarChart />
             </Grid>
           </Grid>
-          {/* <Grid container spacing={10} justify="center">
-            <Grid item xs={3} className={classes.tile}>
-              <Paper>
-                <Typography variant="subtitle1" align="center">
-                  New Subscribers
-                </Typography>
-                <Typography variant="h4" align="center">
-                  {data ? data.subscribers.count : ""}
-                </Typography>
-              </Paper>
+
+          <Grid container spacing={6}>
+            <Grid item xs={12} lg={8}>
+              <UserMap />
             </Grid>
-            <Grid item xs={3} className={classes.tile}>
-              <Paper>
-                <Typography variant="subtitle1" align="center">
-                  New Views
-                </Typography>
-                <Typography variant="body2" align="center">
-                  600
-                </Typography>
-              </Paper>
+            <Grid item xs={12} lg={4}>
+              <RevenueWidget />
             </Grid>
-            <Grid item xs={3}>
-              <StatsTile percentageColor={green[500]} />
-            </Grid>
-          </Grid> */}
+          </Grid>
         </Grid>
       </Container>
     </>
