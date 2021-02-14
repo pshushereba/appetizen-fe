@@ -25,7 +25,7 @@ function App() {
         <Route path="/signup" component={SignUp} />
         <Route path="/faq" component={FAQ} />
         <Route path="/contact" component={Contact} />
-        <PrivateRoute exact path={`/:username/profile`} component={Profile} />
+        <PrivateRoute path={`/:username/profile`} component={Profile} />
         <PrivateRoute
           exact
           path={`/:username/dashboard`}

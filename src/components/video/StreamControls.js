@@ -1,17 +1,26 @@
 import React, { useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import PauseIcon from "@material-ui/icons/Pause";
 import StopIcon from "@material-ui/icons/Stop";
 import VideocamIcon from "@material-ui/icons/Videocam";
 
+const useStyles = makeStyles((theme) => ({
+  btnContainer: {
+    display: "flex",
+    justifyContent: "space-around",
+    marginTop: theme.spacing(2),
+  },
+}));
+
 const StreamControls = ({ mediaRecorder, stoppedVideo }) => {
+  const classes = useStyles();
   const [recording, setRecording] = useState(false);
   const [paused, setPaused] = useState(false);
 
   function startRecording() {
     if (mediaRecorder && mediaRecorder.state === "inactive") {
       setRecording(true);
-      console.log("");
       mediaRecorder.start();
     }
   }
@@ -42,11 +51,11 @@ const StreamControls = ({ mediaRecorder, stoppedVideo }) => {
   }
 
   return (
-    <div>
-      <VideocamIcon onClick={startRecording} />
-      <PlayArrowIcon />
-      <PauseIcon onClick={pauseRecording} />
-      <StopIcon onClick={stopRecording} />
+    <div className={classes.btnContainer}>
+      <VideocamIcon fontSize="large" onClick={startRecording} />
+      <PlayArrowIcon fontSize="large" />
+      <PauseIcon fontSize="large" onClick={pauseRecording} />
+      <StopIcon fontSize="large" onClick={stopRecording} />
     </div>
   );
 };

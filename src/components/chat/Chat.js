@@ -9,6 +9,10 @@ import {
 } from "../../actions/index.js";
 import Message from "./Message.js";
 import {
+  Card,
+  CardContent,
+  CardHeader,
+  IconButton,
   Button,
   TextField,
   Typography,
@@ -16,6 +20,7 @@ import {
   ListItem,
   Grid,
 } from "@material-ui/core";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
 import {
   initiateChatSocket,
   sendMessage,
@@ -28,7 +33,9 @@ const useStyles = makeStyles((theme) => ({
   messageContainer: {
     height: "16.75rem",
     paddingBottom: "2rem",
+    marginBottom: "1rem",
     overflow: "scroll",
+    backgroundColor: "#e3e3e3",
   },
 }));
 
@@ -128,28 +135,40 @@ const Chat = ({ username, roomId, socket, history }) => {
 
   return (
     <>
-      <Grid container={true} direction="column">
-        <List className={classes.messageContainer}>
-          {history
-            ? history.map((m, i) => <Message message={m} key={i} />)
-            : ""}
-        </List>
-        <TextField
-          placeholder="Send a Message"
-          value={message}
-          onChange={handleChange}
-        ></TextField>
-        <Button
-          onClick={() => {
-            handleMessage(message);
-            //setChat([...chat, message]);
-            sendMessage(roomId, message);
-            setMessage("");
-          }}
-        >
-          Send
-        </Button>
-      </Grid>
+      <Card>
+        <CardHeader
+          action={
+            <IconButton>
+              <MoreVertIcon />
+            </IconButton>
+          }
+        />
+        <CardContent>
+          <List className={classes.messageContainer}>
+            {history
+              ? history.map((m, i) => <Message message={m} key={i} />)
+              : ""}
+          </List>
+          <TextField
+            placeholder="Send a Message"
+            value={message}
+            onChange={handleChange}
+          ></TextField>
+          <Button
+            onClick={() => {
+              handleMessage(message);
+              //setChat([...chat, message]);
+              sendMessage(roomId, message);
+              setMessage("");
+            }}
+          >
+            Send
+          </Button>
+        </CardContent>
+      </Card>
+      {/* <Grid container={true} direction="column">
+        
+      </Grid> */}
     </>
   );
 };

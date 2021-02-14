@@ -21,6 +21,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// Will be helpful for getting live user locations for map.
+// window.navigator.geolocation.getCurrentPosition(console.log, console.log)
+
 const UserMap = () => {
   const classes = useStyles();
   const theme = useTheme();

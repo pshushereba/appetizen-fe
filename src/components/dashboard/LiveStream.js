@@ -24,6 +24,10 @@ const useStyles = makeStyles((theme) => ({
       height: "auto",
     },
   },
+  card: {
+    height: "432px",
+    width: "480px",
+  },
 }));
 
 let videoGrid;
@@ -111,6 +115,7 @@ const LiveStream = ({ username, roomId }) => {
 
   // Function to connect to new viewer using PeerJS. Inputs are the peerID of the viewer, and the streamer's video stream to send
   // to the viewer.
+
   function connectToNewViewer(viewerId, stream) {
     console.log("in connectToNewViewer", viewerId);
     const call = peer.call(viewerId, stream);
@@ -127,12 +132,9 @@ const LiveStream = ({ username, roomId }) => {
 
   // Function to add the streamer's video to the LiveStream component on load. Called after permission is given to access the
   // camera and mic.
+
   function addVideoStream(vs, cs, video, stream) {
     video.srcObject = stream;
-
-    // video = (
-    //   <CardMedia component="video" src={videoStream} ref={videoStreamRef} />
-    // );
     video.addEventListener("loadedmetadata", () => {
       video.play();
     });
@@ -169,19 +171,21 @@ const LiveStream = ({ username, roomId }) => {
   return (
     <>
       <Container maxWidth={false}>
-        <Grid
-          container={true}
-          direction="column"
-          justify="space-between"
-          spacing={4}
-        >
-          <Grid container={true} spacing={10} justify="space-evenly">
-            <Grid item={true} xs={6}>
-              <Card className={classes.vidContainer} id="video-grid" />
-              <StreamControls
-                mediaRecorder={mediaRecorder}
-                stoppedVideo={stoppedVideo}
-              />
+        <Grid container={true} direction="column">
+          <Grid container={true} spacing={6}>
+            <Grid item={true} xs={12} sm={12} md={6} lg={5}>
+              <Grid container spacing={6}>
+                <Grid item={true} xs={12} sm={12} md={6}>
+                  <Card className={classes.card}>
+                    <div id="video-grid" className={classes.vidContainer} />
+
+                    <StreamControls
+                      mediaRecorder={mediaRecorder}
+                      stoppedVideo={stoppedVideo}
+                    />
+                  </Card>
+                </Grid>
+              </Grid>
             </Grid>
             <Grid item={true} xs={4}>
               <MemoizedChat
