@@ -120,7 +120,7 @@ export const updateAccount = (acctID, updatedAccount) => (dispatch) => {
   dispatch({ type: UPDATE_ACCOUNT_START });
   axiosWithAuth()
     .put(
-      `https://appetizen-be.herokuapp.com/api/accounts/${acctID}`,
+      `https://appetizen-be.herokuapp.com/api/users/${acctID}`,
       updatedAccount
     )
     .then((res) => {

@@ -6,13 +6,14 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Divider from "@material-ui/core/Divider";
-import { MenuItem } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { MenuItem, Card, CardContent, Select } from "@material-ui/core";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
 import { useParams } from "react-router-dom";
 import { connect, useDispatch } from "react-redux";
 import { updateAccount } from "../../actions/index";
+import { spacing } from "@material-ui/system";
 
 const lightColor = "rgba(255, 255, 255, 0.7)";
 
@@ -42,8 +43,8 @@ const useStyles = makeStyles((theme) => ({
   fieldset: {
     border: 0,
   },
-  input: {
-    margin: "1.5rem",
+  inputWrapper: {
+    marginBottom: "1.5rem",
   },
   divider: {
     //
@@ -113,9 +114,10 @@ const stateAbbreviations = [
 ];
 
 const Settings = (props) => {
-  const [isEditing, setIsEditing] = useState(false);
+  const theme = useTheme();
   const [updatedAccount, setUpdatedAccount] = useState({
     id: props.user_id,
+    email: props.email,
     first_name: props.first_name,
     last_name: props.last_name,
     address: props.address,
@@ -124,11 +126,9 @@ const Settings = (props) => {
     state: props.state,
     zip: props.zip,
   });
-  const dispatch = useDispatch();
 
+  const dispatch = useDispatch();
   const classes = useStyles();
-  console.log("props", props);
-  console.log("classes", classes);
 
   const handleChange = (event) => {
     setUpdatedAccount({
@@ -145,85 +145,125 @@ const Settings = (props) => {
   console.log(updatedAccount);
 
   return (
-    <Paper className={classes.paper}>
-      <form onSubmit={handleSubmit}>
-        <fieldset disabled={isEditing} className={classes.fieldset}>
-          <Grid container={true} direction="column">
-            <Grid container={true} justify="space-around">
-              <Grid item={true} xs={12} sm={6} md={4}>
-                <Typography variant="h5" gutterBottom="true">
-                  Personal Information
-                </Typography>
-                <Divider />
+    <Card>
+      <CardContent>
+        <Typography variant="h6" gutterBottom>
+          Personal Information
+        </Typography>
+        <Divider />
+        <form onSubmit={handleSubmit}>
+          <fieldset className={classes.fieldset}>
+            <Grid container spacing={6}>
+              <Grid item md={6}>
                 <TextField
                   name="first_name"
                   label="First Name"
+                  variant="outlined"
                   value={updatedAccount.first_name}
                   onChange={handleChange}
-                  className={classes.input}
+                  fullWidth
+                  className={classes.inputWrapper}
                 />
+              </Grid>
+              <Grid item md={6}>
                 <TextField
                   name="last_name"
                   label="Last Name"
+                  variant="outlined"
+                  fullWidth
                   value={updatedAccount.last_name}
                   onChange={handleChange}
-                  className={classes.input}
+                  className={classes.inputWrapper}
                 />
               </Grid>
             </Grid>
-            <Grid container={true} justify="space-around">
-              <Grid item={true} xs={12} sm={6} md={4}>
-                <TextField
-                  name="address"
-                  label="Address"
-                  value={updatedAccount.address}
-                  onChange={handleChange}
-                  fullWidth
-                />
-                <TextField
-                  name="address2"
-                  label="Apt/Unit/PO Box"
-                  value={updatedAccount.address2}
-                  onChange={handleChange}
-                  fullWidth
-                />
+
+            <TextField
+              id="email"
+              label="Email"
+              variant="outlined"
+              type="email"
+              value={updatedAccount.email}
+              onChange={handleChange}
+              fullWidth
+              className={classes.inputWrapper}
+            />
+
+            <TextField
+              name="address"
+              label="Address"
+              variant="outlined"
+              fullWidth
+              value={updatedAccount.address}
+              onChange={handleChange}
+              fullWidth
+              className={classes.inputWrapper}
+            />
+
+            <TextField
+              name="address2"
+              label="Apt/Unit/PO Box"
+              variant="outlined"
+              fullWidth
+              value={updatedAccount.address2}
+              onChange={handleChange}
+              className={classes.inputWrapper}
+            />
+
+            <Grid container spacing={6}>
+              <Grid item md={6}>
                 <TextField
                   name="city"
                   label="City"
+                  variant="outlined"
+                  fullWidth
                   value={updatedAccount.city}
                   onChange={handleChange}
+                  className={classes.inputWrapper}
                 />
-                <TextField
+              </Grid>
+              <Grid item md={3}>
+                <Select
                   name="state"
                   label="State"
+                  variant="outlined"
+                  fullWidth
                   value={updatedAccount.state}
                   onChange={handleChange}
-                  select
+                  autoWidth={true}
+                  className={classes.inputWrapper}
                 >
                   {stateAbbreviations.map((state) => {
-                    return <MenuItem>{state}</MenuItem>;
+                    return <MenuItem value={state}>{state}</MenuItem>;
                   })}
-                </TextField>
+                </Select>
+              </Grid>
+              <Grid item md={3}>
                 <TextField
                   name="zip"
                   label="Zip Code"
+                  variant="outlined"
+                  fullWidth
                   value={updatedAccount.zip}
                   onChange={handleChange}
+                  className={classes.inputWrapper}
                 />
               </Grid>
             </Grid>
-          </Grid>
-          <Button onClick={() => setIsEditing(!isEditing)}>Edit</Button>
-          <Button type="submit">Update Account</Button>
-        </fieldset>
-      </form>
-    </Paper>
+            <Button variant="contained" color="primary" mt={3}>
+              Save changes
+            </Button>
+          </fieldset>
+        </form>
+      </CardContent>
+    </Card>
   );
 };
 
 const mapStateToProps = (state) => {
   return {
     user_id: state.User.userId,
+    email: state.User.email,
     first_name: state.User.first_name,
     last_name: state.User.last_name,
     address: state.User.address,
