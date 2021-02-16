@@ -28,6 +28,7 @@ import axios from "axios";
 const useStyles = makeStyles((theme) => ({
   listContainer: {
     backgroundColor: theme.palette.secondary.dark,
+    //backgroundImage: `linear-gradient(315deg, #83EAF1 0%, #63A4FF 74%)`,
     height: "100%",
   },
   item: {

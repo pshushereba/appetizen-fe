@@ -11,6 +11,7 @@ import { spacing } from "@material-ui/system";
 import {
   useParams,
   useRouteMatch,
+  withRouter,
   Link,
   Switch,
   Route,
@@ -18,9 +19,16 @@ import {
 
 const Profile = () => {
   const { url, path, params } = useRouteMatch();
+  console.log("params", params);
+  const renderSwitch = (params) => {
+    switch (params.slug) {
+      case "about":
+        return <ProfileAbout />;
+      default:
+        return null;
+    }
+  };
 
-  // const params = useParams();
-  console.log(params);
   return (
     <>
       <ProfileNav />
@@ -51,11 +59,21 @@ const Profile = () => {
             <ProfileContentNav />
           </Grid>
           <Grid item={true} xs={12} lg={8} xl={9}>
-            <Switch>
-              <Route path={`${path}/profile/:anything`}>
+            {(() => {
+              switch (params.slug) {
+                case "about":
+                  return <ProfileAbout />;
+                default:
+                  return null;
+              }
+            })()}
+            {/* <Switch>
+              <Route path={`${path}/profile/about`}>
                 <ProfileAbout />
+                {console.log("params", params)}
               </Route>
-            </Switch>
+            </Switch> */}
+            {/* {params.slug && renderSwitch(params.slug)} */}
           </Grid>
         </Grid>
       </Container>
@@ -63,4 +81,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export const ProfileWithRouter = withRouter(Profile);

@@ -34,14 +34,13 @@ const ProfileContentNav = (props) => {
   const { path, url } = useRouteMatch();
   const classes = useStyles();
   const history = useHistory();
-  console.log(url);
-  console.log(path);
+
   return (
     <>
-      <Grid item={true} xs={12} md={10}>
+      <Grid item={true} xs={12} md={10} lg={10}>
         <Card className={classes.card}>
           <List>
-            <ListItem button component={Link} to={`${url}about`}>
+            <ListItem button component={Link} to={`${url}/about`}>
               About
             </ListItem>
             <ListItem button>Videos</ListItem>

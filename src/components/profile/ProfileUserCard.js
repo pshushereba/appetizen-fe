@@ -65,7 +65,7 @@ const ProfileUserCard = ({ avatar }) => {
 
   return (
     <>
-      <Grid item={true} xs={12} md={10}>
+      <Grid item={true} xs={12} md={4} lg={10}>
         <Card className={classes.card}>
           <CardContent>
             <Box className={classes.avatarWrapper}>

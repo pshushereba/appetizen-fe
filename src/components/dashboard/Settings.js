@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "1.5rem",
   },
   divider: {
-    //
+    marginBottom: "1.5rem",
   },
 }));
 
@@ -150,8 +150,8 @@ const Settings = (props) => {
         <Typography variant="h6" gutterBottom>
           Personal Information
         </Typography>
-        <Divider />
-        <form onSubmit={handleSubmit}>
+        <Divider className={classes.divider} />
+        <form>
           <fieldset className={classes.fieldset}>
             <Grid container spacing={6}>
               <Grid item md={6}>
@@ -190,6 +190,7 @@ const Settings = (props) => {
             />
 
             <TextField
+              id="address"
               name="address"
               label="Address"
               variant="outlined"
@@ -250,7 +251,7 @@ const Settings = (props) => {
                 />
               </Grid>
             </Grid>
-            <Button variant="contained" color="primary" mt={3}>
+            <Button variant="contained" color="primary" onClick={handleSubmit}>
               Save changes
             </Button>
           </fieldset>
@@ -263,6 +264,7 @@ const Settings = (props) => {
 const mapStateToProps = (state) => {
   return {
     user_id: state.User.userId,
+    username: state.User.username,
     email: state.User.email,
     first_name: state.User.first_name,
     last_name: state.User.last_name,

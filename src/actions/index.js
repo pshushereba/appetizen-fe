@@ -203,6 +203,17 @@ export const submitContactForm = (data) => (dispatch) => {
     });
 };
 
+export const loadChatHistory = (data) => (dispatch) => {
+  console.log("loadChatHistory Fired");
+  dispatch({ type: LOAD_CHAT_HISTORY_START });
+  try {
+    dispatch({ type: LOAD_CHAT_HISTORY_SUCCESS, payload: data });
+  } catch (err) {
+    dispatch({ type: LOAD_CHAT_HISTORY_FAIL, payload: err });
+    console.error(err);
+  }
+};
+
 export const appendMessage = (message) => (dispatch) => {
   dispatch({ type: APPEND_MESSAGE, payload: message });
 };

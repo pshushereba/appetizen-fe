@@ -10,7 +10,7 @@ import Login from "./components/pages/Login.js";
 import About from "./components/pages/About.js";
 import SignUp from "./components/pages/SignUp.js";
 import Pricing from "./components/pages/Pricing.js";
-import Profile from "./components/profile/Profile.js";
+import { ProfileWithRouter } from "./components/profile/Profile.js";
 import FAQ from "./components/pages/FAQ.js";
 import Contact from "./components/pages/Contact.js";
 
@@ -25,7 +25,15 @@ function App() {
         <Route path="/signup" component={SignUp} />
         <Route path="/faq" component={FAQ} />
         <Route path="/contact" component={Contact} />
-        <PrivateRoute path={`/:username/profile`} component={Profile} />
+
+        <PrivateRoute
+          path={`/:username/profile/:slug`}
+          component={ProfileWithRouter}
+        />
+        <PrivateRoute
+          path={`/:username/profile`}
+          component={ProfileWithRouter}
+        />
         <PrivateRoute
           exact
           path={`/:username/dashboard`}
@@ -58,7 +66,7 @@ function App() {
 
         <PrivateRoute exact path={`/streams/:room`} component={Dashboard} />
       </Switch>
-      {/* <Footer
+      <Footer
         bgColor="light"
         size="normal"
         bgImage=""
@@ -66,7 +74,7 @@ function App() {
         description="Authentic cooking for all."
         copyright="© 2021 Appetizen"
         sticky={true}
-      /> */}
+      />
     </ThemeProvider>
   );
 }

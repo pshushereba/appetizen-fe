@@ -60,7 +60,7 @@ const Overview = ({ userId }) => {
                 <Grid item xs={12} sm={12} md={6}>
                   <StatsTile
                     title="Activity"
-                    amount="63.200"
+                    amount="63.20"
                     chip="Annual"
                     percentageText="-12%"
                     percentagecolor={red[500]}
@@ -78,7 +78,7 @@ const Overview = ({ userId }) => {
                 <Grid item xs={12} sm={12} md={6}>
                   <StatsTile
                     title="Bounce"
-                    amount="12.364"
+                    amount="12.36"
                     chip="Yearly"
                     percentageText="+27%"
                     percentagecolor={green[500]}
