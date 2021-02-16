@@ -13,6 +13,7 @@ import Pricing from "./components/pages/Pricing.js";
 import { ProfileWithRouter } from "./components/profile/Profile.js";
 import FAQ from "./components/pages/FAQ.js";
 import Contact from "./components/pages/Contact.js";
+import NotFound from "./components/NotFound.js";
 
 function App() {
   return (
@@ -63,8 +64,8 @@ function App() {
           component={Dashboard}
         />
         <PrivateRoute exact path={`/:username/:id`} component={Dashboard} />
-
         <PrivateRoute exact path={`/streams/:room`} component={Dashboard} />
+        <Route component={NotFound} />
       </Switch>
       <Footer
         bgColor="light"
