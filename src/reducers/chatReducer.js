@@ -1,4 +1,7 @@
 import {
+  LOAD_CHAT_HISTORY_START,
+  LOAD_CHAT_HISTORY_SUCCESS,
+  LOAD_CHAT_HISTORY_FAIL,
   APPEND_MESSAGE,
   IS_TYPING,
   NOT_TYPING,
@@ -12,6 +15,7 @@ const initialState = {
   isTyping: false,
   typist: null,
   error: null,
+  isFetching: null,
 };
 
 const chatReducer = (state = initialState, action) => {
@@ -21,6 +25,26 @@ const chatReducer = (state = initialState, action) => {
       return {
         ...state,
         messages: temp,
+      };
+
+    case LOAD_CHAT_HISTORY_START:
+      return {
+        ...state,
+        isFetching: true,
+      };
+
+    case LOAD_CHAT_HISTORY_SUCCESS:
+      return {
+        ...state,
+        messages: action.payload,
+        isFetching: false,
+      };
+
+    case LOAD_CHAT_HISTORY_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+        isFetching: false,
       };
 
     case IS_TYPING:

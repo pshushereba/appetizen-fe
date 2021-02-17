@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { connect, useDispatch } from "react-redux";
 import {
   appendMessage,
+  loadChatHistory,
   isTyping,
   notTyping,
   clearChat,
@@ -36,6 +37,8 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "1rem",
     overflow: "scroll",
     backgroundColor: "#e3e3e3",
+    marginLeft: "1rem",
+    marginRight: "1rem",
   },
 }));
 
@@ -53,8 +56,8 @@ const Chat = ({ username, roomId, socket, history }) => {
 
       if (data !== null) {
         //setChat([message, ...chat]);
-        // Need to pull the message history from the server and then dispatch the action to update the store.
-        setChat(data);
+
+        dispatch(loadChatHistory(data));
       }
     });
 

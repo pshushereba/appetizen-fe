@@ -27,6 +27,8 @@ const useStyles = makeStyles((theme) => ({
   card: {
     height: "432px",
     width: "480px",
+    marginLeft: "1rem",
+    marginRight: "1rem",
   },
 }));
 
@@ -171,9 +173,9 @@ const LiveStream = ({ username, roomId }) => {
   return (
     <>
       <Container maxWidth={false}>
-        <Grid container={true} direction="column">
+        <Grid container={true} direction="column" spacing={2}>
           <Grid container={true} spacing={6}>
-            <Grid item={true} xs={12} sm={12} md={6} lg={5}>
+            <Grid item={true} xs={12} sm={8} md={6} lg={5}>
               <Grid container spacing={6}>
                 <Grid item={true} xs={12} sm={12} md={6}>
                   <Card className={classes.card}>
@@ -187,7 +189,7 @@ const LiveStream = ({ username, roomId }) => {
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item={true} xs={4}>
+            <Grid item={true} xs={12} sm={4} md={6} lg={5}>
               <MemoizedChat
                 username={username}
                 roomId={roomId}
