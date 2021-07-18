@@ -11,9 +11,7 @@ import * as serviceWorker from "../serviceWorker.js";
 ReactDOM.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-      <Router>
-        <App />
-      </Router>
+      <App />
     </PersistGate>
   </Provider>,
   document.getElementById("root")

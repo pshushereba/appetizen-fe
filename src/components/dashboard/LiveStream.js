@@ -92,11 +92,8 @@ const LiveStream = ({ username, roomId }) => {
 
   useEffect(() => {
     videoSocket = initiateVideoSocket(roomId, username, peer.id);
-
-    console.log("useEffect videoSocket", videoSocket);
     // When a viewer connects, this event is emitted and the streamer will connect to the viewer.
     videoSocket.on("viewer-connected", (id, viewer, viewerPeerId) => {
-      console.log("inside videoSocket listener", id, viewer, viewerPeerId);
       connectToNewViewer(viewerPeerId, videoStream);
     });
   }, [videoStream]);

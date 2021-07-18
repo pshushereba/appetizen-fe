@@ -2,6 +2,7 @@ import React from "react";
 import { ThemeProvider } from "@material-ui/styles";
 import theme from "./components/styles/Theme.js";
 import { Route, Switch } from "react-router-dom";
+import Routes from "./routes/Routes"
 import PrivateRoute from "./components/PrivateRoute.js";
 import Footer from "./components/Footer.js";
 import HomePage from "./components/pages/HomePage.js";
@@ -18,7 +19,8 @@ import NotFound from "./components/NotFound.js";
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <Switch>
+      <Routes />
+      {/* <Switch>
         <Route exact path="/" component={HomePage} />
         <Route path="/login" component={Login} />
         <Route path="/about" component={About} />
@@ -66,8 +68,8 @@ function App() {
         <PrivateRoute exact path={`/:username/:id`} component={Dashboard} />
         <PrivateRoute exact path={`/streams/:room`} component={Dashboard} />
         <Route component={NotFound} />
-      </Switch>
-      <Footer
+      </Switch> */}
+      {/* <Footer
         bgColor="light"
         size="normal"
         bgImage=""
@@ -75,7 +77,7 @@ function App() {
         description="Authentic cooking for all."
         copyright="© 2021 Appetizen"
         sticky={true}
-      />
+      /> */}
     </ThemeProvider>
   );
 }

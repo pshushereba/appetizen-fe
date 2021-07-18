@@ -78,11 +78,12 @@ export const loginUser = (credentials, history) => (dispatch) => {
   console.log("loginUser Fired");
 
   axiosWithAuth()
-    .post("/auth/login", credentials)
+    .post("http://localhost:4000/api/auth/login", credentials)
     .then((res) => {
       console.log("response from login", res);
       dispatch({ type: LOGIN_USER, payload: res.data });
-      history.push(`/${res.data.username}/dashboard`);
+      // history.push(`/${res.data.username}/dashboard`);
+      history.push(`/dashboard`);
     })
     .catch((err) => console.log(err));
 };
